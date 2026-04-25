@@ -1,0 +1,24 @@
+# Lena — Personal AI Assistant Configuration
+# Copy to ~/.openjarvis/config.toml and customize
+
+[agent]
+persona = "jarvis"  # Uses the Lena persona from jarvis.md
+
+# Quick start:
+#   lena ask "What is quantum computing?"
+#   lena chat                  # interactive chat session
+#   lena serve                 # start API server for browser/desktop app
+#   lena memory index ~/Documents/  # index local files
+
+[inference]
+# Local inference engine
+engine = "multi"
+model = "qwen3.5:2b"
+
+# Or use cloud APIs:
+# engine = "openai"
+# model = "gpt-4-turbo"
+
+[memory]
+# Enable local memory storage
+enabled = true

@@ -1,0 +1,1 @@
+#!/bin/bash\n# Lena — alias command for OpenJarvis\n# Usage: lena ask \"question\" or lena chat or lena serve\n# This is a convenience wrapper that invokes jarvis with Lena persona\n\ncd \"$(dirname \"$0\")/..\"\nuv run jarvis \"$@\"\n
