@@ -13,7 +13,7 @@ persona = "jarvis"  # Uses the Lena persona from jarvis.md
 [inference]
 # Local inference engine
 engine = "multi"
-model = "qwen3.5:2b"
+model = "phi3:latest"
 
 # Or use cloud APIs:
 # engine = "openai"

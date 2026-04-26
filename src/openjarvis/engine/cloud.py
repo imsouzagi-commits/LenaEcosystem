@@ -6,9 +6,9 @@ import json
 import logging
 import os
 import time
+import importlib
 from collections.abc import AsyncIterator, Sequence
 from typing import Any, Dict, List, Tuple, cast
-
 import httpx
 
 from openjarvis.core.registry import EngineRegistry
@@ -19,6 +19,7 @@ from openjarvis.engine._base import (
     messages_to_dicts,
 )
 from openjarvis.engine._stubs import StreamChunk
+
 
 def _normalize_messages(messages):
     """Compat: aceita Message[] ou dict[]"""
@@ -273,9 +274,8 @@ class CloudEngine(InferenceEngine):
                     azure_endpoint=_AZURE_OPENAI_ENDPOINT,
                 )
                 if not os.getenv("AZURE_OPENAI_API_KEY") and os.getenv("OPENAI_API_KEY"):
-                    logger.warning(
-                        "Using OPENAI_API_KEY as legacy fallback for Azure OpenAI auth; "
-                        "prefer AZURE_OPENAI_API_KEY",
+                    logger.debug(
+                        "Using OPENAI_API_KEY as legacy fallback for Azure OpenAI auth."
                     )
             except ImportError:
                 logger.warning(
@@ -295,9 +295,9 @@ class CloudEngine(InferenceEngine):
         )
         if gemini_key:
             try:
-                from google import genai
+                genai_module = importlib.import_module("google.genai")
+                self._google_client = genai_module.Client(api_key=gemini_key)
 
-                self._google_client = genai.Client(api_key=gemini_key)
             except ImportError:
                 pass
         openrouter_key = os.environ.get("OPENROUTER_API_KEY")
@@ -765,7 +765,7 @@ class CloudEngine(InferenceEngine):
             else:
                 contents.append({"role": "user", "parts": [{"text": m.content}]})
 
-        from google.genai import types as genai_types
+        genai_types = importlib.import_module("google.genai.types")
 
         config = genai_types.GenerateContentConfig(
             temperature=temperature,
@@ -1160,7 +1160,7 @@ class CloudEngine(InferenceEngine):
             else:
                 contents.append({"role": "user", "parts": [{"text": m.content}]})
 
-        from google.genai import types as genai_types
+        genai_types = importlib.import_module("google.genai.types")
 
         config = genai_types.GenerateContentConfig(
             temperature=temperature,

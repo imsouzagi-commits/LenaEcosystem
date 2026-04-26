@@ -115,7 +115,7 @@ BUILTIN_MODELS: List[ModelSpec] = [
         },
     ),
     ModelSpec(
-        model_id="qwen3.5:2b",
+        model_id="phi3:latest",
         name="Qwen3.5 2B",
         parameter_count_b=2.0,
         active_parameter_count_b=0.4,

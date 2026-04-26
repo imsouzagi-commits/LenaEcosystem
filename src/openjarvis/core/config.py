@@ -21,6 +21,7 @@ try:
 except ModuleNotFoundError:
     import tomli as tomllib  # type: ignore[no-redef]
 
+
 # ---------------------------------------------------------------------------
 # Hardware dataclasses
 # ---------------------------------------------------------------------------
@@ -243,7 +244,7 @@ def _available_memory_gb(hw: HardwareInfo) -> float:
 # Uses Qwen3.5 MoE models — better quality per GB than dense models since
 # only a fraction of parameters are active per token.
 _MODEL_TIERS = [
-    (8, "qwen3.5:2b"),
+    (8, "phi3:latest"),
     (16, "qwen3.5:4b"),
     (32, "qwen3.5:9b"),
     (64, "qwen3.5:27b"),
@@ -1451,14 +1452,11 @@ def validate_config_key(dotted_key: str) -> type:
                 f"(no field {part!r} at {path_so_far}; "
                 f"valid fields: {sorted(field_map.keys())})"
             )
-        fld = field_map[part]
-        # Resolve the type — unwrap Optional, etc.
-        fld_type = fld.type
-        if isinstance(fld_type, str):
-            # Evaluate forward references in the config module namespace
-            import openjarvis.core.config as _cfg_mod
+        from typing import get_type_hints
 
-            fld_type = eval(fld_type, vars(_cfg_mod))  # noqa: S307
+        fld = field_map[part]
+        type_hints = get_type_hints(current_cls)
+        fld_type = type_hints.get(part, fld.type)
 
         if i == len(parts) - 1:
             # Leaf — return the primitive type

@@ -3,13 +3,16 @@
 from openjarvis.agent.lena_agent import LenaAgent
 from openjarvis.voice.voice_input import record_audio, transcribe
 
+
 class DummyEngine:
     def generate(self, messages, model=None):
         return {
             "content": f"Echo: {messages[-1].content}"
         }
 
+
 agent = LenaAgent(engine=DummyEngine())
+
 
 def main():
     print("🎤 Lena Voice CLI (CTRL+C para sair)\n")
@@ -18,7 +21,7 @@ def main():
         try:
             input("Pressione ENTER para falar...")
 
-            audio = record_audio(duration=4)
+            audio = record_audio()
             text = transcribe(audio)
 
             print(f"\n🗣 Você disse: {text}")
