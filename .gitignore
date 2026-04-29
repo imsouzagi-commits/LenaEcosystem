@@ -1,4 +1,4 @@
-.venv/venv/__pycache__/*.pyc.env.env.*.DS_Storeresults/logs/*.jsonl*.sqlite*.dbdist/build/.idea/.vscode/memory.json.venv/
+.venv/
 __pycache__/
 *.pyc
 *.pyo
@@ -48,4 +48,20 @@ logs/
 dist/
 build/
 .idea/
+.vscode/.venv/
+venv/
+__pycache__/
+*.pyc
+.env
+.env.*
+.DS_Store
+results/
+logs/
+*.jsonl
+*.sqlite
+*.db
+dist/
+build/
+.idea/
 .vscode/
+memory.json

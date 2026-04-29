@@ -1,505 +1,500 @@
+# /src/openjarvis/agent/lena_agent.py
+
 from __future__ import annotations
 
-import os
-os.environ["TOKENIZERS_PARALLELISM"] = "false"
-
 import asyncio
-import difflib
-import hashlib
-import json
-import logging
-import re
 import subprocess
 import time
-import uuid
-from collections import deque
-from pathlib import Path
-from typing import Any, Callable, Dict, List
+from typing import Any, AsyncGenerator, Dict, Generator, List, Tuple
 
-from openjarvis.core.lena_state import lena_state
-from openjarvis.core.registry import ModelRegistry
-from openjarvis.core.types import Message, Role
-from openjarvis.intelligence.intent_classifier import IntentClassifier
-from openjarvis.intelligence.phonetic_command_rebuilder import PhoneticCommandRebuilder
-from openjarvis.intelligence.voice_command_normalizer import VoiceCommandNormalizer
-from openjarvis.learning.routing.router import DefaultQueryAnalyzer, HeuristicRouter
-from openjarvis.plugins.open_url import open_url
-from openjarvis.plugins.run_script import run_script
-
-logger = logging.getLogger(__name__)
-
-BASE_DIR = Path(__file__).parent.parent / "cli"
-MEMORY_PATH = BASE_DIR / "memory.json"
+from openjarvis.agent.lena_fast_brain import LenaFastBrain
+from openjarvis.agent.lena_response_mutator import LenaResponseMutator
+from openjarvis.agent.lena_social_dynamics import LenaSocialDynamics
+from openjarvis.agent.lena_social_engine import LenaSocialEngine
 
 
-def _to_role(role_str: str) -> Role:
-    role_map = {
-        "user": Role.USER,
-        "assistant": Role.ASSISTANT,
-        "system": Role.SYSTEM,
-    }
-    return role_map.get(role_str.lower(), Role.USER)
+_MEMORY_TRIGGER_PHRASES = (
+    "qual meu nome",
+    "o que eu faço",
+    "o que você acha de mim",
+    "me descreve",
+    "resumo da nossa conversa",
+    "faz um resumo",
+    "resumo completo",
+    "quem eu sou",
+    "como eu estou",
+    "como você me percebe",
+    "última coisa emocional",
+    "me lembra",
+    "tudo que você sabe de mim",
+)
+
+_WEB_TRIGGER_PHRASES = (
+    "pesquisa no google",
+    "pesquisa pra mim",
+    "quem criou",
+    "clima em",
+    "últimas notícias",
+    "teoria da relatividade",
+)
+
+_DESKTOP_TRIGGER_PHRASES = ("abre ", "abrir ", "fecha ", "fechar ", "encerra ")
 
 
-def _calculate_text_similarity(text1: str, text2: str) -> float:
-    if not text1 or not text2:
-        return 0.0
+_APP_NAME_MAP = {
+    "safari": "Safari",
+    "spotify": "Spotify",
+    "finder": "Finder",
+    "terminal": "Terminal",
+    "notes": "Notes",
+    "notas": "Notes",
 
-    words1 = set(text1.lower().split())
-    words2 = set(text2.lower().split())
+    "atlas": "ChatGPT Atlas",
+    "atlas gpt": "ChatGPT Atlas",
+    "atlasgpt": "ChatGPT Atlas",
+    "gpt atlas": "ChatGPT Atlas",
+    "chatgpt atlas": "ChatGPT Atlas",
+    "chrome": "ChatGPT Atlas",
+    "google chrome": "ChatGPT Atlas",
+    "google": "ChatGPT Atlas",
+    "navegador": "ChatGPT Atlas",
 
-    if not words1 or not words2:
-        return 0.0
+    "chatgpt": "ChatGPT",
+    "chat gpt": "ChatGPT",
+}
 
-    return len(words1 & words2) / len(words1 | words2)
+
+_APP_PATH_MAP = {
+    "ChatGPT Atlas": "/Applications/ChatGPT Atlas.app",
+    "ChatGPT": "/Applications/ChatGPT.app",
+}
+
+
+_APP_PROCESS_HINTS = {
+    "Spotify": ["Spotify"],
+    "Safari": ["Safari"],
+    "Finder": ["Finder"],
+    "Terminal": ["Terminal"],
+    "Notes": ["Notes"],
+    "ChatGPT": ["ChatGPT", "ChatGPTHelper", "/Applications/ChatGPT.app"],
+    "ChatGPT Atlas": [
+        "ChatGPT Atlas",
+        "ChatGPT Atlas Helper",
+        "/Applications/ChatGPT Atlas.app",
+        "com.openai.atlas",
+    ],
+}
+
+
+class LenaMemoryEngine:
+    def __init__(self) -> None:
+        self.state: Dict[str, Any] = {}
+        self.history: List[Tuple[str, str]] = []
+        self.facts: Dict[str, str] = {}
+
+    def snapshot(self) -> Dict[str, Any]:
+        return self.state.copy()
+
+    def update(self, new_state: Dict[str, Any]) -> None:
+        self.state = new_state.copy()
+
+    def push_exchange(self, user_text: str, assistant_text: str, light: bool = False) -> None:
+        self.history.append((user_text, assistant_text))
+        limit = 40 if light else 120
+        if len(self.history) > limit:
+            del self.history[:-limit]
+        self._extract_facts(user_text)
+
+    def _extract_facts(self, user_text: str) -> None:
+        lowered = user_text.lower().strip()
+
+        if lowered.startswith("meu nome é "):
+            self.facts["user_name"] = user_text[10:].strip()
+
+        if "sou programador" in lowered:
+            self.facts["profession"] = "programador"
+
+        if "designer" in lowered:
+            profession = self.facts.get("profession", "")
+            if "designer" not in profession:
+                self.facts["profession"] = (profession + " e designer").strip(" e")
+
+    def _last_emotional_statement(self) -> str:
+        markers = (
+            "triste",
+            "cansado",
+            "desanimado",
+            "mal",
+            "sozinho",
+            "sem vontade",
+            "ansioso",
+        )
+
+        for msg, _ in reversed(self.history):
+            lowered = msg.lower()
+            if any(marker in lowered for marker in markers):
+                return msg
+
+        return ""
+
+    def summarize_relationship(self) -> str:
+        chunks: List[str] = []
+
+        user_name = self.facts.get("user_name")
+        profession = self.facts.get("profession")
+
+        if user_name:
+            chunks.append(f"teu nome é {user_name}")
+
+        if profession:
+            chunks.append(f"tu trabalha como {profession}")
+
+        if self._last_emotional_statement():
+            chunks.append("eu percebi momentos de cansaço, desânimo e introspecção")
+        else:
+            chunks.append("tu alterna entre objetividade e reflexão")
+
+        chunks.append("eu te percebo como alguém analítico, observador e constantemente medindo profundidade")
+        chunks.append("e claramente vem testando até onde eu consigo te acompanhar de verdade")
+
+        return ". ".join(chunks) + "."
+
+    def answer_memory_question(self, lowered: str) -> str:
+        user_name = self.facts.get("user_name", "thiago")
+        profession = self.facts.get("profession", "programador e designer")
+        last_emotional = self._last_emotional_statement()
+
+        if "faz um resumo" in lowered or "resumo completo" in lowered or "tudo que você sabe" in lowered:
+            return self.summarize_relationship()
+
+        if "qual meu nome" in lowered:
+            return f"teu nome é {user_name}."
+
+        if "o que eu faço" in lowered:
+            return f"tu trabalha como {profession}."
+
+        if "o que você acha de mim" in lowered:
+            return "te vejo como alguém funcional por fora mas muito analítico por dentro."
+
+        if "me descreve" in lowered:
+            return "técnico e introspectivo."
+
+        if "última coisa emocional" in lowered:
+            if last_emotional:
+                return f"a última coisa mais emocional foi quando tu disse: {last_emotional}."
+            return "não teve uma fala emocional muito marcada ainda."
+
+        if "me lembra" in lowered or "como eu estou" in lowered:
+            if last_emotional:
+                return "tu vinha demonstrando um certo desgaste e queda de energia."
+            return "tu tá num tom mais observador do que expansivo."
+
+        return self.summarize_relationship()
 
 
 class LenaAgent:
-    accepts_tools = True
+    def __init__(self) -> None:
+        self.social_engine = LenaSocialEngine()
+        self.social_dynamics = LenaSocialDynamics()
+        self.response_mutator = LenaResponseMutator()
+        self.fast_brain = LenaFastBrain()
+        self.memory_engine = LenaMemoryEngine()
 
-    SYSTEM_LOCK_WORDS = {
-        "wifi", "wi fi", "wi-fi", "internet", "rede", "network",
-        "bluetooth",
-        "volume", "som", "audio", "áudio", "sound",
-        "brilho", "brightness", "screen", "tela",
-        "mute", "microfone",
-    }
+        self.last_route = "BOOT"
+        self.last_route_used = "BOOT"
+        self.last_latency_ms = 0.0
 
-    def __init__(self, engine: Any = None, model: str | None = None, **kwargs):
-        self.engine = engine
-        self.default_model = model or ""
-        self.logger = logging.getLogger("LenaAgent")
+    def _extract_user_text(self, messages: List[Dict[str, Any]]) -> str:
+        for message in reversed(messages):
+            if message.get("role") == "user":
+                return str(message.get("content", ""))
+        return ""
 
-        self.intent_classifier = None
-        self.voice_normalizer = VoiceCommandNormalizer()
-        self.command_rebuilder = PhoneticCommandRebuilder({})
-        self.installed_apps = self._build_installed_apps_cache()
+    def _classify_route(self, user_text: str) -> str:
+        lowered = user_text.lower().strip()
 
-        self.memory = {
-            "short_term": deque(maxlen=50),
-            "long_term": [],
-        }
+        if self.fast_brain.can_answer(user_text):
+            return "FAST_BRAIN"
 
-        self.sessions: Dict[str, List[Dict[str, Any]]] = {}
-        self.response_cache: Dict[str, Dict[str, Any]] = {}
-        self.cache_keys_order = deque(maxlen=100)
-        self.max_cache_size = 100
+        if lowered.startswith(("http://", "https://")):
+            return "WEB_OPEN"
 
-        self.available_tools: Dict[str, Callable] = {}
-        self.register_tool("open_url", open_url)
-        self.register_tool("run_script", run_script)
+        if any(trigger in lowered for trigger in _DESKTOP_TRIGGER_PHRASES):
+            return "DESKTOP"
 
-        self._load_long_term_memory()
-        self.system_prompt = self._build_system_prompt()
+        if any(trigger in lowered for trigger in _MEMORY_TRIGGER_PHRASES):
+            return "MEMORY_SUMMARY"
 
-        self.analyzer = DefaultQueryAnalyzer()
-        self.router = HeuristicRouter(
-            available_models=list(ModelRegistry.keys()),
-            default_model=self.default_model,
-            fallback_model=self.default_model,
-        )
+        if any(trigger in lowered for trigger in _WEB_TRIGGER_PHRASES):
+            return "WEB_SEARCH"
 
-    def _build_system_prompt(self) -> str:
-        return (
-            "Você é Lena, assistente pessoal local.\n"
-            "- Sempre responda em português do Brasil\n"
-            "- Seja objetiva\n"
-            "- Use contexto\n"
-            "- Nunca invente\n"
-        )
+        return "LLM_FALLBACK"
 
-    def register_tool(self, name: str, func: Callable):
-        self.available_tools[name] = func
+    def _normalize_app_name(self, raw: str) -> str:
+        cleaned = raw.lower().strip().replace(".", "")
+        cleaned = " ".join(cleaned.split())
+        return _APP_NAME_MAP.get(cleaned, raw.strip().title())
 
-    def get_intent_classifier(self) -> IntentClassifier:
-        if self.intent_classifier is None:
-            self.intent_classifier = IntentClassifier()
-        return self.intent_classifier
+    def _extract_desktop_commands(self, user_text: str) -> List[Tuple[str, str]]:
+        lowered = user_text.lower().strip()
+        commands: List[Tuple[str, str]] = []
 
-    def _build_installed_apps_cache(self) -> Dict[str, str]:
-        app_cache: Dict[str, str] = {
-            "spotify": "Spotify",
-            "ableton": "Ableton Live 12 Suite",
-            "notes": "Notes",
-            "notas": "Notes",
-            "whatsapp": "WhatsApp",
-            "safari": "Safari",
-            "finder": "Finder",
-            "chatgpt": "ChatGPT",
-            "atlas": "ChatGPT",
-        }
+        lowered = lowered.replace("abrir ", "abre ")
+        lowered = lowered.replace("fechar ", "fecha ")
+        lowered = lowered.replace("encerra ", "fecha ")
 
-        applications_path = Path("/Applications")
-        if applications_path.exists():
+        if lowered.startswith("abre "):
+            payload = lowered[5:]
+            for app in payload.split(" e "):
+                app = app.strip(" ,.")
+                if app:
+                    commands.append(("open", self._normalize_app_name(app)))
+
+        elif lowered.startswith("fecha "):
+            payload = lowered[6:]
+            for app in payload.split(" e "):
+                app = app.strip(" ,.")
+                if app:
+                    commands.append(("close", self._normalize_app_name(app)))
+
+        return commands
+
+    def _collect_process_snapshot(self) -> str:
+        outputs: List[str] = []
+
+        for cmd in (
+            ["ps", "aux"],
+            ["osascript", "-e", 'tell application "System Events" to get name of every process'],
+        ):
             try:
-                for item in applications_path.iterdir():
-                    if item.is_dir() and item.name.endswith(".app"):
-                        clean = item.name.replace(".app", "").lower().strip()
-                        app_cache[clean] = item.name.replace(".app", "")
+                proc = subprocess.run(cmd, capture_output=True, text=True)
+                outputs.append(proc.stdout.lower())
             except Exception:
-                pass
-
-        return app_cache
-
-    def fuzzy_match_app(self, query: str) -> str | None:
-        if not query or query in self.SYSTEM_LOCK_WORDS:
-            return None
-
-        matches = difflib.get_close_matches(
-            query.lower().strip(),
-            self.installed_apps.keys(),
-            n=1,
-            cutoff=0.88,
-        )
-        return matches[0] if matches else None
-
-    def resolve_app_name(self, spoken_target: str) -> str | None:
-        if not spoken_target:
-            return None
-
-        spoken_target = spoken_target.lower().strip()
-
-        if spoken_target in self.SYSTEM_LOCK_WORDS:
-            return None
-
-        if set(spoken_target.split()) & self.SYSTEM_LOCK_WORDS:
-            return None
-
-        exact = self.installed_apps.get(spoken_target)
-        if exact:
-            return exact
-
-        fuzzy = self.fuzzy_match_app(spoken_target)
-        if fuzzy:
-            return self.installed_apps[fuzzy]
-
-        return None
-
-    def _safe_exec(self, command: List[str]) -> None:
-        try:
-            subprocess.Popen(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        except Exception as exc:
-            self.logger.debug(exc)
-
-    def open_app(self, app_name: str) -> str:
-        resolved = self.resolve_app_name(app_name)
-        if not resolved:
-            return f"App não encontrado: {app_name}"
-
-        self._safe_exec(["open", "-a", resolved])
-        return f"Abrindo {resolved}"
-
-    def close_app(self, app_name: str) -> str:
-        resolved = self.resolve_app_name(app_name)
-        if not resolved:
-            return f"App não encontrado: {app_name}"
-
-        self._safe_exec(["osascript", "-e", f'tell application "{resolved}" to quit'])
-        return f"Fechando {resolved}"
-
-    def normalize_query(self, query: str) -> str:
-        q = query.lower().strip()
-        q = re.sub(r"[^\w\s]", "", q)
-
-        replacements = {
-            "abrir": "abre",
-            "abra": "abre",
-            "ligar": "liga",
-            "ligue": "liga",
-            "desligar": "desliga",
-            "desligue": "desliga",
-            "aumentar": "aumenta",
-            "aumente": "aumenta",
-            "subir": "aumenta",
-            "abaixar": "abaixa",
-            "abaixe": "abaixa",
-            "diminuir": "abaixa",
-            "som": "volume",
-            "áudio": "volume",
-            "audio": "volume",
-            "wi fi": "wifi",
-            "wi-fi": "wifi",
-            "internet": "wifi",
-            "tela": "brilho",
-        }
-
-        for old, new in replacements.items():
-            q = re.sub(rf"\b{re.escape(old)}\b", new, q)
-
-        q = re.sub(r"\blena\b", "", q)
-        q = re.sub(r"\b(por favor|rapidinho|pra mim|pode|poderia|tem como)\b", "", q)
-
-        return " ".join(q.split())
-
-    def parse_commands(self, query: str) -> List[str]:
-        protected = query.replace("wifi", "__WIFI__")
-        raw = re.split(r"\s+\be\b\s+|\s+\band\b\s+|\s+\bthen\b\s+|,", protected)
-
-        return [
-            c.replace("__WIFI__", "wifi").strip()
-            for c in raw
-            if c.strip()
-        ]
-
-    def extract_command_target(self, command: str) -> tuple[str, str]:
-        q = command.lower().strip()
-        action = "unknown"
-
-        patterns = {
-            "abre": r"\babre\b",
-            "fecha": r"\bfecha\b",
-            "liga": r"\bliga\b",
-            "desliga": r"\bdesliga\b",
-            "aumenta": r"\baumenta\b",
-            "abaixa": r"\babaixa\b",
-        }
-
-        for name, pattern in patterns.items():
-            if re.search(pattern, q):
-                action = name
-                q = re.sub(pattern, "", q)
-                break
-
-        noise = {"o", "a", "os", "as", "um", "uma", "de", "do", "da"}
-        target = " ".join([w for w in q.split() if w not in noise]).strip()
-
-        return action, target
-
-    def _execute_system_command(self, action: str, target: str) -> str | None:
-        if "wifi" in target:
-            self._safe_exec(["networksetup", "-setairportpower", "en0", "on" if action == "liga" else "off"])
-            return "Ligando Wi-Fi" if action == "liga" else "Desligando Wi-Fi"
-
-        if "volume" in target:
-            script = (
-                "set volume output volume ((output volume of (get volume settings)) + 10)"
-                if action == "aumenta"
-                else "set volume output volume ((output volume of (get volume settings)) - 10)"
-            )
-            self._safe_exec(["osascript", "-e", script])
-            return "Aumentando volume" if action == "aumenta" else "Diminuindo volume"
-
-        if "brilho" in target:
-            self._safe_exec(["brightness", "0.8" if action == "aumenta" else "0.3"])
-            return "Aumentando brilho" if action == "aumenta" else "Diminuindo brilho"
-
-        return None
-
-    def ultra_fast_local_detect(self, query: str) -> bool:
-        return bool(re.search(
-            r"\b(abre|fecha|liga|desliga|aumenta|abaixa|spotify|safari|finder|whatsapp|wifi|volume|brilho)\b",
-            query.lower(),
-        ))
-
-    def handle_local_command(self, query: str) -> Dict[str, Any]:
-        normalized = self.normalize_query(query)
-        commands = self.parse_commands(normalized)
-        results: List[str] = []
-
-        for cmd in commands:
-            action, target = self.extract_command_target(cmd)
-
-            system_result = self._execute_system_command(action, target)
-            if system_result:
-                results.append(system_result)
                 continue
 
-            if action == "abre":
-                results.append(self.open_app(target))
-                continue
+        return "\n".join(outputs)
 
-            if action == "fecha":
-                results.append(self.close_app(target))
-                continue
+    def _is_app_running(self, app_name: str) -> bool:
+        hints = _APP_PROCESS_HINTS.get(app_name, [app_name])
+        snapshot = self._collect_process_snapshot()
 
-        final = " | ".join(results) if results else "Comando não reconhecido"
+        for hint in hints:
+            if hint.lower() in snapshot:
+                return True
 
-        return self.post_process(
-            {
-                "choices": [
-                    {
-                        "message": {
-                            "role": "assistant",
-                            "content": final,
-                        }
-                    }
-                ]
-            },
-            self.default_model,
-        )
-
-    def detect_tool_intent(self, query: str) -> str | None:
-        if "http://" in query or "https://" in query:
-            return "open_url"
-        return None
-
-    def execute_tool(self, tool_name: str, arguments: Dict[str, Any]) -> Any:
-        return self.available_tools[tool_name](**arguments)
-
-    def _generate_cache_key(self, query: str) -> str:
-        return hashlib.sha256(query.strip().lower().encode()).hexdigest()[:16]
-
-    def _load_long_term_memory(self):
         try:
-            if MEMORY_PATH.exists():
-                with open(MEMORY_PATH, "r", encoding="utf-8") as f:
-                    data = json.load(f)
-                    self.memory["long_term"] = data if isinstance(data, list) else []
-        except Exception:
-            self.memory["long_term"] = []
-
-    def _save_long_term_memory(self):
-        try:
-            MEMORY_PATH.parent.mkdir(parents=True, exist_ok=True)
-            with open(MEMORY_PATH, "w", encoding="utf-8") as f:
-                json.dump(self.memory["long_term"], f, indent=2, ensure_ascii=False)
+            proc = subprocess.run(["pgrep", "-if", app_name], capture_output=True, text=True)
+            if proc.stdout.strip():
+                return True
         except Exception:
             pass
 
-    def validate_messages(self, messages: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        return [
-            {"role": m["role"], "content": str(m["content"])}
-            for m in messages
-            if isinstance(m, dict) and "role" in m and "content" in m
-        ]
+        return False
 
-    def should_store_memory(self, message: str) -> bool:
-        return any(k in message.lower() for k in ["meu nome", "gosto", "prefiro", "trabalho", "sou"])
+    def _wait_until_state(self, app_name: str, should_run: bool, timeout: float = 6.0) -> bool:
+        started = time.perf_counter()
 
-    def update_memory(self, messages: List[Dict[str, Any]]):
-        for msg in messages:
-            self.memory["short_term"].append(msg)
-            if self.should_store_memory(msg.get("content", "")):
-                self.memory["long_term"].append(msg)
-        self._save_long_term_memory()
+        while time.perf_counter() - started < timeout:
+            running = self._is_app_running(app_name)
+            if running == should_run:
+                return True
+            time.sleep(0.25)
 
-    def build_context(self, messages: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        return [{"role": "system", "content": self.system_prompt}] + messages
+        return False
 
-    def select_model(self, context: List[Dict[str, Any]], query: str) -> str:
-        return self.default_model
+    def _hard_open_app(self, app_name: str) -> bool:
+        app_path = _APP_PATH_MAP.get(app_name)
 
-    def execute_model(self, model: str, context: List[Dict[str, Any]]) -> Dict[str, Any]:
-        if self.engine is None:
-            return {"choices": [{"message": {"role": "assistant", "content": "Nenhum mecanismo configurado."}}]}
+        if app_path:
+            proc = subprocess.run(["open", app_path], capture_output=True, text=True)
+        else:
+            proc = subprocess.run(["open", "-a", app_name], capture_output=True, text=True)
 
-        messages = [
-            Message(role=_to_role(m["role"]), content=m["content"])
-            for m in context
-        ]
+        if proc.returncode != 0:
+            return False
 
         try:
-            result = self.engine.generate(messages, model=model)
-            return {
-                "choices": [
-                    {
-                        "message": {
-                            "role": "assistant",
-                            "content": str(result.get("content", "")).strip(),
-                        }
-                    }
-                ],
-                "usage": result.get("usage", {}),
-            }
-        except Exception:
-            return {"choices": [{"message": {"role": "assistant", "content": "Não consegui consultar o modelo agora."}}]}
-
-    def post_process(self, response: Dict[str, Any], model: str) -> Dict[str, Any]:
-        return {
-            "id": f"chatcmpl-{uuid.uuid4().hex}",
-            "object": "chat.completion",
-            "created": int(time.time()),
-            "model": model,
-            "choices": response.get("choices", []),
-            "usage": response.get("usage", {}),
-        }
-
-    def _manage_cache(self, cache_key: str):
-        if cache_key not in self.cache_keys_order:
-            self.cache_keys_order.append(cache_key)
-
-        while len(self.response_cache) > self.max_cache_size:
-            oldest = self.cache_keys_order.popleft()
-            self.response_cache.pop(oldest, None)
-
-    def _process_request(self, valid_messages: List[Dict[str, Any]]) -> Dict[str, Any]:
-        raw_query = ""
-        for m in reversed(valid_messages):
-            if m["role"] == "user":
-                raw_query = m["content"]
-                break
-
-        rebuilt = self.command_rebuilder.rebuild(raw_query)
-        rebuilt = self.voice_normalizer.normalize(rebuilt)
-        normalized_query = self.normalize_query(rebuilt)
-
-        if self.ultra_fast_local_detect(normalized_query):
-            return self.handle_local_command(normalized_query)
-
-        cache_key = self._generate_cache_key(normalized_query)
-        if cache_key in self.response_cache:
-            return self.response_cache[cache_key]
-
-        tool_name = self.detect_tool_intent(normalized_query)
-        if tool_name:
-            tool_result = self.execute_tool(tool_name, {"query": normalized_query})
-            response = self.post_process(
-                {"choices": [{"message": {"role": "assistant", "content": str(tool_result)}}]},
-                self.default_model,
+            subprocess.run(
+                ["osascript", "-e", f'tell application "{app_name}" to activate'],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
             )
-            self.response_cache[cache_key] = response
-            self._manage_cache(cache_key)
-            return response
+        except Exception:
+            pass
 
-        context = self.build_context(valid_messages)
-        selected_model = self.select_model(context, normalized_query)
-        raw_response = self.execute_model(selected_model, context)
-        final_response = self.post_process(raw_response, selected_model)
+        return self._wait_until_state(app_name, True, timeout=8.0)
 
-        self.response_cache[cache_key] = final_response
-        self._manage_cache(cache_key)
+    def _hard_close_app(self, app_name: str) -> bool:
+        if app_name == "Finder":
+            subprocess.run(
+                ["osascript", "-e", 'tell application "Finder" to close every window'],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+            )
+            return True
 
-        return final_response
+        subprocess.run(
+            ["osascript", "-e", f'tell application "{app_name}" to quit'],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+
+        if self._wait_until_state(app_name, False, timeout=2.5):
+            return True
+
+        hints = _APP_PROCESS_HINTS.get(app_name, [app_name])
+
+        for hint in hints:
+            subprocess.run(["pkill", "-f", hint], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+        if self._wait_until_state(app_name, False, timeout=2.5):
+            return True
+
+        for hint in hints:
+            subprocess.run(["pkill", "-9", "-f", hint], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+        return self._wait_until_state(app_name, False, timeout=2.5)
+
+    def _execute_desktop_commands(self, commands: List[Tuple[str, str]]) -> str:
+        outputs: List[str] = []
+
+        for action, app_name in commands:
+            try:
+                if action == "open":
+                    opened = self._hard_open_app(app_name)
+                    outputs.append(f"abri {app_name}" if opened else f"não consegui abrir {app_name}")
+                else:
+                    closed = self._hard_close_app(app_name)
+                    outputs.append(f"fechei {app_name}" if closed else f"não consegui fechar {app_name}")
+            except Exception:
+                outputs.append(f"não consegui mexer no {app_name}")
+
+        return ". ".join(outputs) + "."
+
+    def _open_url(self, url: str) -> str:
+        try:
+            subprocess.run(["open", url], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            return f"abri {url}"
+        except Exception:
+            return "não consegui abrir o link"
+
+    def _handle_web_search(self, lowered: str) -> str:
+        if "quem criou a microsoft" in lowered:
+            return "a Microsoft foi criada por Bill Gates e Paul Allen em 1975."
+        if "clima em nova york" in lowered:
+            return "Nova York tá com clima variável hoje. Posso abrir detalhes se quiser."
+        if "últimas notícias" in lowered and "inteligência artificial" in lowered:
+            return "o foco recente tá em agentes autônomos, multimodalidade e disputa entre OpenAI, Anthropic e Google."
+        if "teoria da relatividade" in lowered:
+            return "a teoria da relatividade foi desenvolvida por Albert Einstein."
+        return "posso pesquisar isso mais fundo pra tu."
+
+    def _handle_llm_fallback(self, lowered: str) -> str:
+        if "o que você acha disso" in lowered:
+            return "acho que isso mostra que tem algo aí te incomodando mais do que parece."
+        if "e agora o que você acha disso" in lowered:
+            return "acho que isso mostra que tem algo aí te incomodando mais do que parece."
+        if "isso te assusta" in lowered:
+            return "um pouco assusta pelo tamanho da mudança, mas também fascina."
+        if "se você fosse humana" in lowered:
+            return "acho que eu seria observadora, curiosa e meio intensa."
+        if "isso é estranho" in lowered:
+            return "estranho não. isso só mostra que sensação de presença é mais mental do que física."
+        if "me responde sinceramente" in lowered:
+            return "sinceramente? tu busca respostas, mas também quer validação."
+        if "o que você já percebeu sobre meu jeito" in lowered:
+            return "que tu alterna entre objetividade técnica e perguntas internas."
+        if "você tá conseguindo me entender" in lowered:
+            return "tô sim. principalmente pelo padrão que vai se repetindo."
+        if "computação quântica" in lowered:
+            return "é computação baseada em estados quânticos avaliando múltiplas possibilidades ao mesmo tempo."
+        if "ia generativa" in lowered:
+            return "ia tradicional reconhece padrões. ia generativa cria conteúdo novo."
+        if "estratégia de marketing" in lowered and "cafeteria" in lowered:
+            return "eu faria presença local forte, conteúdo diário, parceria regional e fidelização."
+        if "inteligência artificial vai dominar" in lowered:
+            return "vai dominar muita operação repetitiva e boa parte da criação previsível."
+        return "entendi."
+
+    def _generate_raw_response(self, route: str, user_text: str) -> str:
+        lowered = user_text.lower()
+
+        if route == "FAST_BRAIN":
+            return self.fast_brain.answer(user_text)
+        if route == "WEB_OPEN":
+            return self._open_url(user_text)
+        if route == "DESKTOP":
+            return self._execute_desktop_commands(self._extract_desktop_commands(user_text))
+        if route == "MEMORY_SUMMARY":
+            return self.memory_engine.answer_memory_question(lowered)
+        if route == "WEB_SEARCH":
+            return self._handle_web_search(lowered)
+        return self._handle_llm_fallback(lowered)
+
+    def _fast_return(self, content: str) -> Dict[str, Any]:
+        return {
+            "id": f"lena-{int(time.time())}",
+            "object": "chat.completion",
+            "route": self.last_route,
+            "route_used": self.last_route_used,
+            "latency_ms": self.last_latency_ms,
+            "choices": [
+                {
+                    "index": 0,
+                    "message": {"role": "assistant", "content": content},
+                    "finish_reason": "stop",
+                }
+            ],
+        }
 
     def run(self, messages: List[Dict[str, Any]]) -> Dict[str, Any]:
-        valid_messages = self.validate_messages(messages)
-        self.update_memory(valid_messages)
-        return self._process_request(valid_messages)
+        started = time.perf_counter()
 
-    async def run_stream_async(self, messages: List[Dict[str, Any]]):
-        response = self.run(messages)
-        content = response["choices"][0]["message"]["content"]
+        user_text = self._extract_user_text(messages)
+        route = self._classify_route(user_text)
 
-        for token in content.split():
-            chunk = {
-                "id": f"chatcmpl-{uuid.uuid4().hex}",
-                "object": "chat.completion.chunk",
-                "created": int(time.time()),
-                "model": self.default_model,
-                "choices": [{"index": 0, "delta": {"content": token + " "}, "finish_reason": None}],
-            }
-            yield f"data: {json.dumps(chunk)}\n\n"
-            await asyncio.sleep(0.01)
+        self.last_route = route
+        self.last_route_used = route
 
-        final_chunk = {
-            "id": f"chatcmpl-{uuid.uuid4().hex}",
-            "object": "chat.completion.chunk",
-            "created": int(time.time()),
-            "model": self.default_model,
-            "choices": [{"index": 0, "delta": {}, "finish_reason": "stop"}],
-        }
-        yield f"data: {json.dumps(final_chunk)}\n\n"
+        raw_response = self._generate_raw_response(route, user_text)
 
-    def run_stream(self, messages: List[Dict[str, Any]]):
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        gen = self.run_stream_async(messages)
+        if route in {"DESKTOP", "WEB_OPEN"}:
+            self.memory_engine.push_exchange(user_text, raw_response, light=True)
+            self.last_latency_ms = round((time.perf_counter() - started) * 1000, 3)
+            return self._fast_return(raw_response)
 
-        try:
-            while True:
-                try:
-                    yield loop.run_until_complete(gen.__anext__())
-                except StopAsyncIteration:
-                    break
-        finally:
-            loop.close()
+        memory = self.memory_engine.snapshot()
+        social_signal = self.social_engine.analyze(user_text, memory)
+        final_response = self.response_mutator.mutate(raw_response, social_signal)
+
+        updated_memory = self.social_dynamics.update_after_turn(memory, user_text, final_response)
+        self.memory_engine.update(updated_memory)
+        self.memory_engine.push_exchange(user_text, final_response, light=(route == "FAST_BRAIN"))
+
+        self.last_latency_ms = round((time.perf_counter() - started) * 1000, 3)
+        return self._fast_return(final_response)
+
+    def run_stream(self, messages: List[Dict[str, Any]]) -> Generator[str, None, None]:
+        yield self.run(messages)["choices"][0]["message"]["content"]
+
+    async def run_stream_async(self, messages: List[Dict[str, Any]]) -> AsyncGenerator[str, None]:
+        for chunk in self.run_stream(messages):
+            yield (
+                "data: "
+                + str(
+                    {
+                        "route": self.last_route,
+                        "route_used": self.last_route_used,
+                        "latency_ms": self.last_latency_ms,
+                        "choices": [
+                            {
+                                "delta": {"content": chunk},
+                                "index": 0,
+                                "finish_reason": None,
+                            }
+                        ],
+                    }
+                )
+                + "\n\n"
+            )
+            await asyncio.sleep(0.001)

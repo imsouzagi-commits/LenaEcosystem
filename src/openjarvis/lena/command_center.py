@@ -1,106 +1,69 @@
 from __future__ import annotations
 
 import re
-from typing import Optional
+from dataclasses import dataclass
+from typing import List, Optional
 
-from openjarvis.lena.action_center import ActionCenter
+
+@dataclass
+class ParsedCommand:
+    action: str
+    targets: List[str]
 
 
-class CommandCenter:
-    def __init__(self, action_center: ActionCenter):
-        self.action_center = action_center
+class LenaCommandCenter:
+    OPEN_WORDS = ["abre", "abrir", "open", "inicia", "iniciar"]
+    CLOSE_WORDS = ["fecha", "fechar", "close", "encerra", "encerrar"]
+    SEARCH_WORDS = ["pesquisa no google", "procura no google", "buscar no google", "pesquisa", "google"]
 
-    def normalize(self, query: str) -> str:
-        q = query.lower().strip()
-        q = re.sub(r"[^\w\s]", "", q)
+    @classmethod
+    def parse(cls, text: str) -> Optional[ParsedCommand]:
+        normalized = text.lower().strip()
 
-        replacements = {
-            "ligar": "liga",
-            "ligue": "liga",
-            "desligar": "desliga",
-            "desligue": "desliga",
-            "abrir": "abre",
-            "abra": "abre",
-            "fechar": "fecha",
-            "feche": "fecha",
-            "aumentar": "aumenta",
-            "aumente": "aumenta",
-            "abaixar": "abaixa",
-            "abaixe": "abaixa",
-            "som": "volume",
-            "áudio": "volume",
-            "audio": "volume",
-            "internet": "wifi",
-            "wi fi": "wifi",
-            "navegador": "safari",
-        }
+        if re.match(r"^https?://", normalized):
+            return ParsedCommand(action="url", targets=[normalized])
 
-        for old, new in replacements.items():
-            q = q.replace(old, new)
+        if cls._contains_any(normalized, cls.OPEN_WORDS):
+            apps = cls._extract_targets(normalized, cls.OPEN_WORDS)
+            if apps:
+                return ParsedCommand(action="open", targets=apps)
 
-        return " ".join(q.split())
+        if cls._contains_any(normalized, cls.CLOSE_WORDS):
+            apps = cls._extract_targets(normalized, cls.CLOSE_WORDS)
+            if apps:
+                return ParsedCommand(action="close", targets=apps)
 
-    def detect_local(self, query: str) -> bool:
-        local_words = [
-            "abre",
-            "fecha",
-            "liga",
-            "desliga",
-            "aumenta",
-            "abaixa",
-            "wifi",
-            "volume",
-            "brilho",
-            "spotify",
-            "safari",
-            "finder",
-            "whatsapp",
-            "oi lena",
-            "bom dia lena",
-            "boa tarde lena",
-            "boa noite lena",
-        ]
-        return any(word in query.lower() for word in local_words)
-
-    def execute(self, query: str) -> Optional[str]:
-        q = self.normalize(query)
-
-        if q == "desliga wifi":
-            return self.action_center.wifi_off()
-
-        if q == "liga wifi":
-            return self.action_center.wifi_on()
-
-        if q == "aumenta volume":
-            return self.action_center.volume_up()
-
-        if q == "abaixa volume":
-            return self.action_center.volume_down()
-
-        if q == "aumenta brilho":
-            return self.action_center.brightness_up()
-
-        if q == "abaixa brilho":
-            return self.action_center.brightness_down()
-
-        if q in {"oi lena", "olá lena", "ola lena"}:
-            return "Oi Thiago, estou aqui."
-
-        if q == "bom dia lena":
-            return "Bom dia Thiago."
-
-        if q == "boa tarde lena":
-            return "Boa tarde Thiago."
-
-        if q == "boa noite lena":
-            return "Boa noite Thiago."
-
-        if q.startswith("abre "):
-            target = q.replace("abre ", "").strip()
-            return self.action_center.open_app(target)
-
-        if q.startswith("fecha "):
-            target = q.replace("fecha ", "").strip()
-            return self.action_center.close_app(target)
+        if cls._contains_any(normalized, cls.SEARCH_WORDS):
+            query = cls._extract_search_query(normalized)
+            if query:
+                return ParsedCommand(action="search", targets=[query])
 
         return None
+
+    @staticmethod
+    def _contains_any(text: str, words: List[str]) -> bool:
+        return any(word in text for word in words)
+
+    @staticmethod
+    def _extract_targets(text: str, verbs: List[str]) -> List[str]:
+        cleaned = text
+
+        for verb in verbs:
+            cleaned = cleaned.replace(verb, "")
+
+        cleaned = cleaned.replace(" e ", ",")
+        cleaned = cleaned.replace(" and ", ",")
+        cleaned = cleaned.replace(" também ", ",")
+        cleaned = cleaned.replace(" tambem ", ",")
+
+        parts = [part.strip() for part in cleaned.split(",") if part.strip()]
+        return parts
+
+    @staticmethod
+    def _extract_search_query(text: str) -> str:
+        text = re.sub(r"pesquisa no google", "", text)
+        text = re.sub(r"procura no google", "", text)
+        text = re.sub(r"buscar no google", "", text)
+        text = re.sub(r"pesquisa", "", text)
+        text = re.sub(r"google", "", text)
+        return text.strip()
