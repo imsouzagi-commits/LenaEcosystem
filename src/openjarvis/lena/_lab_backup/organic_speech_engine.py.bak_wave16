@@ -1,0 +1,161 @@
+from __future__ import annotations
+
+import random
+
+from openjarvis.lena.semantic_response_bank import LenaSemanticResponseBank
+from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+from openjarvis.lena.narrative_recall_engine import LenaNarrativeRecallEngine
+from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+from openjarvis.lena.intention_recall_engine import LenaIntentionRecallEngine
+from openjarvis.lena.autonomous_curiosity_engine import LenaAutonomousCuriosityEngine
+from openjarvis.lena.cognitive_stance_engine import LenaCognitiveStanceEngine
+
+
+class LenaOrganicSpeechEngine:
+    @staticmethod
+    def _clean(text: str) -> str:
+        return " ".join(text.strip().split())
+
+    @classmethod
+    def _same_semantic_family(cls, a: str, b: str) -> bool:
+        ax = a.lower()
+        bx = b.lower()
+
+        semantic_roots = (
+            "encaix", "fech", "abert", "suspens", "continu", "padr", "recorr",
+            "organ", "alinh", "rodando", "conclus", "volt", "clar", "névoa",
+            "trav", "const", "press", "peso", "fadig", "desgast",
+        )
+        return any(root in ax and root in bx for root in semantic_roots)
+
+    @classmethod
+    def _is_recently_used(cls, memory, candidate: str) -> bool:
+        for text in memory.recent_semantic_responses(memory.social_state.current_topic or "uncertainty"):
+            if cls._same_semantic_family(candidate, text):
+                return True
+        return False
+
+    @classmethod
+    def _pick_fresh(cls, memory, pool: list[str]) -> str:
+        fresh = [p for p in pool if not cls._is_recently_used(memory, p)]
+        if fresh:
+            return random.choice(fresh)
+        return random.choice(pool)
+
+    @classmethod
+    def _join_unique(cls, fragments: list[str]) -> str:
+        chosen: list[str] = []
+
+        for fragment in fragments:
+            fragment = cls._clean(fragment)
+            if not fragment:
+                continue
+            if any(cls._same_semantic_family(fragment, x) for x in chosen):
+                continue
+            chosen.append(fragment)
+
+        return " ".join(chosen).strip()
+
+    @classmethod
+    def _build_regime(cls, memory, user_text: str, topic: str, mode: str, stance: str) -> list[str]:
+        social = memory.social_state
+
+        observation = cls._pick_fresh(memory, LenaSemanticResponseBank.observation_fragments(topic, mode))
+        continuity = cls._pick_fresh(memory, LenaSemanticResponseBank.continuity_fragments(topic))
+        relational = cls._pick_fresh(memory, LenaSemanticResponseBank.relational_fragments(topic, mode))
+        bridge = cls._pick_fresh(memory, LenaSemanticResponseBank.bridge_fragments(topic))
+
+        callback = LenaNarrativeRecallEngine.render_callback_fragment(memory, topic)
+        intention_callback = LenaIntentionRecallEngine.render_fragment(memory, topic)
+        curiosity = LenaAutonomousCuriosityEngine.render_fragment(memory, user_text, topic)
+
+        regimes = []
+
+        if stance == "observe":
+            regimes += [
+                [observation],
+                [observation, continuity],
+                [observation, relational],
+            ]
+
+        elif stance == "pattern_link":
+            regimes += [
+                [continuity, relational],
+                [relational, continuity],
+                [observation, continuity, relational],
+            ]
+
+        elif stance == "locate":
+            regimes += [
+                [bridge, observation],
+                [observation, bridge],
+                [bridge, continuity],
+            ]
+
+        elif stance == "compress":
+            regimes += [
+                [observation, bridge, continuity],
+                [relational, bridge, continuity],
+                [observation, relational, continuity],
+            ]
+
+        elif stance == "probe":
+            if curiosity:
+                regimes.append([observation, curiosity])
+            if intention_callback:
+                regimes.append([observation, intention_callback])
+            regimes += [
+                [observation, relational],
+                [observation, continuity],
+            ]
+
+        if callback and social.unresolved_loops >= 4:
+            regimes.append([observation, callback])
+
+        if callback and bridge and random.random() < 0.30:
+            regimes.append([callback, bridge])
+
+        if LenaNarrativeTensionEngine.has_live_tension(memory) and random.random() < 0.25:
+            regimes.append([bridge, continuity])
+
+        if not regimes:
+            regimes = [[observation]]
+
+        return random.choice(regimes)
+
+    @classmethod
+    def synthesize(cls, memory, user_text: str, topic: str, mode: str) -> str:
+        stance = LenaCognitiveStanceEngine.decide(memory, topic, mode)
+        fragments = cls._build_regime(memory, user_text, topic, mode, stance)
+        text = cls._join_unique(fragments)
+
+        if not text:
+            text = cls._pick_fresh(memory, LenaSemanticResponseBank.observation_fragments(topic, mode))
+
+        memory.remember_semantic_response(topic, text)
+
+        if mode == "invite":
+            LenaIntentionMemoryEngine.capture(memory, "exploration", topic, text)
+        elif mode == "contain":
+            LenaIntentionMemoryEngine.capture(memory, "contain", topic, text)
+        elif mode == "reflective_hold":
+            LenaIntentionMemoryEngine.capture(memory, "reflective_hold", topic, text)
+
+        return LenaSemanticResponseBank.soften(memory, text)
+
+    @classmethod
+    def synthesize_greeting(cls, memory, topic: str) -> str:
+        base = cls._pick_fresh(memory, LenaSemanticResponseBank.greeting_fragments(topic))
+        callback = LenaNarrativeRecallEngine.render_callback_fragment(memory, topic)
+        bridge = cls._pick_fresh(memory, LenaSemanticResponseBank.bridge_fragments(topic))
+
+        regimes = [
+            [base],
+            [base, bridge],
+        ]
+
+        if callback:
+            regimes.append([base, callback])
+
+        text = cls._join_unique(random.choice(regimes))
+        return LenaSemanticResponseBank.soften(memory, text)

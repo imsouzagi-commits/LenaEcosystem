@@ -16,7 +16,7 @@ class NodeType(str, Enum):
     TRANSFORM = "transform"
 
 
-@dataclass(slots=True)
+@dataclass
 class WorkflowNode:
     id: str
     node_type: NodeType
@@ -31,14 +31,14 @@ class WorkflowNode:
     transform_expr: str = ""
 
 
-@dataclass(slots=True)
+@dataclass
 class WorkflowEdge:
     source: str
     target: str
     condition: str = ""  # optional condition for conditional routing
 
 
-@dataclass(slots=True)
+@dataclass
 class WorkflowStepResult:
     node_id: str
     success: bool = True
@@ -47,7 +47,7 @@ class WorkflowStepResult:
     metadata: Dict[str, Any] = field(default_factory=dict)
 
 
-@dataclass(slots=True)
+@dataclass
 class WorkflowResult:
     workflow_name: str = ""
     success: bool = True

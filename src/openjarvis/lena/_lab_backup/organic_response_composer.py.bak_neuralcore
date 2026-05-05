@@ -1,0 +1,84 @@
+from __future__ import annotations
+
+import random
+
+
+class OrganicResponseComposer:
+    UTILITARIAN_ACKS = ["entendi", "certo", "ok", "sim"]
+    RELATIONAL_ACKS = ["tô te acompanhando", "entendo", "faz sentido", "sim"]
+
+    UTILITARIAN = {
+        "temporal_observation": [
+            "o tempo passou rápido",
+            "as horas correram hoje",
+            "a tarde foi embora sem perceber",
+        ],
+        "cost_benefit": [
+            "o ponto é overhead contra ganho",
+            "a conta é complexidade versus benefício",
+            "a decisão gira em manutenção versus retorno",
+        ],
+        "practical_generic": [
+            "isso depende bastante do contexto técnico",
+            "a resposta muda conforme o cenário",
+            "tem tradeoff técnico aí",
+        ],
+        "comparative_question": [
+            "a diferença aparece mais na operação",
+            "a comparação pesa em arquitetura e manutenção",
+            "a distinção fica no custo de manutenção e escala",
+        ],
+        "generic": [
+            "entendi",
+            "certo",
+        ],
+    }
+
+    RELATIONAL = {
+        "continuation": [
+            "isso continua te ocupando",
+            "isso ainda parece presente",
+            "isso não saiu completamente",
+        ],
+        "cognitive_disorder": [
+            "a mente não tá assentando bem",
+            "o raciocínio continua sem firmeza",
+            "as ideias seguem meio soltas",
+        ],
+        "fatigue_signal": [
+            "tem um desgaste aí",
+            "isso soa como saturação",
+            "o cansaço parece acumulado",
+        ],
+        "generic": [
+            "tô te ouvindo",
+            "entendo",
+        ],
+    }
+
+    @classmethod
+    def compose_utilitarian(cls, micro_intent: str) -> str:
+        nucleus = random.choice(cls.UTILITARIAN.get(micro_intent, cls.UTILITARIAN["generic"]))
+        ack = random.choice(cls.UTILITARIAN_ACKS)
+
+        if random.random() < 0.55:
+            return f"{ack}, {nucleus}."
+        return f"{nucleus.capitalize()}."
+
+    @classmethod
+    def compose_relational(cls, micro_intent: str) -> str:
+        nucleus = random.choice(cls.RELATIONAL.get(micro_intent, cls.RELATIONAL["generic"]))
+        ack = random.choice(cls.RELATIONAL_ACKS)
+
+        styles = [
+            f"{nucleus.capitalize()}.",
+            f"{ack}, {nucleus}.",
+            f"{nucleus.capitalize()}. Quer me dizer um pouco mais?",
+        ]
+        return random.choice(styles)
+
+    @classmethod
+    def compose(cls, micro_intent: str, relational: bool = False) -> str:
+        if relational:
+            return cls.compose_relational(micro_intent)
+        return cls.compose_utilitarian(micro_intent)

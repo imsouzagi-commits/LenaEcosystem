@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 import threading
+from openjarvis.lena.thread_guard import run_guarded_background
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
@@ -111,10 +112,10 @@ class TaskScheduler:
         if self._thread is not None and self._thread.is_alive():
             return
         self._stop_event.clear()
-        self._thread = threading.Thread(
-            target=self._poll_loop, daemon=True, name="jarvis-scheduler"
+        self._thread = run_guarded_background(
+            "jarvis-scheduler",
+            self._poll_loop,
         )
-        self._thread.start()
         logger.info("Scheduler started (poll_interval=%ds)", self._poll_interval)
 
     def stop(self) -> None:

@@ -110,7 +110,10 @@ def run_sandboxed(
             result.returncode = proc.returncode
         except subprocess.TimeoutExpired:
             kill_process_tree(proc.pid)
-            proc.wait(timeout=5)
+            try:
+                proc.wait(timeout=5)
+            except Exception as exc:
+                logger.debug("Timeout cleanup wait failed for %s: %s", proc.pid, exc)
             result.timed_out = True
             result.killed = True
             result.returncode = -1

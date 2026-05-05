@@ -1,0 +1,91 @@
+from __future__ import annotations
+
+from openjarvis.lena.response_synthesizer import LenaResponseSynthesizer
+from openjarvis.lena.response_selector import LenaResponseSelector
+from openjarvis.lena.continuity_engine import LenaContinuityEngine
+from openjarvis.lena.presence_orchestrator import LenaPresenceOrchestrator
+from openjarvis.lena.organic_response_composer import OrganicResponseComposer
+from openjarvis.lena.utterance_interpreter import LenaUtteranceInterpreter
+from openjarvis.lena.response_regime_resolver import LenaResponseRegimeResolver
+
+
+class LenaConversationOrchestrator:
+    PRONOUN_AMBIGUOUS = (
+        "e quem era ele?", "quem era ele?", "e quem era ela?", "quem era ela?",
+        "quem é ele?", "quem é ela?", "quem e ele?", "quem e ela?",
+    )
+
+    SIMPLE_GREETINGS = {"oi", "oi lena", "olá", "ola"}
+
+    def _tool_grounded_response(self, agent, user_text: str, mode: str, tool_payload: str) -> str:
+        if mode == "practical":
+            return LenaResponseSynthesizer.synthesize(agent, user_text, "practical", tool_payload)
+        if mode == "factual":
+            return LenaResponseSynthesizer.synthesize(agent, user_text, "factual", tool_payload)
+        return tool_payload.strip()
+
+    def _allow_deep_semantic(self, memory) -> bool:
+        social = memory.social_state
+        return (
+            social.trust_level >= 2 or
+            social.unresolved_loops >= 2 or
+            social.conversation_depth >= 2
+        )
+
+    def respond(self, agent, user_text: str, cognitive=None, tool_payload: str = "") -> str | None:
+        memory = agent.memory_engine
+        lowered = user_text.lower().strip()
+        domain = cognitive.domain if cognitive else "neutral"
+
+        if lowered in self.PRONOUN_AMBIGUOUS:
+            return "de quem você tá falando?"
+
+        if tool_payload and domain in {"practical", "factual"}:
+            return self._tool_grounded_response(agent, user_text, domain, tool_payload)
+
+        active_topic = memory._contextual_semantic_topic(lowered) or "neutral"
+        continuity = LenaContinuityEngine.resolve(memory, active_topic)
+        presence_mode = LenaPresenceOrchestrator.decide(memory, domain)
+
+        memory.social_state.last_response_mode = presence_mode
+
+        if lowered in self.SIMPLE_GREETINGS:
+            if continuity["topic"] and self._allow_deep_semantic(memory):
+                return LenaResponseSelector.choose_greeting(memory, continuity["topic"], continuity["stage"])
+            return LenaResponseSynthesizer.synthesize(agent, user_text, "greeting")
+
+        if domain == "memory_probe":
+            return memory.answer_memory_question(lowered)
+
+        if domain == "personal":
+            return LenaResponseSynthesizer.synthesize(agent, user_text, "fact_absorb")
+
+        if domain in {"practical", "factual"}:
+            return OrganicResponseComposer.compose_utilitarian(
+                LenaUtteranceInterpreter.detect(user_text, domain)
+            )
+
+        if domain in {"social"}:
+            return OrganicResponseComposer.compose_relational(
+                LenaUtteranceInterpreter.detect(user_text, domain)
+            )
+
+        if domain in {"emotional", "narrative", "inquisitive"}:
+            speech_mode = LenaResponseRegimeResolver.resolve(domain, presence_mode)
+
+            if self._allow_deep_semantic(memory):
+                chosen = LenaResponseSelector.choose(
+                    memory,
+                    user_text,
+                    continuity["topic"] or active_topic,
+                    continuity["stage"],
+                    speech_mode,
+                )
+                if chosen:
+                    return chosen
+
+            return OrganicResponseComposer.compose(LenaUtteranceInterpreter.detect(user_text, domain))
+
+        return OrganicResponseComposer.compose_utilitarian(
+            LenaUtteranceInterpreter.detect(user_text, "narrative")
+        )

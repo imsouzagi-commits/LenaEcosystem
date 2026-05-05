@@ -1,0 +1,84 @@
+from __future__ import annotations
+
+import random
+
+from openjarvis.lena.semantic_response_bank import LenaSemanticResponseBank
+from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+from openjarvis.lena.linguistic_cadence_engine import LenaLinguisticCadenceEngine
+from openjarvis.lena.narrative_recall_engine import LenaNarrativeRecallEngine
+from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+from openjarvis.lena.intention_recall_engine import LenaIntentionRecallEngine
+from openjarvis.lena.autonomous_curiosity_engine import LenaAutonomousCuriosityEngine
+from openjarvis.lena.semantic_diffuser_engine import LenaSemanticDiffuserEngine
+
+
+class LenaOrganicSpeechEngine:
+    @staticmethod
+    def _join(parts: list[str]) -> str:
+        return " ".join(x.strip() for x in parts if x and x.strip()).strip()
+
+    @staticmethod
+    def synthesize(memory, user_text: str, topic: str, mode: str) -> str:
+        social = memory.social_state
+
+        observation = random.choice(LenaSemanticResponseBank.observation_fragments(topic, mode))
+        parts = [observation]
+
+        callback = LenaNarrativeRecallEngine.render_callback_fragment(memory, topic)
+        if callback and random.random() < 0.55:
+            parts.append(callback)
+
+        intention_callback = LenaIntentionRecallEngine.render_fragment(memory, topic)
+        if intention_callback and random.random() < 0.40:
+            parts.append(intention_callback)
+
+        curiosity = LenaAutonomousCuriosityEngine.render_fragment(memory, user_text, topic)
+        if curiosity and random.random() < 0.45:
+            parts.append(curiosity)
+
+        if social.unresolved_loops >= 2 and random.random() < 0.65:
+            parts.append(random.choice(LenaSemanticResponseBank.continuity_fragments(topic)))
+
+        if social.trust_level >= 2 and random.random() < 0.50:
+            parts.append(random.choice(LenaSemanticResponseBank.relational_fragments(topic, mode)))
+
+        if LenaNarrativeTensionEngine.has_live_tension(memory) and social.unresolved_loops >= 3 and random.random() < 0.25:
+            parts.append("isso continua suspenso entre uma fala e outra.")
+
+        if mode in {"invite", "contain", "reflective_hold"} and social.openness_score >= 1 and random.random() < 0.58:
+            parts.append(random.choice(LenaSemanticResponseBank.invitation_fragments(topic, "contain")))
+
+        if mode == "deep_reflect" and social.arc_stage >= 4 and random.random() < 0.72:
+            parts.append(random.choice(LenaSemanticResponseBank.deepening_fragments(topic)))
+
+        if social.current_conversation_arc in {"resolving", "softening"} and random.random() < 0.55:
+            parts.append(random.choice(LenaSemanticResponseBank.resolution_fragments(topic)))
+
+        parts = LenaSemanticDiffuserEngine.diffuse(memory, parts)
+        text = LenaOrganicSpeechEngine._join(parts)
+        memory.remember_semantic_response(topic, text)
+
+        if mode == "invite":
+            LenaIntentionMemoryEngine.capture(memory, "exploration", topic, text)
+        elif mode == "contain":
+            LenaIntentionMemoryEngine.capture(memory, "contain", topic, text)
+        elif mode == "reflective_hold":
+            LenaIntentionMemoryEngine.capture(memory, "reflective_hold", topic, text)
+
+        return LenaSemanticResponseBank.soften(memory, text)
+
+    @staticmethod
+    def synthesize_greeting(memory, topic: str) -> str:
+        base = random.choice(LenaSemanticResponseBank.greeting_fragments(topic))
+
+        callback = LenaNarrativeRecallEngine.render_callback_fragment(memory, topic)
+        if callback and random.random() < 0.45:
+            base = f"{base} {callback}"
+
+        if memory.social_state.unresolved_loops >= 3 and random.random() < 0.60:
+            base = f"{base} {random.choice(LenaSemanticResponseBank.continuity_fragments(topic))}"
+
+        if LenaNarrativeTensionEngine.has_live_tension(memory) and random.random() < 0.22:
+            base = f"{base} você voltou sem isso ter encerrado."
+
+        return LenaSemanticResponseBank.soften(memory, base)

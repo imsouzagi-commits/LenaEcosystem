@@ -7,6 +7,7 @@ import hashlib
 import hmac
 import json
 import logging
+from openjarvis.lena.thread_guard import run_guarded_background
 from typing import Any
 
 from fastapi import APIRouter, Request, Response
@@ -420,8 +421,7 @@ def create_webhook_router(
                             "Ainda estou trabalhando! Responderei em breve.",
                         )
 
-            reminder = threading.Thread(target=_send_reminders, daemon=True)
-            reminder.start()
+            reminder = run_guarded_background("sms-reminder", _send_reminders)
 
             try:
                 response = active_bridge.handle_incoming(

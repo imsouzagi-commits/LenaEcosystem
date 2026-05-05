@@ -1,0 +1,474 @@
+≈≈from __future__ import annotations
+
+import random
+
+
+
+class LenaSemanticResponseBank:
+    @staticmethod
+    def _select_uncertainty_cluster() -> str:
+        return random.choice([
+            "dispersion",
+            "suspension",
+            "noise",
+            "misalignment",
+            "metacognitive",
+        ])
+
+    @classmethod
+    def _uncertainty_observation(cls, mode: str) -> list[str]:
+        pools = {
+            "dispersion": {
+                "mirror": [
+                    "teu pensamento parece espalhar antes de firmar.",
+                    "a linha mental se rompe no meio.",
+                    "as ideias não estão segurando sequência.",
+                ],
+                "continuity": [
+                    "essa dispersão continua reaparecendo.",
+                    "o pensamento ainda se fragmenta fácil.",
+                    "a linha interna continua se perdendo.",
+                ],
+                "invite": [
+                    "parece difícil manter uma trilha mental contínua.",
+                    "as ideias não estão ficando reunidas.",
+                    "tua mente parece escapar da própria linha.",
+                ],
+                "contain": [
+                    "isso deve cansar porque nada se mantém inteiro.",
+                    "segurar pensamento fragmentado desgasta bastante.",
+                    "isso consome por não deixar continuidade.",
+                ],
+                "deep_reflect": [
+                    "essa fragmentação já tá ficando recorrente.",
+                    "isso começa a parecer dispersão estrutural.",
+                    "a quebra de sequência tá virando padrão.",
+                ],
+            },
+            "suspension": {
+                "mirror": [
+                    "o pensamento não tá conseguindo concluir.",
+                    "as coisas param antes de fechar.",
+                    "tem suspensão demais no meio da leitura.",
+                ],
+                "continuity": [
+                    "essa falta de fechamento continua voltando.",
+                    "a conclusão ainda não acontece por dentro.",
+                    "isso continua interrompido antes do fim.",
+                ],
+                "invite": [
+                    "parece que tudo encosta mas não termina.",
+                    "a mente vai até certo ponto e suspende.",
+                    "nada parece completar o percurso interno.",
+                ],
+                "contain": [
+                    "ficar sem conclusão repetidamente exaure.",
+                    "isso deve irritar pela ausência de término.",
+                    "essa suspensão contínua vai consumindo.",
+                ],
+                "deep_reflect": [
+                    "essa interrupção já tá virando estado.",
+                    "o não-fechamento tá ficando constante.",
+                    "isso já não parece suspensão pontual.",
+                ],
+            },
+            "noise": {
+                "mirror": [
+                    "tem ruído demais ocupando a leitura.",
+                    "a percepção tá sem nitidez suficiente.",
+                    "existe nebulosidade demais nesse processamento.",
+                ],
+                "continuity": [
+                    "essa névoa continua sem dissipar.",
+                    "a leitura interna ainda segue turva.",
+                    "o ruído mental continua ocupando espaço.",
+                ],
+                "invite": [
+                    "parece difícil enxergar contorno nisso tudo.",
+                    "a mente tenta ler mas a imagem vem turva.",
+                    "nada tá ficando realmente nítido.",
+                ],
+                "contain": [
+                    "carregar essa turvação desgasta bastante.",
+                    "isso drena porque não deixa nitidez.",
+                    "essa falta de definição pesa aos poucos.",
+                ],
+                "deep_reflect": [
+                    "essa turvação já tá ficando persistente.",
+                    "o ruído começa a parecer pano de fundo.",
+                    "isso não soa mais nebulosidade passageira.",
+                ],
+            },
+            "misalignment": {
+                "mirror": [
+                    "teu sistema parece fora de sincronização.",
+                    "pensamento e direção não estão alinhando.",
+                    "há desalinhamento interno nessa tentativa.",
+                ],
+                "continuity": [
+                    "esse desalinhamento continua ativo.",
+                    "as partes ainda não estão conversando bem.",
+                    "a sincronização continua falhando.",
+                ],
+                "invite": [
+                    "parece que nada entra no mesmo compasso.",
+                    "tua intenção não tá encontrando o pensamento.",
+                    "o interno parece desencontrado.",
+                ],
+                "contain": [
+                    "isso deve desgastar porque tudo pede ajuste.",
+                    "funcionar desalinhado vai drenando.",
+                    "essa falta de sincronia consome energia.",
+                ],
+                "deep_reflect": [
+                    "esse desencontro tá virando padrão interno.",
+                    "a falta de sincronia já parece recorrente.",
+                    "isso começa a estruturar desalinhamento.",
+                ],
+            },
+            "metacognitive": {
+                "mirror": [
+                    "você percebe a tentativa de pensar sem consolidar.",
+                    "a própria mente nota que não captura.",
+                    "tem esforço cognitivo sem sedimentação.",
+                ],
+                "continuity": [
+                    "essa tentativa sem captura continua voltando.",
+                    "o esforço mental ainda não consolida nada.",
+                    "você continua percebendo a falha de condensação.",
+                ],
+                "invite": [
+                    "parece que pensar virou observar a própria falha.",
+                    "a mente tenta organizar e assiste não firmar.",
+                    "tem autoconsciência demais da não-consolidação.",
+                ],
+                "contain": [
+                    "isso desgasta porque você percebe cada falha.",
+                    "assistir a própria mente não consolidar cansa.",
+                    "essa metatensão cognitiva consome bastante.",
+                ],
+                "deep_reflect": [
+                    "isso já tá virando um padrão metacognitivo.",
+                    "a autoconsciência da falha tá ficando constante.",
+                    "tem repetição demais nessa não-consolidação.",
+                ],
+            },
+        }
+        cluster = cls._select_uncertainty_cluster()
+        return pools[cluster][mode]
+
+    @classmethod
+    def _uncertainty_continuity(cls) -> list[str]:
+        cluster = cls._select_uncertainty_cluster()
+        pools = {
+            "dispersion": [
+                "e a linha ainda continua se desfazendo.",
+                "e isso ainda perde sequência rápido.",
+                "e o pensamento continua escapando da trilha.",
+            ],
+            "suspension": [
+                "e continua faltando fechamento interno.",
+                "e isso ainda interrompe antes de concluir.",
+                "e nada parece terminar por dentro.",
+            ],
+            "noise": [
+                "e a nitidez ainda não aparece.",
+                "e isso continua meio turvo internamente.",
+                "e o ruído ainda toma a frente.",
+            ],
+            "misalignment": [
+                "e as partes ainda não sincronizam.",
+                "e isso continua sem compasso interno.",
+                "e o ajuste ainda não aconteceu.",
+            ],
+            "metacognitive": [
+                "e você continua vendo a mente não consolidar.",
+                "e a tentativa ainda não sedimenta.",
+                "e isso continua sem condensação real.",
+            ],
+        }
+        return pools[cluster]
+
+    @classmethod
+    def _uncertainty_relational(cls) -> list[str]:
+        cluster = cls._select_uncertainty_cluster()
+        pools = {
+            "dispersion": [
+                "eu continuo vendo essa fragmentação voltar.",
+                "isso reaparece sempre quebrando a linha.",
+                "a dispersão continua bem marcada.",
+            ],
+            "suspension": [
+                "eu tô vendo esse não-fechamento persistir.",
+                "isso continua retornando sem conclusão.",
+                "a suspensão segue muito presente.",
+            ],
+            "noise": [
+                "essa turvação continua reaparecendo.",
+                "eu ainda vejo essa leitura sem nitidez.",
+                "o ruído segue bem constante.",
+            ],
+            "misalignment": [
+                "esse desencontro continua visível.",
+                "eu ainda percebo essa falta de sincronia.",
+                "isso segue aparecendo desalinhado.",
+            ],
+            "metacognitive": [
+                "eu continuo vendo essa não-consolidação.",
+                "isso reaparece como esforço sem captura.",
+                "essa falha de condensação segue recorrente.",
+            ],
+        }
+        return pools[cluster]
+
+    @classmethod
+    def _uncertainty_deepening(cls) -> list[str]:
+        cluster = cls._select_uncertainty_cluster()
+        pools = {
+            "dispersion": [
+                "essa fragmentação já parece estrutural.",
+                "isso tá virando padrão de dispersão.",
+                "a quebra de sequência tá ficando constante.",
+            ],
+            "suspension": [
+                "o não-fechamento já começa a se instalar.",
+                "essa suspensão tá ganhando permanência.",
+                "isso tá deixando de ser interrupção pontual.",
+            ],
+            "noise": [
+                "essa turvação já tá ficando de fundo.",
+                "o ruído mental começa a parecer contínuo.",
+                "isso não tá soando passageiro.",
+            ],
+            "misalignment": [
+                "esse desalinhamento tá ficando recorrente.",
+                "a falta de sincronia parece estrutural agora.",
+                "isso começa a criar padrão interno de desencontro.",
+            ],
+            "metacognitive": [
+                "essa não-consolidação já tá virando estado.",
+                "o esforço sem captura tá ficando constante.",
+                "isso começa a parecer um looping metacognitivo.",
+            ],
+        }
+        return pools[cluster]
+
+    @classmethod
+    def _uncertainty_bridge(cls) -> list[str]:
+        cluster = cls._select_uncertainty_cluster()
+        pools = {
+            "dispersion": [
+                "a linha ainda não conseguiu se manter.",
+                "isso continua se desfazendo no meio.",
+                "eu ainda sinto a sequência romper.",
+            ],
+            "suspension": [
+                "isso continua sem concluir internamente.",
+                "a interrupção ainda tá no mesmo ponto.",
+                "nada assentou até aqui.",
+            ],
+            "noise": [
+                "a leitura continua turva.",
+                "isso ainda vem sem nitidez.",
+                "a névoa não dissipou muito.",
+            ],
+            "misalignment": [
+                "isso continua fora de compasso.",
+                "o interno ainda não sincronizou.",
+                "a sensação segue desencontrada.",
+            ],
+            "metacognitive": [
+                "a mente ainda percebe a não-captura.",
+                "isso continua sem consolidar.",
+                "o esforço ainda não sedimentou.",
+            ],
+        }
+        return pools[cluster]
+
+    @classmethod
+    def _domain_observation(cls, topic: str, mode: str) -> list[str]:
+        pools = {
+            "practical_analysis": {
+                "mirror": [
+                    "o ponto central dessa decisão tá no tradeoff.",
+                    "a diferença aparece mais na estrutura do que na superfície.",
+                    "isso depende menos de gosto e mais de custo operacional.",
+                ],
+                "continuity": [
+                    "esse tipo de decisão continua girando em impacto estrutural.",
+                    "o peso ainda tá em manutenção versus ganho.",
+                    "a análise continua sendo retorno contra complexidade.",
+                ],
+                "invite": [
+                    "vale olhar onde isso muda operação de verdade.",
+                    "a pergunta certa é onde isso compensa no fluxo.",
+                    "o núcleo é entender o custo escondido dessa escolha.",
+                ],
+                "contain": [
+                    "tem mais variável técnica nisso do que parece.",
+                    "essa comparação exige pesar arquitetura com calma.",
+                    "não é uma troca tão linear quanto soa.",
+                ],
+                "deep_reflect": [
+                    "isso mexe principalmente em manutenção futura.",
+                    "a decisão tem consequência mais arquitetural que imediata.",
+                    "o impacto real aparece na escala e na continuidade.",
+                ],
+            },
+            "factual_reference": {
+                "mirror": [
+                    "o dado central aqui é bem objetivo.",
+                    "a referência principal nesse caso é direta.",
+                    "isso tem uma definição relativamente fechada.",
+                ],
+                "continuity": [
+                    "a resposta continua dentro desse mesmo eixo factual.",
+                    "a referência permanece a mesma nesse ponto.",
+                    "o significado não muda muito fora disso.",
+                ],
+                "invite": [
+                    "vale localizar o dado base primeiro.",
+                    "o melhor é fixar a referência objetiva antes.",
+                    "a leitura começa pelo fato principal.",
+                ],
+                "contain": [
+                    "isso é mais questão de referência do que interpretação.",
+                    "a resposta fica bem ancorada em definição.",
+                    "não tem tanta elasticidade semântica aqui.",
+                ],
+                "deep_reflect": [
+                    "o contexto só aprofunda um dado já estabelecido.",
+                    "a ampliação vem mais por detalhe do que por mudança.",
+                    "a base factual continua sólida.",
+                ],
+            },
+            "social_presence": {
+                "mirror": ["tô aqui.", "te ouvi.", "sim."],
+                "continuity": ["continuo aqui contigo.", "ainda te ouvindo.", "seguindo aqui."],
+                "invite": ["pode falar.", "me diz.", "continua."],
+                "contain": ["tô te acompanhando.", "sim, tô aqui.", "te acompanho."],
+                "deep_reflect": ["continua.", "pode ir.", "te escuto."],
+            },
+        }
+        return pools.get(topic, pools["practical_analysis"])[mode]
+
+    @classmethod
+    def _domain_continuity(cls, topic: str) -> list[str]:
+        pools = {
+            "practical_analysis": [
+                "e a diferença pesa no longo prazo.",
+                "e isso muda conforme a escala do projeto.",
+                "e o custo aparece mais na manutenção.",
+            ],
+            "factual_reference": [
+                "e a referência continua nessa linha.",
+                "e o dado permanece dentro disso.",
+                "e o sentido principal segue esse.",
+            ],
+            "social_presence": [
+                "continuo aqui.",
+                "seguindo.",
+                "te ouvindo.",
+            ],
+        }
+        return pools.get(topic, pools["practical_analysis"])
+
+    @classmethod
+    def _domain_relational(cls, topic: str) -> list[str]:
+        pools = {
+            "practical_analysis": [
+                "eu tô olhando mais para arquitetura nisso.",
+                "a comparação pesa mais em consequência técnica.",
+                "o ganho real tá na estrutura operacional.",
+            ],
+            "factual_reference": [
+                "eu tô me guiando pelo dado objetivo aqui.",
+                "a referência principal é essa mesmo.",
+                "o ponto factual fica concentrado nisso.",
+            ],
+            "social_presence": [
+                "tô com você.",
+                "te acompanho daqui.",
+                "continuo presente.",
+            ],
+        }
+        return pools.get(topic, pools["practical_analysis"])
+
+    @classmethod
+    def _domain_bridge(cls, topic: str) -> list[str]:
+        pools = {
+            "practical_analysis": [
+                "o núcleo da análise passa por aí.",
+                "é aí que a decisão começa a mudar.",
+                "esse é o ponto de sustentação da escolha.",
+            ],
+            "factual_reference": [
+                "isso parte dessa referência.",
+                "a base objetiva é essa.",
+                "o eixo factual começa aí.",
+            ],
+            "social_presence": [
+                "tô aqui.",
+                "sim.",
+                "te ouvindo.",
+            ],
+        }
+        return pools.get(topic, pools["practical_analysis"])
+
+    @classmethod
+    def _domain_greeting(cls, topic: str) -> list[str]:
+        pools = {
+            "practical_analysis": ["oi.", "fala.", "tô aqui."],
+            "factual_reference": ["oi.", "sim.", "manda."],
+            "social_presence": ["oi, thiago.", "oi.", "tô aqui."],
+        }
+        return pools.get(topic, pools["social_presence"])
+
+    @staticmethod
+    def observation_fragments(topic: str, mode: str) -> list[str]:
+        if topic == "uncertainty":
+            return LenaSemanticResponseBank._uncertainty_observation(mode)
+        return LenaSemanticResponseBank._domain_observation(topic, mode)
+
+    @staticmethod
+    def continuity_fragments(topic: str) -> list[str]:
+        if topic == "uncertainty":
+            return LenaSemanticResponseBank._uncertainty_continuity()
+        return LenaSemanticResponseBank._domain_continuity(topic)
+
+    @staticmethod
+    def relational_fragments(topic: str, mode: str) -> list[str]:
+        if topic == "uncertainty":
+            return LenaSemanticResponseBank._uncertainty_relational()
+        return LenaSemanticResponseBank._domain_relational(topic)
+
+    @staticmethod
+    def bridge_fragments(topic: str) -> list[str]:
+        if topic == "uncertainty":
+            return LenaSemanticResponseBank._uncertainty_bridge()
+        return LenaSemanticResponseBank._domain_bridge(topic)
+
+    @staticmethod
+    def greeting_fragments(topic: str) -> list[str]:
+        if topic == "uncertainty":
+            return ["oi.", "tô aqui.", "oi, thiago."]
+        return LenaSemanticResponseBank._domain_greeting(topic)
+
+    @staticmethod
+    def soften(memory, text: str) -> str:
+        social = memory.social_state
+
+        if social.warmth_level >= 5 and random.random() < 0.20:
+            return random.choice([
+                text,
+                text + " eu tô aqui.",
+                text + " pode ir falando.",
+            ])
+
+        if social.intimacy_level >= 6 and random.random() < 0.12:
+            return random.choice([
+                text,
+                text + " tô te ouvindo.",
+            ])
+
+        return text

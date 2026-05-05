@@ -71,7 +71,7 @@ class WorkflowEngine:
             if len(stage) == 1:
                 # Sequential execution
                 step = self._execute_node(
-                    graph.get_node(stage[0]),  # type: ignore[arg-type]
+                    self._safe_get_node(graph, stage[0]),
                     outputs,
                     ctx,
                     system,
@@ -90,7 +90,7 @@ class WorkflowEngine:
                     futures = {
                         pool.submit(
                             self._execute_node,
-                            graph.get_node(nid),
+                            self._safe_get_node(graph, nid),
                             dict(outputs),
                             dict(ctx),
                             system,
@@ -135,6 +135,13 @@ class WorkflowEngine:
             final_output=final_output,
             total_duration_seconds=total,
         )
+
+
+    def _safe_get_node(self, graph: WorkflowGraph, node_id: str) -> WorkflowNode:
+        node = graph.get_node(node_id)
+        if node is None:
+            raise ValueError(f"Workflow node not found: {node_id}")
+        return node
 
     def _execute_node(
         self,

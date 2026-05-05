@@ -6,6 +6,7 @@ to make them trivially mockable in tests.
 """
 
 from __future__ import annotations
+from openjarvis.lena.thread_guard import run_guarded_background
 
 from datetime import datetime
 from typing import Any, Dict, Iterator, List, Optional
@@ -194,7 +195,7 @@ class GDriveConnector(BaseConnector):
                 },
             )
             # Run OAuth flow in background thread to avoid blocking
-            import threading
+            from openjarvis.lena.thread_guard import run_guarded_background
 
             def _run() -> None:
                 try:
@@ -207,7 +208,7 @@ class GDriveConnector(BaseConnector):
                 except Exception:  # noqa: BLE001
                     pass
 
-            threading.Thread(target=_run, daemon=True).start()
+            run_guarded_background("gdrive-oauth", _run)
         else:
             # Raw token or auth code
             save_tokens(self._credentials_path, {"token": code})

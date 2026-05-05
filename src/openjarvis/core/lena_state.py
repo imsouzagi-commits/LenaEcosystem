@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import threading
+from openjarvis.lena.thread_guard import run_guarded_background
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -53,7 +54,7 @@ class LenaStateManager:
             print(f"[LENA STATE SAVE ERROR] {exc}")
 
     def save(self) -> None:
-        threading.Thread(target=self._save_worker, daemon=True).start()
+        run_guarded_background("lena-state-save-worker", self._save_worker)
 
     def load(self) -> None:
         if not STATE_PATH.exists():

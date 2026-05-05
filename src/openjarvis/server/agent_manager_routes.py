@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+from openjarvis.lena.thread_guard import run_guarded_background
 import re as _re
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -718,8 +719,7 @@ async def _stream_managed_agent(
                         }
                     )
 
-                thread = threading.Thread(target=_run_agent, daemon=True)
-                thread.start()
+                thread = run_guarded_background("managed-agent-run", _run_agent)
 
                 # Stream progress events and final content
                 while True:
@@ -1186,7 +1186,7 @@ def create_agent_manager_router(
                     f"ERROR: {exc}",
                 )
 
-        threading.Thread(target=_run_tick, daemon=True).start()
+        run_guarded_background("agent-run-tick", _run_tick)
         return {"status": "running", "agent_id": agent_id}
 
     # ── Recover ──────────────────────────────────────────────
@@ -1291,15 +1291,12 @@ def create_agent_manager_router(
                                     result = agent_inst.run(text)
                                     return result.content or "No results."
 
-                                t = threading.Thread(
-                                    target=run_daemon,
-                                    kwargs={
-                                        "chat_identifier": identifier,
-                                        "handler": handler,
-                                    },
-                                    daemon=True,
+                                t = run_guarded_background(
+                                    "imessage-daemon-launch",
+                                    run_daemon,
+                                    chat_identifier=identifier,
+                                    handler=handler,
                                 )
-                                t.start()
                 except Exception as exc:
                     logger.warning("Failed to start iMessage daemon: %s", exc)
 
@@ -1544,10 +1541,7 @@ def create_agent_manager_router(
                         f"ERROR: {exc}",
                     )
 
-            threading.Thread(
-                target=_immediate_tick,
-                daemon=True,
-            ).start()
+            run_guarded_background("agent-immediate-tick", _immediate_tick)
             return msg
 
         # --- Streaming mode: run agent and return SSE response ---

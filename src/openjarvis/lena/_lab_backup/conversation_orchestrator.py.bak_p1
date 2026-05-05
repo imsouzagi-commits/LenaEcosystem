@@ -1,0 +1,60 @@
+from __future__ import annotations
+
+from openjarvis.lena.response_synthesizer import LenaResponseSynthesizer
+from openjarvis.lena.response_selector import LenaResponseSelector
+from openjarvis.lena.continuity_engine import LenaContinuityEngine
+from openjarvis.lena.presence_orchestrator import LenaPresenceOrchestrator
+
+
+class LenaConversationOrchestrator:
+    PERSONAL_FACT_ACK = (
+        "meu nome é ",
+        "eu moro em ",
+        "curso ",
+    )
+
+    PRONOUN_AMBIGUOUS = (
+        "e quem era ele?",
+        "quem era ele?",
+        "e quem era ela?",
+        "quem era ela?",
+        "quem é ele?",
+        "quem é ela?",
+        "quem e ele?",
+        "quem e ela?",
+    )
+
+    SIMPLE_GREETINGS = {"oi", "oi lena", "olá", "ola"}
+
+    def respond(self, agent, user_text: str) -> str | None:
+        memory = agent.memory_engine
+        lowered = user_text.lower().strip()
+
+        if lowered.startswith(self.PERSONAL_FACT_ACK):
+            return LenaResponseSynthesizer.synthesize(agent, user_text, "fact_absorb")
+
+        if lowered in self.PRONOUN_AMBIGUOUS:
+            return "de quem você tá falando?"
+
+        semantic = memory._detect_user_intent(lowered)
+        active_topic = memory._semantic_emotion_topic(lowered) or memory.social_state.current_topic or "uncertainty"
+        continuity = LenaContinuityEngine.resolve(memory, active_topic)
+        mode = LenaPresenceOrchestrator.decide(memory, semantic)
+
+        memory.social_state.last_response_mode = mode
+
+        if lowered in self.SIMPLE_GREETINGS:
+            if continuity["topic"]:
+                return LenaResponseSelector.choose_greeting(memory, continuity["topic"], continuity["stage"])
+            return LenaResponseSynthesizer.synthesize(agent, user_text, "greeting")
+
+        if semantic == "emotion" or mode == "reflective_hold":
+            return LenaResponseSelector.choose(
+                memory,
+                user_text,
+                continuity["topic"] or active_topic,
+                continuity["stage"],
+                mode if semantic == "emotion" else "reflective_hold",
+            )
+
+        return LenaResponseSynthesizer.synthesize(agent, user_text, semantic)

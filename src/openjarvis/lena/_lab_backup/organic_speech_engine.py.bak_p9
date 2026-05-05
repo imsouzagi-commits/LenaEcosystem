@@ -1,0 +1,150 @@
+from __future__ import annotations
+
+import random
+
+from openjarvis.lena.semantic_response_bank import LenaSemanticResponseBank
+from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+from openjarvis.lena.narrative_recall_engine import LenaNarrativeRecallEngine
+from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+from openjarvis.lena.intention_recall_engine import LenaIntentionRecallEngine
+from openjarvis.lena.autonomous_curiosity_engine import LenaAutonomousCuriosityEngine
+
+
+class LenaOrganicSpeechEngine:
+    MAX_FRAGMENTS = 3
+    MIN_FRAGMENTS = 2
+
+    @staticmethod
+    def _clean(text: str) -> str:
+        return " ".join(text.strip().split())
+
+    @classmethod
+    def _same_semantic_family(cls, a: str, b: str) -> bool:
+        ax = a.lower()
+        bx = b.lower()
+
+        semantic_roots = (
+            "encaix", "fech", "abert", "suspens", "continu", "padr", "recorr",
+            "organ", "alinh", "rodando", "conclus", "volt", "clar", "névoa",
+            "trav", "const", "press", "peso", "fadig", "desgast",
+        )
+
+        return any(root in ax and root in bx for root in semantic_roots)
+
+    @classmethod
+    def _is_recently_used(cls, memory, candidate: str) -> bool:
+        for text in memory.recent_semantic_responses(memory.social_state.current_topic or "uncertainty"):
+            if cls._same_semantic_family(candidate, text):
+                return True
+        return False
+
+    @classmethod
+    def _pick_fresh(cls, memory, pool: list[str]) -> str:
+        fresh = [p for p in pool if not cls._is_recently_used(memory, p)]
+        if fresh:
+            return random.choice(fresh)
+        return random.choice(pool)
+
+    @classmethod
+    def _compose(cls, weighted_parts: list[tuple[int, str]]) -> list[str]:
+        ordered = sorted(weighted_parts, key=lambda x: x[0], reverse=True)
+        chosen: list[str] = []
+
+        for _, fragment in ordered:
+            fragment = cls._clean(fragment)
+            if not fragment:
+                continue
+
+            if any(cls._same_semantic_family(fragment, existing) for existing in chosen):
+                continue
+
+            chosen.append(fragment)
+
+            if len(chosen) >= cls.MAX_FRAGMENTS:
+                break
+
+        return chosen
+
+    @classmethod
+    def _stabilize_density(cls, memory, topic: str, chosen: list[str]) -> list[str]:
+        if len(chosen) >= cls.MIN_FRAGMENTS:
+            return chosen
+
+        bridge = cls._pick_fresh(memory, LenaSemanticResponseBank.bridge_fragments(topic))
+
+        if not any(cls._same_semantic_family(bridge, x) for x in chosen):
+            chosen.append(bridge)
+
+        return chosen
+
+    @classmethod
+    def synthesize(cls, memory, user_text: str, topic: str, mode: str) -> str:
+        social = memory.social_state
+        weighted_parts: list[tuple[int, str]] = []
+
+        observation = cls._pick_fresh(memory, LenaSemanticResponseBank.observation_fragments(topic, mode))
+        weighted_parts.append((100, observation))
+
+        callback = LenaNarrativeRecallEngine.render_callback_fragment(memory, topic)
+        if callback and not cls._is_recently_used(memory, callback) and random.random() < 0.52:
+            weighted_parts.append((82, callback))
+
+        intention_callback = LenaIntentionRecallEngine.render_fragment(memory, topic)
+        if intention_callback and not cls._is_recently_used(memory, intention_callback) and random.random() < 0.34:
+            weighted_parts.append((68, intention_callback))
+
+        curiosity = LenaAutonomousCuriosityEngine.render_fragment(memory, user_text, topic)
+        if curiosity and not cls._is_recently_used(memory, curiosity) and random.random() < 0.22:
+            weighted_parts.append((52, curiosity))
+
+        if social.unresolved_loops >= 2 and random.random() < 0.34:
+            weighted_parts.append((58, cls._pick_fresh(memory, LenaSemanticResponseBank.continuity_fragments(topic))))
+
+        if social.trust_level >= 2 and random.random() < 0.28:
+            weighted_parts.append((34, cls._pick_fresh(memory, LenaSemanticResponseBank.relational_fragments(topic, mode))))
+
+        if LenaNarrativeTensionEngine.has_live_tension(memory) and social.unresolved_loops >= 3 and random.random() < 0.14:
+            weighted_parts.append((44, cls._pick_fresh(memory, LenaSemanticResponseBank.bridge_fragments(topic))))
+
+        if mode in {"invite", "contain", "reflective_hold"} and social.openness_score >= 1 and random.random() < 0.18:
+            weighted_parts.append((32, random.choice(LenaSemanticResponseBank.invitation_fragments(topic, "contain"))))
+
+        if mode == "deep_reflect" and social.arc_stage >= 4 and random.random() < 0.22:
+            weighted_parts.append((30, cls._pick_fresh(memory, LenaSemanticResponseBank.deepening_fragments(topic))))
+
+        if social.current_conversation_arc in {"resolving", "softening"} and random.random() < 0.14:
+            weighted_parts.append((26, random.choice(LenaSemanticResponseBank.resolution_fragments(topic))))
+
+        chosen = cls._compose(weighted_parts)
+        chosen = cls._stabilize_density(memory, topic, chosen)
+
+        text = " ".join(chosen).strip()
+        memory.remember_semantic_response(topic, text)
+
+        if mode == "invite":
+            LenaIntentionMemoryEngine.capture(memory, "exploration", topic, text)
+        elif mode == "contain":
+            LenaIntentionMemoryEngine.capture(memory, "contain", topic, text)
+        elif mode == "reflective_hold":
+            LenaIntentionMemoryEngine.capture(memory, "reflective_hold", topic, text)
+
+        return LenaSemanticResponseBank.soften(memory, text)
+
+    @classmethod
+    def synthesize_greeting(cls, memory, topic: str) -> str:
+        weighted_parts: list[tuple[int, str]] = []
+
+        base = cls._pick_fresh(memory, LenaSemanticResponseBank.greeting_fragments(topic))
+        weighted_parts.append((100, base))
+
+        callback = LenaNarrativeRecallEngine.render_callback_fragment(memory, topic)
+        if callback and not cls._is_recently_used(memory, callback) and random.random() < 0.26:
+            weighted_parts.append((70, callback))
+
+        if memory.social_state.unresolved_loops >= 3 and random.random() < 0.18:
+            weighted_parts.append((54, cls._pick_fresh(memory, LenaSemanticResponseBank.bridge_fragments(topic))))
+
+        chosen = cls._compose(weighted_parts)
+        chosen = cls._stabilize_density(memory, topic, chosen)
+
+        return LenaSemanticResponseBank.soften(memory, " ".join(chosen).strip())

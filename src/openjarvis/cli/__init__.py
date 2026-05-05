@@ -15,7 +15,7 @@ from openjarvis.cli.chat_cmd import chat
 from openjarvis.cli.compose_cmd import compose
 from openjarvis.cli.config_cmd import config
 from openjarvis.cli.connect_cmd import connect
-from openjarvis.cli.daemon_cmd import restart, start, status, stop
+from openjarvis.cli.daemon_cmd import daemon
 from openjarvis.cli.deep_research_setup_cmd import deep_research_setup
 from openjarvis.cli.digest_cmd import digest
 from openjarvis.cli.doctor_cmd import doctor
@@ -76,10 +76,7 @@ cli.add_command(doctor, "doctor")
 cli.add_command(agent, "agents")
 cli.add_command(workflow, "workflow")
 cli.add_command(skill, "skill")
-cli.add_command(start, "start")
-cli.add_command(stop, "stop")
-cli.add_command(restart, "restart")
-cli.add_command(status, "status")
+cli.add_command(daemon, "daemon")
 cli.add_command(vault, "vault")
 cli.add_command(add, "add")
 cli.add_command(operators, "operators")

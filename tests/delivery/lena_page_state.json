@@ -1,0 +1,13 @@
+{
+  "ts": "2026-05-01T20:04:10.646399",
+  "initialized": true,
+  "active_jobs": 0,
+  "queued_notifications": 0,
+  "workspace_index_status": false,
+  "workspace_index_size": 0,
+  "health": {
+    "cpu": 37.7,
+    "memory": 69.7,
+    "uptime": 30.29876570799388
+  }
+}

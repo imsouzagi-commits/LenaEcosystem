@@ -44,6 +44,7 @@ def run_slack_daemon(
 ) -> None:
     """Run the Slack daemon (blocking). Handles DMs with DeepResearch."""
     import threading
+    from openjarvis.lena.thread_guard import run_guarded_background
 
     from slack_bolt import App
     from slack_bolt.adapter.socket_mode import SocketModeHandler
@@ -100,8 +101,10 @@ def run_slack_daemon(
                         thread_ts=ts,
                     )
 
-        pt = threading.Thread(target=_progress, daemon=True)
-        pt.start()
+        pt = run_guarded_background(
+            "slack-progress",
+            _progress,
+        )
 
         try:
             result = agent.run(text)
@@ -144,23 +147,27 @@ def start_slack_daemon(
     """
     import subprocess
 
-    proc = subprocess.Popen(
-        [
-            sys.executable,
-            "-m",
-            "openjarvis.channels.slack_daemon",
-            "--bot-token",
-            bot_token,
-            "--app-token",
-            app_token,
-            "--model",
-            model,
-        ],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-        start_new_session=True,
-    )
-    return proc.pid
+    try:
+        proc = subprocess.Popen(
+            [
+                sys.executable,
+                "-m",
+                "openjarvis.channels.slack_daemon",
+                "--bot-token",
+                bot_token,
+                "--app-token",
+                app_token,
+                "--model",
+                model,
+            ],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            start_new_session=True,
+        )
+        return proc.pid
+    except Exception as exc:
+        logger.error("Failed to spawn Slack daemon: %s", exc)
+        return -1
 
 
 def is_running() -> bool:

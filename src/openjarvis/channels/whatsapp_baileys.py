@@ -6,6 +6,7 @@ incoming-message forwarding.
 """
 
 from __future__ import annotations
+from openjarvis.lena.thread_guard import run_guarded_background
 
 import json
 import logging
@@ -167,11 +168,10 @@ class WhatsAppBaileysChannel(BaseChannel):
                 text=True,
                 bufsize=1,
             )
-            self._reader_thread = threading.Thread(
-                target=self._reader_loop,
-                daemon=True,
+            self._reader_thread = run_guarded_background(
+                "whatsapp-reader",
+                self._reader_loop,
             )
-            self._reader_thread.start()
             logger.info(
                 "WhatsApp Baileys bridge started (pid=%s)",
                 self._process.pid,
@@ -193,7 +193,10 @@ class WhatsAppBaileysChannel(BaseChannel):
         if self._process is not None:
             try:
                 self._process.terminate()
-                self._process.wait(timeout=5.0)
+                try:
+                    self._process.wait(timeout=5.0)
+                except Exception as exc:
+                    logger.debug("Bridge wait termination failed: %s", exc)
             except Exception:
                 logger.debug("Bridge process termination error", exc_info=True)
             self._process = None

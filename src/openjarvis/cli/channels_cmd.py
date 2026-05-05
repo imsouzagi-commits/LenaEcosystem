@@ -70,18 +70,22 @@ def imessage_start(
     if background:
         import subprocess
 
-        proc = subprocess.Popen(
-            [
-                sys.executable,
-                "-m",
-                "openjarvis.channels.imessage_daemon",
-                "--chat",
-                chat_identifier,
-            ],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            start_new_session=True,
-        )
+        try:
+            proc = subprocess.Popen(
+                [
+                    sys.executable,
+                    "-m",
+                    "openjarvis.channels.imessage_daemon",
+                    "--chat",
+                    chat_identifier,
+                ],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                start_new_session=True,
+            )
+        except Exception as exc:
+            console.print(f"[red]Failed to start iMessage daemon:[/red] {exc}")
+            return
         console.print(
             f"[green]iMessage daemon started[/green] "
             f"(PID {proc.pid})\n"

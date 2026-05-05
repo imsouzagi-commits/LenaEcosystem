@@ -1,0 +1,119 @@
+from __future__ import annotations
+
+import time
+
+from openjarvis.lena.narrative_state import LenaNarrativeState
+
+
+class LenaNarrativeTensionEngine:
+    MAX_ITEMS = 6
+
+    @staticmethod
+    def _normalize_packet(item) -> dict | None:
+        if not isinstance(item, dict):
+            return None
+
+        return {
+            "raw": str(item.get("raw", "")).strip(),
+            "topic": str(item.get("topic", "")).strip(),
+            "markers": list(item.get("markers", [])) if isinstance(item.get("markers", []), list) else [],
+            "ts": float(item.get("ts", 0.0)),
+        }
+
+    @staticmethod
+    def restore(value) -> LenaNarrativeState:
+        if not isinstance(value, dict):
+            return LenaNarrativeState()
+
+        state = LenaNarrativeState()
+
+        if isinstance(value.get("unresolved_user_threads"), list):
+            restored = []
+            for item in value["unresolved_user_threads"]:
+                packet = LenaNarrativeTensionEngine._normalize_packet(item)
+                if packet and packet["raw"]:
+                    restored.append(packet)
+            state.unresolved_user_threads = restored[-LenaNarrativeTensionEngine.MAX_ITEMS:]
+
+        if isinstance(value.get("assistant_open_loops"), list):
+            restored = []
+            for item in value["assistant_open_loops"]:
+                packet = LenaNarrativeTensionEngine._normalize_packet(item)
+                if packet and packet["raw"]:
+                    restored.append(packet)
+            state.assistant_open_loops = restored[-LenaNarrativeTensionEngine.MAX_ITEMS:]
+
+        if isinstance(value.get("suspended_topics"), list):
+            state.suspended_topics = [str(x) for x in value["suspended_topics"]][-LenaNarrativeTensionEngine.MAX_ITEMS:]
+
+        try:
+            state.last_unresolved_ts = float(value.get("last_unresolved_ts", 0.0))
+        except Exception:
+            state.last_unresolved_ts = 0.0
+
+        return state
+
+    @staticmethod
+    def export(state: LenaNarrativeState) -> dict:
+        return {
+            "unresolved_user_threads": list(state.unresolved_user_threads)[-LenaNarrativeTensionEngine.MAX_ITEMS:],
+            "assistant_open_loops": list(state.assistant_open_loops)[-LenaNarrativeTensionEngine.MAX_ITEMS:],
+            "suspended_topics": list(state.suspended_topics)[-LenaNarrativeTensionEngine.MAX_ITEMS:],
+            "last_unresolved_ts": float(state.last_unresolved_ts),
+        }
+
+    @staticmethod
+    def ingest_user(memory, user_text: str, topic: str | None) -> None:
+        if not topic:
+            return
+
+        cleaned = user_text.strip()
+        if len(cleaned) < 8:
+            return
+
+        markers = []
+        lowered = cleaned.lower()
+
+        for token in ("fecha", "encaixa", "organiza", "juntar", "nebul", "confus", "cans", "exaust", "press", "sufoc"):
+            if token in lowered:
+                markers.append(token)
+
+        packet = {
+            "raw": cleaned,
+            "topic": topic,
+            "markers": markers,
+            "ts": time.time(),
+        }
+
+        memory.narrative_state.unresolved_user_threads.append(packet)
+        memory.narrative_state.unresolved_user_threads = memory.narrative_state.unresolved_user_threads[-LenaNarrativeTensionEngine.MAX_ITEMS:]
+        memory.narrative_state.suspended_topics.append(topic)
+        memory.narrative_state.suspended_topics = memory.narrative_state.suspended_topics[-LenaNarrativeTensionEngine.MAX_ITEMS:]
+        memory.narrative_state.last_unresolved_ts = time.time()
+
+    @staticmethod
+    def ingest_assistant(memory, assistant_text: str) -> None:
+        lowered = assistant_text.lower()
+
+        if "?" not in lowered and not any(x in lowered for x in (
+            "continua",
+            "pode falar",
+            "vai me dizendo",
+            "me mostra",
+            "me diz",
+        )):
+            return
+
+        packet = {
+            "raw": assistant_text.strip(),
+            "topic": memory.social_state.current_topic,
+            "markers": [],
+            "ts": time.time(),
+        }
+
+        memory.narrative_state.assistant_open_loops.append(packet)
+        memory.narrative_state.assistant_open_loops = memory.narrative_state.assistant_open_loops[-LenaNarrativeTensionEngine.MAX_ITEMS:]
+
+    @staticmethod
+    def has_live_tension(memory) -> bool:
+        return bool(memory.narrative_state.unresolved_user_threads or memory.narrative_state.assistant_open_loops)

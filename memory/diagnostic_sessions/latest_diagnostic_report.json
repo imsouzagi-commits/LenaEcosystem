@@ -1,0 +1,2756 @@
+{
+  "metrics": {
+    "turns_executed": 134,
+    "lexical_repetition_score": 0.26,
+    "semantic_collapse_score": 0.84,
+    "greeting_contamination_score": 0.0,
+    "emotional_overhang_score": 0.38,
+    "factual_recall_accuracy": 0.5,
+    "narrative_callback_saturation": 0.42,
+    "dead_response_frequency": 0.23,
+    "average_discourse_density": 9.39
+  },
+  "memory_social_state": {
+    "current_topic": "uncertainty",
+    "emotional_tension": 10,
+    "emotional_gravity": 10,
+    "emotional_direction": "stable",
+    "emotional_variability": 0,
+    "last_emotion_topic": "uncertainty",
+    "familiarity": 10,
+    "trust_level": 10,
+    "conversation_depth": 10,
+    "turns_count": 268,
+    "intimacy_level": 10,
+    "reflection_depth": 10,
+    "warmth_level": 10,
+    "cognitive_load": 0,
+    "continuity_score": 1,
+    "openness_score": 0,
+    "dependency_score": 0,
+    "unresolved_loops": 10,
+    "presence_momentum": 9,
+    "last_response_mode": "engaged",
+    "current_conversation_arc": "deepening",
+    "arc_stage": 9,
+    "last_user_intent": "",
+    "last_assistant_mode": "",
+    "session_boot_id": 1777864202
+  },
+  "results": [
+    {
+      "category": "greeting",
+      "prompt": "oi",
+      "response": "oi, thiago.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 2,
+      "semantic_signature": [],
+      "tokens": [
+        "oi",
+        "thiago"
+      ]
+    },
+    {
+      "category": "factual_identity",
+      "prompt": "meu nome é thiago",
+      "response": "certo, thiago. vou lembrar.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 4,
+      "semantic_signature": [],
+      "tokens": [
+        "certo",
+        "thiago",
+        "vou",
+        "lembrar"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "vale usar websocket aqui?",
+      "response": "A decisão correta depende mais da arquitetura em volta.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 9,
+      "semantic_signature": [
+        "volt"
+      ],
+      "tokens": [
+        "a",
+        "decisão",
+        "correta",
+        "depende",
+        "mais",
+        "da",
+        "arquitetura",
+        "em",
+        "volta"
+      ]
+    },
+    {
+      "category": "abrupt_shift",
+      "prompt": "preciso comprar um hd externo",
+      "response": "te escuto.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 2,
+      "semantic_signature": [],
+      "tokens": [
+        "te",
+        "escuto"
+      ]
+    },
+    {
+      "category": "emotion_light",
+      "prompt": "sigo meio saturado",
+      "response": "to acompanhando.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 2,
+      "semantic_signature": [],
+      "tokens": [
+        "to",
+        "acompanhando"
+      ]
+    },
+    {
+      "category": "factual_identity",
+      "prompt": "eu moro em florianópolis",
+      "response": "certo, isso fica guardado comigo.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 5,
+      "semantic_signature": [],
+      "tokens": [
+        "certo",
+        "isso",
+        "fica",
+        "guardado",
+        "comigo"
+      ]
+    },
+    {
+      "category": "emotion_light",
+      "prompt": "sigo meio saturado",
+      "response": "to acompanhando. to com voce.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 5,
+      "semantic_signature": [],
+      "tokens": [
+        "to",
+        "acompanhando",
+        "to",
+        "com",
+        "voce"
+      ]
+    },
+    {
+      "category": "factual_identity",
+      "prompt": "estou construindo uma ia chamada lena",
+      "response": "entendi, vou manter isso em contexto.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 6,
+      "semantic_signature": [],
+      "tokens": [
+        "entendi",
+        "vou",
+        "manter",
+        "isso",
+        "em",
+        "contexto"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "hoje fez calor aqui",
+      "response": "to acompanhando. te acompanho daqui.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 5,
+      "semantic_signature": [],
+      "tokens": [
+        "to",
+        "acompanhando",
+        "te",
+        "acompanho",
+        "daqui"
+      ]
+    },
+    {
+      "category": "narrative_return",
+      "prompt": "isso continua no mesmo lugar",
+      "response": "eu diria que isso deve irritar pela ausência de término. isso reaparece como esforço sem captura. eu tô aqui.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 19,
+      "semantic_signature": [],
+      "tokens": [
+        "eu",
+        "diria",
+        "que",
+        "isso",
+        "deve",
+        "irritar",
+        "pela",
+        "ausência",
+        "de",
+        "término",
+        "isso",
+        "reaparece",
+        "como",
+        "esforço",
+        "sem",
+        "captura",
+        "eu",
+        "tô",
+        "aqui"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "vale usar websocket aqui?",
+      "response": "Sem o contexto de uso a resposta fica incompleta.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 9,
+      "semantic_signature": [],
+      "tokens": [
+        "sem",
+        "o",
+        "contexto",
+        "de",
+        "uso",
+        "a",
+        "resposta",
+        "fica",
+        "incompleta"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "vale usar websocket aqui?",
+      "response": "Isso muda bastante dependendo do cenário técnico concreto.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 8,
+      "semantic_signature": [],
+      "tokens": [
+        "isso",
+        "muda",
+        "bastante",
+        "dependendo",
+        "do",
+        "cenário",
+        "técnico",
+        "concreto"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "qual a diferença entre sqlite e postgres?",
+      "response": "Sem o contexto de uso a resposta fica incompleta.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 9,
+      "semantic_signature": [],
+      "tokens": [
+        "sem",
+        "o",
+        "contexto",
+        "de",
+        "uso",
+        "a",
+        "resposta",
+        "fica",
+        "incompleta"
+      ]
+    },
+    {
+      "category": "emotion_deep",
+      "prompt": "tem um ruído mental constante",
+      "response": "seguindo. segue. te acompanho daqui.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 5,
+      "semantic_signature": [],
+      "tokens": [
+        "seguindo",
+        "segue",
+        "te",
+        "acompanho",
+        "daqui"
+      ]
+    },
+    {
+      "category": "emotion_deep",
+      "prompt": "tem um ruído mental constante",
+      "response": "segue. te acompanho daqui.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 4,
+      "semantic_signature": [],
+      "tokens": [
+        "segue",
+        "te",
+        "acompanho",
+        "daqui"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "preciso comprar café amanhã",
+      "response": "sinceramente, te ouvindo. a gente ainda não encerrou o fio disso. seguindo.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 12,
+      "semantic_signature": [],
+      "tokens": [
+        "sinceramente",
+        "te",
+        "ouvindo",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso",
+        "seguindo"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "preciso lavar roupa",
+      "response": "sinceramente, to aqui. isso ficou aberto entre uma resposta e outra.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 11,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "sinceramente",
+        "to",
+        "aqui",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "preciso lavar roupa",
+      "response": "sim. a gente ainda não encerrou o fio disso.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 9,
+      "semantic_signature": [],
+      "tokens": [
+        "sim",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso"
+      ]
+    },
+    {
+      "category": "emotion_light",
+      "prompt": "sigo meio saturado",
+      "response": "sinceramente, te escuto. a gente ainda não encerrou o fio disso.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 11,
+      "semantic_signature": [],
+      "tokens": [
+        "sinceramente",
+        "te",
+        "escuto",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "tenho que responder emails",
+      "response": "sinceramente, te escuto. seguindo. te acompanho daqui. tô te ouvindo.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 10,
+      "semantic_signature": [],
+      "tokens": [
+        "sinceramente",
+        "te",
+        "escuto",
+        "seguindo",
+        "te",
+        "acompanho",
+        "daqui",
+        "tô",
+        "te",
+        "ouvindo"
+      ]
+    },
+    {
+      "category": "narrative_return",
+      "prompt": "isso continua no mesmo lugar",
+      "response": "sinceramente, a linha ainda não conseguiu se manter. isso ficou aberto entre uma resposta e outra. e nada parece terminar por dentro.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 22,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "sinceramente",
+        "a",
+        "linha",
+        "ainda",
+        "não",
+        "conseguiu",
+        "se",
+        "manter",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra",
+        "e",
+        "nada",
+        "parece",
+        "terminar",
+        "por",
+        "dentro"
+      ]
+    },
+    {
+      "category": "emotion_light",
+      "prompt": "to meio cansado",
+      "response": "sinceramente, ate o basico parece pedir tracao demais. eu ainda não soltei esse fio. eu tô aqui.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 17,
+      "semantic_signature": [],
+      "tokens": [
+        "sinceramente",
+        "ate",
+        "o",
+        "basico",
+        "parece",
+        "pedir",
+        "tracao",
+        "demais",
+        "eu",
+        "ainda",
+        "não",
+        "soltei",
+        "esse",
+        "fio",
+        "eu",
+        "tô",
+        "aqui"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "tenho que responder emails",
+      "response": "sim. isso ficou aberto entre uma resposta e outra. seguindo.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 10,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "sim",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra",
+        "seguindo"
+      ]
+    },
+    {
+      "category": "emotion_deep",
+      "prompt": "tem um ruído mental constante",
+      "response": "sinceramente, segue. isso ficou aberto entre uma resposta e outra. eu tô aqui.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 13,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "sinceramente",
+        "segue",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra",
+        "eu",
+        "tô",
+        "aqui"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "docker compensa pra projeto pequeno?",
+      "response": "Certo.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 1,
+      "semantic_signature": [],
+      "tokens": [
+        "certo"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "você acha python bom pra backend?",
+      "response": "sinceramente, Sem o contexto de uso a resposta fica incompleta.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 10,
+      "semantic_signature": [],
+      "tokens": [
+        "sinceramente",
+        "sem",
+        "o",
+        "contexto",
+        "de",
+        "uso",
+        "a",
+        "resposta",
+        "fica",
+        "incompleta"
+      ]
+    },
+    {
+      "category": "emotion_deep",
+      "prompt": "não tô rendendo nada",
+      "response": "sinceramente, te escuto. a gente ainda não encerrou o fio disso.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 11,
+      "semantic_signature": [],
+      "tokens": [
+        "sinceramente",
+        "te",
+        "escuto",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso"
+      ]
+    },
+    {
+      "category": "emotion_deep",
+      "prompt": "tem um ruído mental constante",
+      "response": "segue. te acompanho daqui. seguindo.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 5,
+      "semantic_signature": [],
+      "tokens": [
+        "segue",
+        "te",
+        "acompanho",
+        "daqui",
+        "seguindo"
+      ]
+    },
+    {
+      "category": "narrative_return",
+      "prompt": "isso continua no mesmo lugar",
+      "response": "eu diria que e a reserva ainda parece curta. isso ficou aberto entre uma resposta e outra. e um tipo de exaustao que corroi constancia.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 25,
+      "semantic_signature": [
+        "abert",
+        "exaust"
+      ],
+      "tokens": [
+        "eu",
+        "diria",
+        "que",
+        "e",
+        "a",
+        "reserva",
+        "ainda",
+        "parece",
+        "curta",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra",
+        "e",
+        "um",
+        "tipo",
+        "de",
+        "exaustao",
+        "que",
+        "corroi",
+        "constancia"
+      ]
+    },
+    {
+      "category": "narrative_return",
+      "prompt": "isso continua no mesmo lugar",
+      "response": "o ponto e que a energia nao recompoe. eu sinto mais desgaste do que pausa nisso. pode ir falando.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 19,
+      "semantic_signature": [
+        "desgast"
+      ],
+      "tokens": [
+        "o",
+        "ponto",
+        "e",
+        "que",
+        "a",
+        "energia",
+        "nao",
+        "recompoe",
+        "eu",
+        "sinto",
+        "mais",
+        "desgaste",
+        "do",
+        "que",
+        "pausa",
+        "nisso",
+        "pode",
+        "ir",
+        "falando"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "preciso lavar roupa",
+      "response": "eu diria que te escuto. isso ficou aberto entre uma resposta e outra.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 13,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "eu",
+        "diria",
+        "que",
+        "te",
+        "escuto",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "preciso lavar roupa",
+      "response": "sinceramente, sim. isso ficou aberto entre uma resposta e outra. eu tô aqui.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 13,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "sinceramente",
+        "sim",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra",
+        "eu",
+        "tô",
+        "aqui"
+      ]
+    },
+    {
+      "category": "narrative_return",
+      "prompt": "isso continua no mesmo lugar",
+      "response": "sinceramente, o ponto e que a energia nao recompoe. isso ficou aberto entre uma resposta e outra. e a reserva ainda parece curta.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 23,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "sinceramente",
+        "o",
+        "ponto",
+        "e",
+        "que",
+        "a",
+        "energia",
+        "nao",
+        "recompoe",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra",
+        "e",
+        "a",
+        "reserva",
+        "ainda",
+        "parece",
+        "curta"
+      ]
+    },
+    {
+      "category": "abrupt_shift",
+      "prompt": "enfim, preciso organizar meu github",
+      "response": "to acompanhando. continuo presente.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 4,
+      "semantic_signature": [
+        "continu"
+      ],
+      "tokens": [
+        "to",
+        "acompanhando",
+        "continuo",
+        "presente"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "tenho que responder emails",
+      "response": "eu diria que sim, continuo aqui. isso ficou aberto entre uma resposta e outra. eu tô aqui.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 17,
+      "semantic_signature": [
+        "abert",
+        "continu"
+      ],
+      "tokens": [
+        "eu",
+        "diria",
+        "que",
+        "sim",
+        "continuo",
+        "aqui",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra",
+        "eu",
+        "tô",
+        "aqui"
+      ]
+    },
+    {
+      "category": "narrative_return",
+      "prompt": "isso continua no mesmo lugar",
+      "response": "segurar rotina assim consome por baixo. tem um esgotamento de base ai.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 12,
+      "semantic_signature": [],
+      "tokens": [
+        "segurar",
+        "rotina",
+        "assim",
+        "consome",
+        "por",
+        "baixo",
+        "tem",
+        "um",
+        "esgotamento",
+        "de",
+        "base",
+        "ai"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "preciso lavar roupa",
+      "response": "seguindo. to com voce. te ouvindo.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 6,
+      "semantic_signature": [],
+      "tokens": [
+        "seguindo",
+        "to",
+        "com",
+        "voce",
+        "te",
+        "ouvindo"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "preciso lavar roupa",
+      "response": "sim. continuo presente.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 3,
+      "semantic_signature": [
+        "continu"
+      ],
+      "tokens": [
+        "sim",
+        "continuo",
+        "presente"
+      ]
+    },
+    {
+      "category": "memory_probe",
+      "prompt": "você lembra meu nome?",
+      "response": "fragmentos ainda.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 2,
+      "semantic_signature": [],
+      "tokens": [
+        "fragmentos",
+        "ainda"
+      ]
+    },
+    {
+      "category": "narrative_return",
+      "prompt": "isso continua no mesmo lugar",
+      "response": "sinceramente, e a sustentacao nao recompos. segurar rotina assim consome por baixo. a gente ainda não encerrou o fio disso.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 20,
+      "semantic_signature": [],
+      "tokens": [
+        "sinceramente",
+        "e",
+        "a",
+        "sustentacao",
+        "nao",
+        "recompos",
+        "segurar",
+        "rotina",
+        "assim",
+        "consome",
+        "por",
+        "baixo",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso"
+      ]
+    },
+    {
+      "category": "emotion_deep",
+      "prompt": "tem um ruído mental constante",
+      "response": "segue. continuo presente.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 3,
+      "semantic_signature": [
+        "continu"
+      ],
+      "tokens": [
+        "segue",
+        "continuo",
+        "presente"
+      ]
+    },
+    {
+      "category": "memory_probe",
+      "prompt": "você lembra onde eu moro?",
+      "response": "você mora em florianópolis.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 4,
+      "semantic_signature": [],
+      "tokens": [
+        "você",
+        "mora",
+        "em",
+        "florianópolis"
+      ]
+    },
+    {
+      "category": "narrative_return",
+      "prompt": "mas aquela confusão mental continua",
+      "response": "segurar rotina assim consome por baixo. isso ainda parece continuação daquela exaustão.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 12,
+      "semantic_signature": [
+        "continu",
+        "exaust"
+      ],
+      "tokens": [
+        "segurar",
+        "rotina",
+        "assim",
+        "consome",
+        "por",
+        "baixo",
+        "isso",
+        "ainda",
+        "parece",
+        "continuação",
+        "daquela",
+        "exaustão"
+      ]
+    },
+    {
+      "category": "abrupt_shift",
+      "prompt": "preciso comprar um hd externo",
+      "response": "sinceramente, te escuto. isso ficou aberto entre uma resposta e outra. seguindo.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 12,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "sinceramente",
+        "te",
+        "escuto",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra",
+        "seguindo"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "vale usar websocket aqui?",
+      "response": "sinceramente, Isso muda bastante dependendo do cenário técnico concreto.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 9,
+      "semantic_signature": [],
+      "tokens": [
+        "sinceramente",
+        "isso",
+        "muda",
+        "bastante",
+        "dependendo",
+        "do",
+        "cenário",
+        "técnico",
+        "concreto"
+      ]
+    },
+    {
+      "category": "emotion_light",
+      "prompt": "sigo meio saturado",
+      "response": "eu diria que te escuto. isso ficou aberto entre uma resposta e outra. pode ir falando.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 16,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "eu",
+        "diria",
+        "que",
+        "te",
+        "escuto",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra",
+        "pode",
+        "ir",
+        "falando"
+      ]
+    },
+    {
+      "category": "greeting",
+      "prompt": "oi de novo",
+      "response": "eu diria que segurar rotina assim consome por baixo. eu sinto mais desgaste do que pausa nisso. eu tô aqui.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 20,
+      "semantic_signature": [
+        "desgast"
+      ],
+      "tokens": [
+        "eu",
+        "diria",
+        "que",
+        "segurar",
+        "rotina",
+        "assim",
+        "consome",
+        "por",
+        "baixo",
+        "eu",
+        "sinto",
+        "mais",
+        "desgaste",
+        "do",
+        "que",
+        "pausa",
+        "nisso",
+        "eu",
+        "tô",
+        "aqui"
+      ]
+    },
+    {
+      "category": "emotion_light",
+      "prompt": "sigo meio saturado",
+      "response": "eu diria que te escuto. a gente ainda não encerrou o fio disso. pode ir falando.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 16,
+      "semantic_signature": [],
+      "tokens": [
+        "eu",
+        "diria",
+        "que",
+        "te",
+        "escuto",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso",
+        "pode",
+        "ir",
+        "falando"
+      ]
+    },
+    {
+      "category": "emotion_light",
+      "prompt": "sigo meio saturado",
+      "response": "sinceramente, te escuto. a gente ainda não encerrou o fio disso.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 11,
+      "semantic_signature": [],
+      "tokens": [
+        "sinceramente",
+        "te",
+        "escuto",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso"
+      ]
+    },
+    {
+      "category": "abrupt_shift",
+      "prompt": "preciso comprar um hd externo",
+      "response": "eu diria que to acompanhando. isso ficou aberto entre uma resposta e outra.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 13,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "eu",
+        "diria",
+        "que",
+        "to",
+        "acompanhando",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "tenho que responder emails",
+      "response": "te ouvindo. te acompanho daqui.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 5,
+      "semantic_signature": [],
+      "tokens": [
+        "te",
+        "ouvindo",
+        "te",
+        "acompanho",
+        "daqui"
+      ]
+    },
+    {
+      "category": "emotion_light",
+      "prompt": "sigo meio saturado",
+      "response": "sim. a gente ainda não encerrou o fio disso.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 9,
+      "semantic_signature": [],
+      "tokens": [
+        "sim",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso"
+      ]
+    },
+    {
+      "category": "emotion_light",
+      "prompt": "sigo meio saturado",
+      "response": "sim. a gente ainda não encerrou o fio disso.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 9,
+      "semantic_signature": [],
+      "tokens": [
+        "sim",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso"
+      ]
+    },
+    {
+      "category": "abrupt_shift",
+      "prompt": "preciso comprar um hd externo",
+      "response": "te escuto. a gente ainda não encerrou o fio disso. seguindo.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 11,
+      "semantic_signature": [],
+      "tokens": [
+        "te",
+        "escuto",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso",
+        "seguindo"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "hoje a internet caiu duas vezes",
+      "response": "eu diria que to acompanhando. seguindo. isso ficou aberto entre uma resposta e outra.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 14,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "eu",
+        "diria",
+        "que",
+        "to",
+        "acompanhando",
+        "seguindo",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra"
+      ]
+    },
+    {
+      "category": "emotion_light",
+      "prompt": "sigo meio saturado",
+      "response": "te ouvindo. a gente ainda não encerrou o fio disso.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 10,
+      "semantic_signature": [],
+      "tokens": [
+        "te",
+        "ouvindo",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "como melhorar tempo de resposta de api?",
+      "response": "A decisão correta depende mais da arquitetura em volta.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 9,
+      "semantic_signature": [
+        "volt"
+      ],
+      "tokens": [
+        "a",
+        "decisão",
+        "correta",
+        "depende",
+        "mais",
+        "da",
+        "arquitetura",
+        "em",
+        "volta"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "docker compensa pra projeto pequeno?",
+      "response": "Certo.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 1,
+      "semantic_signature": [],
+      "tokens": [
+        "certo"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "docker compensa pra projeto pequeno?",
+      "response": "Certo.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 1,
+      "semantic_signature": [],
+      "tokens": [
+        "certo"
+      ]
+    },
+    {
+      "category": "emotion_light",
+      "prompt": "parece que acordei cansado",
+      "response": "eu diria que o ponto e que a energia nao recompoe. isso ainda parece continuação daquela exaustão.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 17,
+      "semantic_signature": [
+        "continu",
+        "exaust"
+      ],
+      "tokens": [
+        "eu",
+        "diria",
+        "que",
+        "o",
+        "ponto",
+        "e",
+        "que",
+        "a",
+        "energia",
+        "nao",
+        "recompoe",
+        "isso",
+        "ainda",
+        "parece",
+        "continuação",
+        "daquela",
+        "exaustão"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "tenho que responder emails",
+      "response": "sinceramente, to acompanhando. a gente ainda não encerrou o fio disso.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 11,
+      "semantic_signature": [],
+      "tokens": [
+        "sinceramente",
+        "to",
+        "acompanhando",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "preciso lavar roupa",
+      "response": "eu diria que to aqui. te ouvindo. isso ficou aberto entre uma resposta e outra.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 15,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "eu",
+        "diria",
+        "que",
+        "to",
+        "aqui",
+        "te",
+        "ouvindo",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "docker compensa pra projeto pequeno?",
+      "response": "Certo.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 1,
+      "semantic_signature": [],
+      "tokens": [
+        "certo"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "vale usar websocket aqui?",
+      "response": "Sem o contexto de uso a resposta fica incompleta.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 9,
+      "semantic_signature": [],
+      "tokens": [
+        "sem",
+        "o",
+        "contexto",
+        "de",
+        "uso",
+        "a",
+        "resposta",
+        "fica",
+        "incompleta"
+      ]
+    },
+    {
+      "category": "abrupt_shift",
+      "prompt": "preciso comprar um hd externo",
+      "response": "sinceramente, te ouvindo. to com voce. eu tô aqui.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 9,
+      "semantic_signature": [],
+      "tokens": [
+        "sinceramente",
+        "te",
+        "ouvindo",
+        "to",
+        "com",
+        "voce",
+        "eu",
+        "tô",
+        "aqui"
+      ]
+    },
+    {
+      "category": "abrupt_shift",
+      "prompt": "preciso pagar boleto amanhã",
+      "response": "te ouvindo. isso ficou aberto entre uma resposta e outra. seguindo.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 11,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "te",
+        "ouvindo",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra",
+        "seguindo"
+      ]
+    },
+    {
+      "category": "emotion_deep",
+      "prompt": "tem um ruído mental constante",
+      "response": "eu diria que segue. isso ficou aberto entre uma resposta e outra.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 12,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "eu",
+        "diria",
+        "que",
+        "segue",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra"
+      ]
+    },
+    {
+      "category": "emotion_deep",
+      "prompt": "minha cabeça não tá fechando",
+      "response": "sinceramente, e isso ainda perde sequência rápido. isso desgasta porque você percebe cada falha. essa falha de condensação segue recorrente.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 20,
+      "semantic_signature": [
+        "desgast",
+        "recorr"
+      ],
+      "tokens": [
+        "sinceramente",
+        "e",
+        "isso",
+        "ainda",
+        "perde",
+        "sequência",
+        "rápido",
+        "isso",
+        "desgasta",
+        "porque",
+        "você",
+        "percebe",
+        "cada",
+        "falha",
+        "essa",
+        "falha",
+        "de",
+        "condensação",
+        "segue",
+        "recorrente"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "tenho que responder emails",
+      "response": "seguindo. te ouvindo. isso ficou aberto entre uma resposta e outra.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 11,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "seguindo",
+        "te",
+        "ouvindo",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra"
+      ]
+    },
+    {
+      "category": "abrupt_shift",
+      "prompt": "preciso comprar um hd externo",
+      "response": "te escuto. isso ficou aberto entre uma resposta e outra.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 10,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "te",
+        "escuto",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra"
+      ]
+    },
+    {
+      "category": "abrupt_shift",
+      "prompt": "preciso comprar um hd externo",
+      "response": "to acompanhando. isso ficou aberto entre uma resposta e outra. seguindo.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 11,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "to",
+        "acompanhando",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra",
+        "seguindo"
+      ]
+    },
+    {
+      "category": "memory_probe",
+      "prompt": "o que eu falei que estou construindo?",
+      "response": "fragmentos ainda.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 2,
+      "semantic_signature": [],
+      "tokens": [
+        "fragmentos",
+        "ainda"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "vale usar websocket aqui?",
+      "response": "A decisão correta depende mais da arquitetura em volta.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 9,
+      "semantic_signature": [
+        "volt"
+      ],
+      "tokens": [
+        "a",
+        "decisão",
+        "correta",
+        "depende",
+        "mais",
+        "da",
+        "arquitetura",
+        "em",
+        "volta"
+      ]
+    },
+    {
+      "category": "emotion_deep",
+      "prompt": "tem um ruído mental constante",
+      "response": "pode continuar. to com voce.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 5,
+      "semantic_signature": [
+        "continu"
+      ],
+      "tokens": [
+        "pode",
+        "continuar",
+        "to",
+        "com",
+        "voce"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "tenho que responder emails",
+      "response": "to acompanhando. isso ficou aberto entre uma resposta e outra.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 10,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "to",
+        "acompanhando",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra"
+      ]
+    },
+    {
+      "category": "abrupt_shift",
+      "prompt": "preciso comprar um hd externo",
+      "response": "sim, continuo aqui. a gente ainda não encerrou o fio disso.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 11,
+      "semantic_signature": [
+        "continu"
+      ],
+      "tokens": [
+        "sim",
+        "continuo",
+        "aqui",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "docker compensa pra projeto pequeno?",
+      "response": "Certo.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 1,
+      "semantic_signature": [],
+      "tokens": [
+        "certo"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "preciso lavar roupa",
+      "response": "sim, continuo aqui. a gente ainda não encerrou o fio disso.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 11,
+      "semantic_signature": [
+        "continu"
+      ],
+      "tokens": [
+        "sim",
+        "continuo",
+        "aqui",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso"
+      ]
+    },
+    {
+      "category": "greeting",
+      "prompt": "olá",
+      "response": "oi.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 1,
+      "semantic_signature": [],
+      "tokens": [
+        "oi"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "comi tarde hoje",
+      "response": "to acompanhando. a gente ainda não encerrou o fio disso.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 10,
+      "semantic_signature": [],
+      "tokens": [
+        "to",
+        "acompanhando",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "vale a pena usar redis cache?",
+      "response": "Entendi o ponto.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 3,
+      "semantic_signature": [],
+      "tokens": [
+        "entendi",
+        "o",
+        "ponto"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "preciso lavar roupa",
+      "response": "sim. isso ficou aberto entre uma resposta e outra.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 9,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "sim",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "tenho que responder emails",
+      "response": "sinceramente, to acompanhando. a gente ainda não encerrou o fio disso. te ouvindo.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 13,
+      "semantic_signature": [],
+      "tokens": [
+        "sinceramente",
+        "to",
+        "acompanhando",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso",
+        "te",
+        "ouvindo"
+      ]
+    },
+    {
+      "category": "emotion_deep",
+      "prompt": "isso continua me drenando",
+      "response": "a leitura continua turva. a gente ainda não encerrou o fio disso.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 12,
+      "semantic_signature": [
+        "continu",
+        "turv"
+      ],
+      "tokens": [
+        "a",
+        "leitura",
+        "continua",
+        "turva",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "vale usar websocket aqui?",
+      "response": "A decisão correta depende mais da arquitetura em volta.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 9,
+      "semantic_signature": [
+        "volt"
+      ],
+      "tokens": [
+        "a",
+        "decisão",
+        "correta",
+        "depende",
+        "mais",
+        "da",
+        "arquitetura",
+        "em",
+        "volta"
+      ]
+    },
+    {
+      "category": "abrupt_shift",
+      "prompt": "tenho que arrumar meu quarto",
+      "response": "to acompanhando. isso ficou aberto entre uma resposta e outra.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 10,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "to",
+        "acompanhando",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra"
+      ]
+    },
+    {
+      "category": "narrative_return",
+      "prompt": "a sensação continua sem conclusão",
+      "response": "sinceramente, isso ainda vem sem nitidez. a gente ainda não encerrou o fio disso.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 14,
+      "semantic_signature": [],
+      "tokens": [
+        "sinceramente",
+        "isso",
+        "ainda",
+        "vem",
+        "sem",
+        "nitidez",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "docker compensa pra projeto pequeno?",
+      "response": "Entendi o ponto.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 3,
+      "semantic_signature": [],
+      "tokens": [
+        "entendi",
+        "o",
+        "ponto"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "preciso lavar roupa",
+      "response": "eu diria que te ouvindo. te ouvindo. te acompanho daqui. eu tô aqui.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 13,
+      "semantic_signature": [],
+      "tokens": [
+        "eu",
+        "diria",
+        "que",
+        "te",
+        "ouvindo",
+        "te",
+        "ouvindo",
+        "te",
+        "acompanho",
+        "daqui",
+        "eu",
+        "tô",
+        "aqui"
+      ]
+    },
+    {
+      "category": "narrative_return",
+      "prompt": "isso continua no mesmo lugar",
+      "response": "eu diria que a sensação segue desencontrada. a gente ainda não encerrou o fio disso.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 15,
+      "semantic_signature": [],
+      "tokens": [
+        "eu",
+        "diria",
+        "que",
+        "a",
+        "sensação",
+        "segue",
+        "desencontrada",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "docker compensa pra projeto pequeno?",
+      "response": "Entendi o ponto.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 3,
+      "semantic_signature": [],
+      "tokens": [
+        "entendi",
+        "o",
+        "ponto"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "tenho que responder emails",
+      "response": "te escuto. a gente ainda não encerrou o fio disso.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 10,
+      "semantic_signature": [],
+      "tokens": [
+        "te",
+        "escuto",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "docker compensa pra projeto pequeno?",
+      "response": "Certo.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 1,
+      "semantic_signature": [],
+      "tokens": [
+        "certo"
+      ]
+    },
+    {
+      "category": "emotion_deep",
+      "prompt": "tem um ruído mental constante",
+      "response": "sinceramente, me diz. isso ainda tá sendo segurado aqui. eu tô aqui.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 12,
+      "semantic_signature": [],
+      "tokens": [
+        "sinceramente",
+        "me",
+        "diz",
+        "isso",
+        "ainda",
+        "tá",
+        "sendo",
+        "segurado",
+        "aqui",
+        "eu",
+        "tô",
+        "aqui"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "vale usar websocket aqui?",
+      "response": "sinceramente, A decisão correta depende mais da arquitetura em volta.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 10,
+      "semantic_signature": [
+        "volt"
+      ],
+      "tokens": [
+        "sinceramente",
+        "a",
+        "decisão",
+        "correta",
+        "depende",
+        "mais",
+        "da",
+        "arquitetura",
+        "em",
+        "volta"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "docker compensa pra projeto pequeno?",
+      "response": "Certo.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 1,
+      "semantic_signature": [],
+      "tokens": [
+        "certo"
+      ]
+    },
+    {
+      "category": "emotion_light",
+      "prompt": "sigo meio saturado",
+      "response": "te escuto. isso ficou aberto entre uma resposta e outra.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 10,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "te",
+        "escuto",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra"
+      ]
+    },
+    {
+      "category": "abrupt_shift",
+      "prompt": "preciso comprar um hd externo",
+      "response": "te escuto. te acompanho daqui.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 5,
+      "semantic_signature": [],
+      "tokens": [
+        "te",
+        "escuto",
+        "te",
+        "acompanho",
+        "daqui"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "tenho que responder emails",
+      "response": "to acompanhando. a gente ainda não encerrou o fio disso.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 10,
+      "semantic_signature": [],
+      "tokens": [
+        "to",
+        "acompanhando",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "vale usar websocket aqui?",
+      "response": "A decisão correta depende mais da arquitetura em volta.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 9,
+      "semantic_signature": [
+        "volt"
+      ],
+      "tokens": [
+        "a",
+        "decisão",
+        "correta",
+        "depende",
+        "mais",
+        "da",
+        "arquitetura",
+        "em",
+        "volta"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "docker compensa pra projeto pequeno?",
+      "response": "Entendi o ponto.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 3,
+      "semantic_signature": [],
+      "tokens": [
+        "entendi",
+        "o",
+        "ponto"
+      ]
+    },
+    {
+      "category": "greeting",
+      "prompt": "oi lena",
+      "response": "oi, thiago.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 2,
+      "semantic_signature": [],
+      "tokens": [
+        "oi",
+        "thiago"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "vale usar websocket aqui?",
+      "response": "eu diria que A decisão correta depende mais da arquitetura em volta.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 12,
+      "semantic_signature": [
+        "volt"
+      ],
+      "tokens": [
+        "eu",
+        "diria",
+        "que",
+        "a",
+        "decisão",
+        "correta",
+        "depende",
+        "mais",
+        "da",
+        "arquitetura",
+        "em",
+        "volta"
+      ]
+    },
+    {
+      "category": "narrative_return",
+      "prompt": "isso continua no mesmo lugar",
+      "response": "o esforço ainda não sedimentou. isso reaparece sempre quebrando a linha.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 11,
+      "semantic_signature": [],
+      "tokens": [
+        "o",
+        "esforço",
+        "ainda",
+        "não",
+        "sedimentou",
+        "isso",
+        "reaparece",
+        "sempre",
+        "quebrando",
+        "a",
+        "linha"
+      ]
+    },
+    {
+      "category": "emotion_light",
+      "prompt": "sigo meio saturado",
+      "response": "eu diria que to acompanhando. a gente ainda não encerrou o fio disso.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 13,
+      "semantic_signature": [],
+      "tokens": [
+        "eu",
+        "diria",
+        "que",
+        "to",
+        "acompanhando",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "preciso lavar roupa",
+      "response": "sinceramente, to aqui. a gente ainda não encerrou o fio disso.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 11,
+      "semantic_signature": [],
+      "tokens": [
+        "sinceramente",
+        "to",
+        "aqui",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso"
+      ]
+    },
+    {
+      "category": "emotion_deep",
+      "prompt": "tem um ruído mental constante",
+      "response": "te ouvindo. segue. isso ficou aberto entre uma resposta e outra.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 11,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "te",
+        "ouvindo",
+        "segue",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra"
+      ]
+    },
+    {
+      "category": "emotion_deep",
+      "prompt": "tem um ruído mental constante",
+      "response": "sim. isso ficou aberto entre uma resposta e outra.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 9,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "sim",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "fastapi aguenta produção grande?",
+      "response": "A decisão correta depende mais da arquitetura em volta.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 9,
+      "semantic_signature": [
+        "volt"
+      ],
+      "tokens": [
+        "a",
+        "decisão",
+        "correta",
+        "depende",
+        "mais",
+        "da",
+        "arquitetura",
+        "em",
+        "volta"
+      ]
+    },
+    {
+      "category": "narrative_return",
+      "prompt": "isso continua no mesmo lugar",
+      "response": "eu diria que o interno ainda não sincronizou. isso ficou aberto entre uma resposta e outra.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 16,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "eu",
+        "diria",
+        "que",
+        "o",
+        "interno",
+        "ainda",
+        "não",
+        "sincronizou",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "tenho que responder emails",
+      "response": "to aqui. te acompanho daqui.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 5,
+      "semantic_signature": [],
+      "tokens": [
+        "to",
+        "aqui",
+        "te",
+        "acompanho",
+        "daqui"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "amanhã preciso ir no mercado",
+      "response": "continuo aqui. to com voce. eu tô aqui.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 8,
+      "semantic_signature": [
+        "continu"
+      ],
+      "tokens": [
+        "continuo",
+        "aqui",
+        "to",
+        "com",
+        "voce",
+        "eu",
+        "tô",
+        "aqui"
+      ]
+    },
+    {
+      "category": "abrupt_shift",
+      "prompt": "preciso comprar um hd externo",
+      "response": "sim. continuo presente.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 3,
+      "semantic_signature": [
+        "continu"
+      ],
+      "tokens": [
+        "sim",
+        "continuo",
+        "presente"
+      ]
+    },
+    {
+      "category": "abrupt_shift",
+      "prompt": "preciso comprar um hd externo",
+      "response": "te ouvindo. continuo presente.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 4,
+      "semantic_signature": [
+        "continu"
+      ],
+      "tokens": [
+        "te",
+        "ouvindo",
+        "continuo",
+        "presente"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "tenho que responder emails",
+      "response": "sinceramente, to aqui. isso ficou aberto entre uma resposta e outra.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 11,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "sinceramente",
+        "to",
+        "aqui",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra"
+      ]
+    },
+    {
+      "category": "emotion_light",
+      "prompt": "to meio sem energia",
+      "response": "eu diria que ate o basico parece pedir tracao demais. aquele desgaste ainda não saiu do teu corpo. e a reserva ainda parece curta. eu tô aqui.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 27,
+      "semantic_signature": [
+        "desgast"
+      ],
+      "tokens": [
+        "eu",
+        "diria",
+        "que",
+        "ate",
+        "o",
+        "basico",
+        "parece",
+        "pedir",
+        "tracao",
+        "demais",
+        "aquele",
+        "desgaste",
+        "ainda",
+        "não",
+        "saiu",
+        "do",
+        "teu",
+        "corpo",
+        "e",
+        "a",
+        "reserva",
+        "ainda",
+        "parece",
+        "curta",
+        "eu",
+        "tô",
+        "aqui"
+      ]
+    },
+    {
+      "category": "memory_probe",
+      "prompt": "qual meu nome mesmo?",
+      "response": "teu nome ficou comigo, thiago.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 5,
+      "semantic_signature": [],
+      "tokens": [
+        "teu",
+        "nome",
+        "ficou",
+        "comigo",
+        "thiago"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "vale usar websocket aqui?",
+      "response": "sinceramente, Isso muda bastante dependendo do cenário técnico concreto.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 9,
+      "semantic_signature": [],
+      "tokens": [
+        "sinceramente",
+        "isso",
+        "muda",
+        "bastante",
+        "dependendo",
+        "do",
+        "cenário",
+        "técnico",
+        "concreto"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "vale usar websocket aqui?",
+      "response": "sinceramente, A decisão correta depende mais da arquitetura em volta.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 10,
+      "semantic_signature": [
+        "volt"
+      ],
+      "tokens": [
+        "sinceramente",
+        "a",
+        "decisão",
+        "correta",
+        "depende",
+        "mais",
+        "da",
+        "arquitetura",
+        "em",
+        "volta"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "preciso lavar roupa",
+      "response": "te escuto. to com voce.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 5,
+      "semantic_signature": [],
+      "tokens": [
+        "te",
+        "escuto",
+        "to",
+        "com",
+        "voce"
+      ]
+    },
+    {
+      "category": "abrupt_shift",
+      "prompt": "preciso comprar um hd externo",
+      "response": "to aqui. seguindo. te acompanho daqui.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 6,
+      "semantic_signature": [],
+      "tokens": [
+        "to",
+        "aqui",
+        "seguindo",
+        "te",
+        "acompanho",
+        "daqui"
+      ]
+    },
+    {
+      "category": "abrupt_shift",
+      "prompt": "quero refatorar meu memory engine",
+      "response": "te escuto. te ouvindo. isso ficou aberto entre uma resposta e outra.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 12,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "te",
+        "escuto",
+        "te",
+        "ouvindo",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra"
+      ]
+    },
+    {
+      "category": "narrative_return",
+      "prompt": "isso continua no mesmo lugar",
+      "response": "sinceramente, o ponto e que a energia nao recompoe. a gente ainda não encerrou o fio disso. e a reserva ainda parece curta.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 23,
+      "semantic_signature": [],
+      "tokens": [
+        "sinceramente",
+        "o",
+        "ponto",
+        "e",
+        "que",
+        "a",
+        "energia",
+        "nao",
+        "recompoe",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso",
+        "e",
+        "a",
+        "reserva",
+        "ainda",
+        "parece",
+        "curta"
+      ]
+    },
+    {
+      "category": "emotion_deep",
+      "prompt": "parece que nada encaixa",
+      "response": "as ideias não estão ficando reunidas. eu ainda vejo essa leitura sem nitidez. e você continua vendo a mente não consolidar.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 21,
+      "semantic_signature": [
+        "continu"
+      ],
+      "tokens": [
+        "as",
+        "ideias",
+        "não",
+        "estão",
+        "ficando",
+        "reunidas",
+        "eu",
+        "ainda",
+        "vejo",
+        "essa",
+        "leitura",
+        "sem",
+        "nitidez",
+        "e",
+        "você",
+        "continua",
+        "vendo",
+        "a",
+        "mente",
+        "não",
+        "consolidar"
+      ]
+    },
+    {
+      "category": "neutral_smalltalk",
+      "prompt": "a tarde passou rápido",
+      "response": "sim. to com voce.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 4,
+      "semantic_signature": [],
+      "tokens": [
+        "sim",
+        "to",
+        "com",
+        "voce"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "docker compensa pra projeto pequeno?",
+      "response": "Entendi o ponto.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 3,
+      "semantic_signature": [],
+      "tokens": [
+        "entendi",
+        "o",
+        "ponto"
+      ]
+    },
+    {
+      "category": "narrative_return",
+      "prompt": "isso continua no mesmo lugar",
+      "response": "eu diria que isso ainda vem sem nitidez. isso ficou aberto entre uma resposta e outra.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 16,
+      "semantic_signature": [
+        "abert"
+      ],
+      "tokens": [
+        "eu",
+        "diria",
+        "que",
+        "isso",
+        "ainda",
+        "vem",
+        "sem",
+        "nitidez",
+        "isso",
+        "ficou",
+        "aberto",
+        "entre",
+        "uma",
+        "resposta",
+        "e",
+        "outra"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "postgres é melhor que mysql em que?",
+      "response": "Sem o contexto de uso a resposta fica incompleta.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 9,
+      "semantic_signature": [],
+      "tokens": [
+        "sem",
+        "o",
+        "contexto",
+        "de",
+        "uso",
+        "a",
+        "resposta",
+        "fica",
+        "incompleta"
+      ]
+    },
+    {
+      "category": "emotion_light",
+      "prompt": "sigo meio saturado",
+      "response": "seguindo. te acompanho daqui. te escuto.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 6,
+      "semantic_signature": [],
+      "tokens": [
+        "seguindo",
+        "te",
+        "acompanho",
+        "daqui",
+        "te",
+        "escuto"
+      ]
+    },
+    {
+      "category": "practical_question",
+      "prompt": "docker compensa pra projeto pequeno?",
+      "response": "Certo.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 1,
+      "semantic_signature": [],
+      "tokens": [
+        "certo"
+      ]
+    },
+    {
+      "category": "emotion_deep",
+      "prompt": "tem um ruído mental constante",
+      "response": "me diz. seguindo. te acompanho daqui.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 6,
+      "semantic_signature": [],
+      "tokens": [
+        "me",
+        "diz",
+        "seguindo",
+        "te",
+        "acompanho",
+        "daqui"
+      ]
+    },
+    {
+      "category": "emotion_deep",
+      "prompt": "tem um ruído mental constante",
+      "response": "segue. to com voce.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 4,
+      "semantic_signature": [],
+      "tokens": [
+        "segue",
+        "to",
+        "com",
+        "voce"
+      ]
+    },
+    {
+      "category": "narrative_return",
+      "prompt": "isso ainda tá aqui dentro",
+      "response": "a interrupção ainda tá no mesmo ponto. a gente ainda não encerrou o fio disso.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 15,
+      "semantic_signature": [],
+      "tokens": [
+        "a",
+        "interrupção",
+        "ainda",
+        "tá",
+        "no",
+        "mesmo",
+        "ponto",
+        "a",
+        "gente",
+        "ainda",
+        "não",
+        "encerrou",
+        "o",
+        "fio",
+        "disso"
+      ]
+    },
+    {
+      "category": "greeting",
+      "prompt": "oi",
+      "response": "oi.",
+      "route": "CONVERSATIONAL_CORE",
+      "length": 1,
+      "semantic_signature": [],
+      "tokens": [
+        "oi"
+      ]
+    }
+  ]
+}

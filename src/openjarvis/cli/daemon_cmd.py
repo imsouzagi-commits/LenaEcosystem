@@ -84,12 +84,19 @@ def start(
     # Start as background process
     DEFAULT_CONFIG_DIR.mkdir(parents=True, exist_ok=True)
     log_fh = open(_LOG_FILE, "a")  # noqa: SIM115
-    proc = subprocess.Popen(
-        cmd,
-        stdout=log_fh,
-        stderr=log_fh,
-        start_new_session=True,
-    )
+
+    try:
+        proc = subprocess.Popen(
+            cmd,
+            stdout=log_fh,
+            stderr=log_fh,
+            start_new_session=True,
+        )
+    except Exception as exc:
+        console.print(f"[red]Failed to start daemon:[/red] {exc}")
+        log_fh.close()
+        sys.exit(1)
+
     _write_pid(proc.pid)
 
     console.print(

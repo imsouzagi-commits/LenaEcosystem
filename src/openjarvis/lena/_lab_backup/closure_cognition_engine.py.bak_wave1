@@ -1,0 +1,44 @@
+from __future__ import annotations
+
+
+class LenaClosureCognitionEngine:
+    RESOLUTION_MARKERS = (
+        "acho que sim",
+        "agora fez sentido",
+        "faz sentido",
+        "entendi",
+        "então é isso",
+        "talvez seja isso",
+        "melhorou",
+        "clareou",
+        "clareou um pouco",
+        "acho que consegui ver",
+        "acho que enxerguei",
+        "sim, isso",
+        "é isso",
+        "ok entendi",
+    )
+
+    SOFT_RELIEF_MARKERS = (
+        "um pouco melhor",
+        "menos pesado",
+        "mais claro",
+        "deu uma aliviada",
+        "acho que sim",
+        "talvez",
+    )
+
+    @classmethod
+    def ingest(cls, memory, user_text: str) -> None:
+        lowered = user_text.lower().strip()
+        social = memory.social_state
+
+        if any(x in lowered for x in cls.RESOLUTION_MARKERS):
+            social.unresolved_loops = max(0, social.unresolved_loops - 2)
+            social.emotional_tension = max(0, social.emotional_tension - 1)
+            social.current_conversation_arc = "resolving"
+            return
+
+        if any(x in lowered for x in cls.SOFT_RELIEF_MARKERS):
+            social.unresolved_loops = max(0, social.unresolved_loops - 1)
+            social.current_conversation_arc = "softening"

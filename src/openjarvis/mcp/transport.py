@@ -2,11 +2,14 @@
 
 from __future__ import annotations
 
+import logging
 import subprocess
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Any, List, Optional
 
 from openjarvis.mcp.protocol import MCPRequest, MCPResponse
+
+logger = logging.getLogger(__name__)
 
 if TYPE_CHECKING:
     from openjarvis.mcp.server import MCPServer
@@ -65,13 +68,17 @@ class StdioTransport(MCPTransport):
 
     def _start(self) -> None:
         """Start the subprocess."""
-        self._process = subprocess.Popen(
-            self._command,
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-        )
+        try:
+            self._process = subprocess.Popen(
+                self._command,
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
+        except Exception as exc:
+            logger.error("MCP subprocess start failed: %s", exc)
+            raise RuntimeError(f"MCP transport start failed: {exc}") from exc
 
     def send(self, request: MCPRequest) -> MCPResponse:
         """Write request as JSON line, read response line."""
@@ -91,8 +98,11 @@ class StdioTransport(MCPTransport):
     def close(self) -> None:
         """Terminate the subprocess."""
         if self._process is not None:
-            self._process.terminate()
-            self._process.wait(timeout=5)
+            try:
+                self._process.terminate()
+                self._process.wait(timeout=5)
+            except Exception as exc:
+                logger.debug("MCP subprocess close failed: %s", exc)
             self._process = None
 
 

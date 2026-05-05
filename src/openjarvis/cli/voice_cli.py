@@ -11,7 +11,7 @@ class DummyEngine:
         }
 
 
-agent = LenaAgent(engine=DummyEngine())
+agent = LenaAgent()
 
 
 def main():

@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import logging
 import threading
+from openjarvis.lena.thread_guard import run_guarded_background
 import time
 from collections import deque
 from dataclasses import dataclass
@@ -121,8 +122,10 @@ class TelemetrySession:
         if self._thread is not None and self._thread.is_alive():
             return
         self._stop_event.clear()
-        self._thread = threading.Thread(target=self._sample_loop, daemon=True)
-        self._thread.start()
+        self._thread = run_guarded_background(
+            "telemetry-session",
+            self._sample_loop,
+        )
 
     def stop(self) -> None:
         """Stop sampling thread."""

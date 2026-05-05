@@ -375,18 +375,26 @@ def host(
             "[dim]OpenJarvis will auto-discover it. Press Ctrl+C to stop.[/dim]\n"
         )
 
+    proc = None
+
     try:
         proc = subprocess.Popen(cmd)
         proc.wait()
     except KeyboardInterrupt:
         console.print("\n[yellow]Shutting down model server...[/yellow]")
-        proc.send_signal(signal.SIGTERM)
-        try:
-            proc.wait(timeout=10)
-        except subprocess.TimeoutExpired:
-            proc.kill()
+
+        if proc is not None:
+            proc.send_signal(signal.SIGTERM)
+            try:
+                proc.wait(timeout=10)
+            except subprocess.TimeoutExpired:
+                proc.kill()
+
         console.print("[green]Server stopped.[/green]")
     except FileNotFoundError:
         console.print(f"[red]Command not found:[/red] {cmd[0]}")
         console.print(f"Make sure {info['display']} is installed and on your PATH.")
+        raise SystemExit(1)
+    except Exception as exc:
+        console.print(f"[red]Failed to start model server:[/red] {exc}")
         raise SystemExit(1)

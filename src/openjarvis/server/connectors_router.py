@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+from openjarvis.lena.thread_guard import run_guarded_background
 from typing import Any, Dict, Optional
 
 logger = logging.getLogger(__name__)
@@ -275,7 +276,7 @@ def create_connectors_router():
                         exc,
                     )
 
-            threading.Thread(target=_ingest, daemon=True).start()
+            run_guarded_background("connector-auto-ingest", _ingest)
 
         return {
             "connector_id": connector_id,
@@ -498,8 +499,7 @@ def create_connectors_router():
                 logger.error("Sync failed for %s: %s", connector_id, error_msg)
                 _sync_state[connector_id] = {"state": "error", "error": error_msg}
 
-        t = threading.Thread(target=_run_sync, daemon=True)
-        t.start()
+        t = run_guarded_background("connector-sync-" + connector_id, _run_sync)
         _sync_threads[connector_id] = t
 
         return {

@@ -1,0 +1,33 @@
+from __future__ import annotations
+
+from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+
+
+class LenaPresenceOrchestrator:
+    @staticmethod
+    def decide(memory, semantic_mode: str) -> str:
+        social = memory.social_state
+        live_tension = LenaNarrativeTensionEngine.has_live_tension(memory)
+
+        if semantic_mode == "memory_probe":
+            return "memory"
+
+        if semantic_mode != "emotion":
+            if live_tension and social.presence_momentum >= 1:
+                return "reflective_hold"
+
+            if social.presence_momentum >= 4:
+                return "contain"
+
+            return "minimal"
+
+        if social.arc_stage >= 6 and social.reflection_depth >= 1:
+            return "deep_reflect"
+
+        if social.unresolved_loops >= 4:
+            return "invite"
+
+        if social.emotional_tension >= 2:
+            return "continuity"
+
+        return "mirror"
