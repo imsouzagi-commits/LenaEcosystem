@@ -11,7 +11,7 @@ from openjarvis.lena.workspace_center import LenaWorkspaceCenter
 
 
 class LenaMemoryPersistence:
-    SCHEMA_VERSION = 13
+    SCHEMA_VERSION = 15
 
     FILE = LenaWorkspaceCenter.MEMORY / "memory_state.json"
     BACKUP_FILE = LenaWorkspaceCenter.MEMORY / "memory_state.lastgood.json"
@@ -72,11 +72,10 @@ class LenaMemoryPersistence:
             if not isinstance(normalized.get(field), list):
                 normalized[field] = []
 
-        if not isinstance(normalized.get("exchange_significance"), int):
-            try:
-                normalized["exchange_significance"] = int(normalized.get("exchange_significance", 0))
-            except Exception:
-                normalized["exchange_significance"] = 0
+        try:
+            normalized["exchange_significance"] = int(normalized.get("exchange_significance", 0))
+        except Exception:
+            normalized["exchange_significance"] = 0
 
         normalized["psychological_signature"] = str(normalized.get("psychological_signature", "stable"))
         return normalized
@@ -118,12 +117,8 @@ class LenaMemoryPersistence:
             normalized = cls._normalize_payload(payload)
             content = json.dumps(normalized, ensure_ascii=False, separators=(",", ":"))
 
-            try:
-                cls._atomic_write_text(cls.FILE, content)
-                cls._atomic_write_text(cls.BACKUP_FILE, content)
-            except Exception as exc:
-                LenaBootLogger.write(f"memory persistence save failed: {exc}")
-                raise
+            cls._atomic_write_text(cls.FILE, content)
+            cls._atomic_write_text(cls.BACKUP_FILE, content)
 
     @classmethod
     def load(cls) -> dict[str, Any]:

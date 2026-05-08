@@ -1,0 +1,296 @@
+307:    _ROLE_BANK = {
+308-        "disconnection": {
+309-            "anchor": [
+310-                "parece que você não consegue se sentir inteiro dentro do próprio movimento.",
+311-                "tem uma sensação de desencontro interno acontecendo.",
+312-                "alguma parte tua parece fora de encaixe com o resto.",
+313-                "você soa como alguém tentando se localizar e não conseguindo firmar centro.",
+314-                "tem um desalinhamento interno aí que não recompõe fácil.",
+315-                "parece existir uma distância entre você e você mesmo."
+316-            ],
+317-            "subjective_effect": [
+318-                "isso dá uma impressão de estar meio sem lugar por dentro",
+319-                "fica um afastamento silencioso de si mesmo",
+320-                "a sensação é de não caber inteiro na própria experiência",
+321-                "isso vai produzindo desencontro em pano de fundo",
+322-                "você vai ficando internamente sem eixo estável",
+323-                "fica difícil sentir convergência interna"
+324-            ],
+325-            "temporal_effect": [
+326-                "isso reaparece mesmo quando o dia segue normal",
+327-                "essa falta de encaixe não some por completo",
+328-                "mesmo quando parece neutro isso volta",
+329-                "isso continua rondando em segundo plano",
+330-                "o tempo anda mas esse desalinhamento permanece",
+331-                "não recompõe sozinho com a passagem dos dias"
+332-            ],
+333-            "cognitive_effect": [
+334-                "a mente tenta achar um ponto de reunião e não encontra",
+335-                "internamente as partes não parecem conversar entre si",
+336-                "você tenta se sentir localizado e não firma",
+337-                "por dentro parece faltar um eixo de convergência",
+338-                "a cabeça busca centro mas continua difusa",
+339-                "nada se junta numa sensação de unidade"
+340-            ],
+341-            "probe": [
+342-                "tem momentos em que você se sente deslocado sem motivo claro?",
+343-                "mesmo em horas neutras isso continua te atravessando?",
+344-                "isso fica no fundo mesmo quando você tenta tocar as coisas?"
+345-            ],
+346-        },
+347-
+348-        "stagnation": {
+349-            "anchor": [
+350-                "parece que internamente as coisas pararam de ganhar deslocamento.",
+351-                "tem uma sensação de movimento travado aí dentro.",
+352-                "isso soa como um ponto que não produz passagem.",
+353-                "alguma coisa tua ficou girando sem realmente sair do lugar.",
+354-                "há um emperramento interno difícil de romper.",
+355-                "parece existir imobilidade onde deveria haver avanço."
+356-            ],
+357-            "subjective_effect": [
+358-                "isso vai cansando pela repetição do mesmo cenário",
+359-                "fica uma fadiga de não perceber virada",
+360-                "vai surgindo a sensação de estar rodando sem deslocar",
+361-                "isso produz desgaste por permanência",
+362-                "o mesmo ponto vai ficando psicologicamente pesado",
+363-                "fica a impressão de retorno contínuo ao mesmo lugar"
+364-            ],
+365-            "temporal_effect": [
+366-                "os dias passam mas internamente quase nada mexe",
+367-                "isso continua fixado apesar do tempo andando",
+368-                "a passagem das horas não produz virada suficiente",
+369-                "nada parece sinalizar deslocamento real ainda",
+370-                "isso persiste mesmo depois de várias tentativas",
+371-                "o tempo corre mas esse ponto continua parado"
+372-            ],
+373-            "cognitive_effect": [
+374-                "a cabeça começa a perder confiança em mudança",
+375-                "vai surgindo leitura de aprisionamento interno",
+376-                "a mente passa a esperar avanço que não vem",
+377-                "internamente tudo parece repetir a mesma moldura",
+378-                "o raciocínio começa a assumir que nada responde",
+379-                "vai ficando a impressão de ciclo fechado"
+380-            ],
+381-            "probe": [
+382-                "você sente como se estivesse sempre retornando ao mesmo lugar?",
+383-                "isso te dá impressão de aprisionamento com o tempo?",
+384-                "os dias mudam mas por dentro isso parece igual?"
+385-            ],
+386-        },
+387-
+388-        "clarity_seek": {
+389-            "anchor": [
+390-                "tem uma parte tua ainda tentando montar compreensão sobre isso.",
+391-                "isso não ganhou uma linha interna satisfatória ainda.",
+392-                "a tua mente continua procurando uma forma de organizar isso.",
+393-                "parece existir uma exigência interna de entendimento.",
+394-                "isso ainda não virou uma estrutura compreensível por dentro.",
+395-                "tem uma busca de clareza que continua aberta."
+396-            ],
+397-            "subjective_effect": [
+398-                "isso mantém a mente em vigília",
+399-                "fica uma cobrança silenciosa por entendimento",
+400-                "não aparece descanso enquanto isso não organiza",
+401-                "essa pergunta segue sem sossego internamente",
+402-                "fica uma inquietação de coisa mal estruturada",
+403-                "isso impede sensação de conclusão mental"
+404-            ],
+405-            "temporal_effect": [
+406-                "essa necessidade continua reaparecendo",
+407-                "mesmo quando você tenta largar isso retorna",
+408-                "isso não se dissolve sem montar sentido",
+409-                "o assunto continua internamente ativo",
+410-                "essa busca volta repetidamente ao longo do dia",
+411-                "não some enquanto não encontra linha"
+412-            ],
+413-            "cognitive_effect": [
+414-                "a cabeça continua tentando estruturar resposta",
+415-                "o pensamento revisita isso em busca de coerência",
+416-                "a mente não aceita deixar isso solto",
+417-                "internamente falta uma linha que satisfaça",
+418-                "o raciocínio continua tentando costurar sentido",
+419-                "você segue procurando uma forma de entender"
+420-            ],
+421-            "probe": [
+422-                "parece que a cabeça não autoriza descanso enquanto isso não entende?",
+423-                "isso continua pedindo explicação dentro de você?",
+424-                "enquanto não monta linha você sente que não solta?"
+425-            ],
+426-        },
+427-
+428-        "uncertainty": {
+429-            "anchor": [
+430-                "isso ainda soa internamente sem encerramento.",
+431-                "tem uma parte dessa experiência que não concluiu.",
+432-                "alguma coisa aí continua psicologicamente em aberto.",
+433-                "isso não encontrou fechamento suficiente por dentro.",
+434-                "permanece uma sensação de irresolução nesse ponto.",
+435-                "esse assunto ainda não assentou internamente."
+436-            ],
+437-            "subjective_effect": [
+438-                "fica um ar de incompletude constante",
+439-                "isso deixa a experiência meio suspensa",
+440-                "permanece sensação de pendência no fundo",
+441-                "nada parece terminar completamente nisso",
+442-                "isso não deixa a coisa repousar inteira",
+443-                "fica uma abertura silenciosa sem encerramento"
+444-            ],
+445-            "temporal_effect": [
+446-                "mesmo com o tempo passando isso continua aberto",
+447-                "até agora isso não encerrou de verdade",
+448-                "a passagem dos dias não fechou esse ciclo",
+449-                "isso segue internamente irresolvido",
+450-                "continua faltando conclusão depois de várias voltas",
+451-                "o tempo anda mas isso não assenta"
+452-            ],
+453-            "cognitive_effect": [
+454-                "a mente continua tentando completar o que falta",
+455-                "o pensamento roda atrás de fechamento",
+456-                "internamente continua uma tentativa de concluir",
+457-                "o raciocínio não aceita abandonar esse aberto",
+458-                "a cabeça segue procurando a peça de encerramento",
+459-                "isso continua pedindo conclusão psíquica"
+460-            ],
+461-            "probe": [
+462-                "quando parece que passou isso retorna?",
+463-                "você sente que isso nunca fecha completamente?",
+464-                "mesmo tentando largar isso volta pedindo encerramento?"
+465-            ],
+466-        },
+467-
+468-        "fatigue": {
+469-            "anchor": [
+470-                "teu sistema parece operar sem conseguir repor o que gasta.",
+471-                "isso já soa como desgaste acumulado de fundo.",
+472-                "há uma drenagem contínua acontecendo aí.",
+473-                "parece que você funciona sem margem real de reposição.",
+474-                "teu organismo dá sinal de consumo maior que recuperação.",
+475-                "isso tem cara de exaustão prolongada."
+476-            ],
+477-            "subjective_effect": [
+478-                "até o básico começa a custar mais",
+479-                "o mínimo já exige consumo alto",
+480-                "vai aparecendo peso em tarefas simples",
+481-                "você fica funcionando perto do limite",
+482-                "qualquer demanda parece pedir esforço extra",
+483-                "as coisas começam a pesar antes do normal"
+484-            ],
+485-            "temporal_effect": [
+486-                "o descanso não devolve o suficiente",
+487-                "a recuperação parece sempre incompleta",
+488-                "isso vai se prolongando sem zerar",
+489-                "não recompõe como deveria entre um dia e outro",
+490-                "a reposição continua curta",
+491-                "não parece um desgaste que passa rápido"
+492-            ],
+493-            "cognitive_effect": [
+494-                "pensar vai ficando metabolicamente caro",
+495-                "até organizar coisas simples exige demais",
+496-                "qualquer elaboração consome muito",
+497-                "a cabeça perde elasticidade para sustentar carga",
+498-                "o mental começa a operar em regime curto",
+499-                "a mente funciona sem folga interna"
+500-            ],
+501-            "probe": [
+502-                "você sente que para mas não recompõe?",
+503-                "tem horas em que parece que a bateria nunca enche?",
+504-                "isso já tá virando um cansaço contínuo?"
+505-            ],
+506-        },
+507-
+508-        "mental_noise": {
+509-            "anchor": [
+510-                "tem congestionamento mental demais em curso.",
+511-                "parece que tua cabeça não encontra faixa limpa.",
+512-                "isso vem com ruído cognitivo contínuo.",
+513-                "a mente soa cheia de interferência simultânea.",
+514-                "há turbulência mental demais acontecendo ao mesmo tempo.",
+515-                "parece difícil achar silêncio psíquico aí."
+516-            ],
+517-            "subjective_effect": [
+518-                "os pensamentos ficam se atropelando",
+519-                "nada permanece limpo por muito tempo",
+520-                "fica difícil sustentar uma linha estável",
+521-                "a mente parece sem espaço de respiro",
+522-                "tudo fica concorrendo ao mesmo tempo",
+523-                "surge sensação de embolamento mental"
+524-            ],
+525-            "temporal_effect": [
+526-                "essa turbulência não abaixa por completo",
+527-                "o ruído continua ativo grande parte do dia",
+528-                "não aparece janela longa de quietude",
+529-                "a cabeça segue sem desacelerar direito",
+530-                "isso ocupa espaço mental continuamente",
+531-                "não entra calmaria consistente"
+532-            ],
+533-            "cognitive_effect": [
+534-                "a atenção se fragmenta fácil",
+535-                "o pensamento não consegue ficar numa linha só",
+536-                "a mente abre frentes demais simultaneamente",
+537-                "nada permanece claro por tempo suficiente",
+538-                "o foco não consegue estabilizar",
+539-                "a cabeça não sustenta trilho limpo"
+540-            ],
+541-            "probe": [
+542-                "isso te atravessa quase sem pausa?",
+543-                "tem algum trecho do dia em que tua cabeça aquieta?",
+544-                "existe silêncio mental em algum momento ou é contínuo?"
+545-            ],
+546-        },
+547-    }
+548-
+549-
+550-    _GREETING = {
+551-        "fatigue": ["oi.", "tô aqui.", "fala."],
+552-        "distress": ["oi.", "te ouvindo.", "pode falar."],
+553-        "neutral": ["oi.", "tô aqui.", "fala comigo."],
+554-    }
+555-
+556-    @staticmethod
+557-    def observation_fragments(topic: str, mode: str) -> list[str]:
+558-        bank = LenaSemanticResponseBank._OBSERVATION.get(topic, LenaSemanticResponseBank._OBSERVATION["neutral"])
+559-        return bank.get(mode, bank["mirror"])
+560-
+561-    @staticmethod
+562-    def continuity_fragments(topic: str) -> list[str]:
+563-        return LenaSemanticResponseBank._CONTINUITY.get(topic, LenaSemanticResponseBank._CONTINUITY["neutral"])
+564-
+565-    @staticmethod
+566-    def relational_fragments(topic: str, mode: str) -> list[str]:
+567-        return LenaSemanticResponseBank._RELATIONAL.get(topic, LenaSemanticResponseBank._RELATIONAL["neutral"])
+568-
+569-    @staticmethod
+570-    def bridge_fragments(topic: str) -> list[str]:
+571-        return LenaSemanticResponseBank._BRIDGE.get(topic, LenaSemanticResponseBank._BRIDGE["neutral"])
+572-
+573-    @staticmethod
+574-    def greeting_fragments(topic: str) -> list[str]:
+575-        return LenaSemanticResponseBank._GREETING.get(topic, LenaSemanticResponseBank._GREETING["neutral"])
+576-
+577-
+578-
+579-    @staticmethod
+580-    def role_anchor(topic: str) -> list[str]:
+581-        return LenaSemanticResponseBank._ROLE_BANK.get(topic, LenaSemanticResponseBank._ROLE_BANK["uncertainty"])["anchor"]
+582-
+583-    @staticmethod
+584-    def role_subjective(topic: str) -> list[str]:
+585-        return LenaSemanticResponseBank._ROLE_BANK.get(topic, LenaSemanticResponseBank._ROLE_BANK["uncertainty"])["subjective_effect"]
+586-
+587-    @staticmethod
+588-    def role_temporal(topic: str) -> list[str]:
+589-        return LenaSemanticResponseBank._ROLE_BANK.get(topic, LenaSemanticResponseBank._ROLE_BANK["uncertainty"])["temporal_effect"]
+590-
+591-    @staticmethod
+592-    def role_cognitive(topic: str) -> list[str]:
+593-        return LenaSemanticResponseBank._ROLE_BANK.get(topic, LenaSemanticResponseBank._ROLE_BANK["uncertainty"])["cognitive_effect"]
+594-
+595-    @staticmethod
+596-    def role_probe(topic: str) -> list[str]:
+597-        return LenaSemanticResponseBank._ROLE_BANK.get(topic, LenaSemanticResponseBank._ROLE_BANK["uncertainty"])["probe"]
+598-
+599-
+600-    @staticmethod
+601-    def soften(memory, text: str) -> str:
+602-        return " ".join(text.strip().split())

@@ -19,6 +19,26 @@ class LenaSearchOrchestrator:
     FACT_CACHE = {
         "quem criou o spotify": "Foi criado por Daniel Ek e Martin Lorentzon, na Suécia, em 2006.",
         "quem fundou a tesla": "A Tesla nasceu em 2003 pelas mãos de Martin Eberhard e Marc Tarpenning.",
+        "qual a capital do chile": "A capital do Chile é Santiago.",
+        "qual a capital da argentina": "A capital da Argentina é Buenos Aires.",
+        "qual a capital da frança": "A capital da França é Paris.",
+        "qual a capital do japão": "A capital do Japão é Tóquio.",
+    }
+
+    QUICK_EXPLAINERS = {
+        "docker": "Docker é uma plataforma que empacota aplicações em containers isolados para rodarem igual em qualquer ambiente.",
+        "api": "API é uma interface que permite que sistemas diferentes conversem e troquem dados de forma padronizada.",
+        "python": "Python é uma linguagem de programação de sintaxe simples muito usada em automação, backend, dados e IA.",
+        "redis": "Redis é um banco de dados em memória extremamente rápido, usado para cache, filas e sessões.",
+        "banco de dados": "Banco de dados é um sistema usado para armazenar, organizar e consultar informações de forma estruturada.",
+    }
+
+    LIST_BANK = {
+        "filmes": "3 filmes bons de ficção: Interestelar, Blade Runner 2049 e A Chegada.",
+        "filme": "3 filmes bons de ficção: Interestelar, Blade Runner 2049 e A Chegada.",
+        "livros": "3 livros fortes de ficção científica: Duna, Fundação e Neuromancer.",
+        "series": "3 séries boas de ficção: Dark, The Expanse e Black Mirror.",
+        "séries": "3 séries boas de ficção: Dark, The Expanse e Black Mirror.",
     }
 
     SEARCH_ROOTS = [
@@ -109,6 +129,96 @@ class LenaSearchOrchestrator:
 
         return cleaned or query.strip()
 
+
+
+    SIMPLE_RECIPES = {
+        "panqueca": "Panqueca simples: 1 xícara de leite, 1 ovo, 1 xícara de farinha, 1 pitada de sal. mistura tudo, coloca porções na frigideira untada e doura dos dois lados.",
+        "omelete": "Omelete simples: 2 ovos, sal, pimenta e um fio de óleo. bate os ovos, tempera, leva à frigideira e cozinha até firmar.",
+        "arroz": "Arroz simples: refoga alho e cebola, adiciona 1 xícara de arroz, 2 xícaras de água e sal. cozinha em fogo baixo até secar.",
+        "brigadeiro": "Brigadeiro: 1 lata de leite condensado, 1 colher de manteiga, 3 colheres de chocolate. mexe em fogo baixo até desgrudar.",
+    }
+
+    def _solve_basic_math(self, query: str) -> str:
+        lowered = query.lower().strip()
+
+        if not (
+            lowered.startswith("quanto é")
+            or lowered.startswith("quanto e")
+            or re.fullmatch(r"[0-9\s\+\-\*/xvezesdivididopor\.]+", lowered)
+        ):
+            return ""
+
+        expr = lowered.replace("quanto é", "").replace("quanto e", "")
+        expr = expr.replace("vezes", "*").replace("x", "*")
+        expr = expr.replace("mais", "+").replace("menos", "-")
+        expr = expr.replace("dividido por", "/")
+        expr = re.sub(r"[^0-9\+\-\*/\(\)\. ]", "", expr).strip()
+
+        if not expr:
+            return ""
+
+        if not re.fullmatch(r"[0-9\+\-\*/\(\)\. ]+", expr):
+            return ""
+
+        try:
+            value = eval(expr, {"__builtins__": {}})
+        except Exception:
+            return ""
+
+        if isinstance(value, float) and value.is_integer():
+            value = int(value)
+
+        return str(value)
+
+    def _solve_simple_recipe(self, query: str) -> str:
+        lowered = query.lower()
+        for key, value in self.SIMPLE_RECIPES.items():
+            if key in lowered:
+                return value
+        return ""
+
+
+    def _solve_quick_explainer(self, query: str) -> str:
+        lowered = query.lower()
+        if not any(x in lowered for x in ["o que é", "o que e", "me explica", "me explica rapidinho", "explica"]):
+            return ""
+
+        for key, value in self.QUICK_EXPLAINERS.items():
+            if key in lowered:
+                return value
+
+        return ""
+
+    def _solve_list_request(self, query: str) -> str:
+        lowered = query.lower()
+        if not any(x in lowered for x in ["lista", "me indica", "me sugere", "sugere"]):
+            return ""
+
+        for key, value in self.LIST_BANK.items():
+            if key in lowered:
+                return value
+
+        return ""
+
+    def _normalize_web_sentence(self, text: str) -> str:
+        text = re.sub(r'\s+', ' ', text).strip()
+        text = re.sub(r' - Wikipédia.*$', '', text, flags=re.I)
+        text = re.sub(r' - Wikipedia.*$', '', text, flags=re.I)
+        text = re.sub(r'\?$','.', text)
+        return text
+
+    def _garbage_snippet(self, text: str) -> bool:
+        lowered = text.lower()
+        garbage = (
+            "free online",
+            "scientific notation calculator",
+            "calculator",
+            "wikipedia",
+            "disambiguation",
+            "sign in",
+            "youtube",
+        )
+        return any(x in lowered for x in garbage)
 
     def _fetch_instant_answer(self, query: str) -> str:
         try:
@@ -216,12 +326,29 @@ class LenaSearchOrchestrator:
     def web_search(self, query: str) -> str:
         cleaned = self._clean_web_query(query)
 
-        if cleaned.lower() in self.FACT_CACHE:
-            return self.FACT_CACHE[cleaned.lower()]
+        math_answer = self._solve_basic_math(cleaned)
+        if math_answer:
+            return math_answer
+
+        recipe_answer = self._solve_simple_recipe(cleaned)
+        if recipe_answer:
+            return recipe_answer
+
+        list_answer = self._solve_list_request(cleaned)
+        if list_answer:
+            return list_answer
+
+        explain_answer = self._solve_quick_explainer(cleaned)
+        if explain_answer:
+            return explain_answer
+
+        normalized_key = cleaned.lower().strip().rstrip("?")
+        if normalized_key in self.FACT_CACHE:
+            return self.FACT_CACHE[normalized_key]
 
         instant = self._fetch_instant_answer(cleaned)
-        if instant:
-            return instant
+        if instant and not self._garbage_snippet(instant):
+            return self._normalize_web_sentence(instant)
 
         results = self._fetch_duckduckgo(cleaned)
 
@@ -247,10 +374,15 @@ class LenaSearchOrchestrator:
             )):
                 priority.append(joined)
 
-        factual_chunks = priority if priority else [f"{title}. {snippet}" for title, snippet in results]
+        factual_chunks = [f"{title}. {snippet}" for title, snippet in results if not self._garbage_snippet(f"{title}. {snippet}")]
+        factual_chunks = priority if priority else factual_chunks
+
+        if not factual_chunks:
+            return f"não encontrei resultado online confiável sobre {cleaned}."
+
         summary = self._compress_snippets(factual_chunks)
 
         if not summary:
             summary = factual_chunks[0][:280]
 
-        return summary
+        return self._normalize_web_sentence(summary)

@@ -7,6 +7,7 @@ from openjarvis.lena.organic_speech_engine import LenaOrganicSpeechEngine
 from openjarvis.lena.organic_response_composer import OrganicResponseComposer
 from openjarvis.lena.response_humanizer import LenaResponseHumanizer
 from openjarvis.lena.response_naturalizer import LenaResponseNaturalizer
+from openjarvis.lena.semantic_packet import LenaSemanticPacket
 
 
 class LenaSpeechCortex:
@@ -24,12 +25,9 @@ class LenaSpeechCortex:
         latent_topic: str | None = None,
         mode: str = "mirror",
         stance: str = "observe",
+        semantic_packet: LenaSemanticPacket | None = None,
     ) -> str:
         memory = agent.memory_engine
-
-        if semantic_mode == "relational":
-            fused = memory.detect_semantic_topic_fusion(user_text)
-            topic, secondary_topic, latent_topic = memory.govern_semantic_fusion(user_text, fused)
 
         if semantic_mode == "fact_absorb":
             text = self._fact_absorb(user_text)
@@ -44,14 +42,18 @@ class LenaSpeechCortex:
         elif semantic_mode == "social":
             text = OrganicResponseComposer.compose_relational("social_contact", "invite")
         elif semantic_mode == "relational":
+            packet = semantic_packet or getattr(memory, "_live_turn_packet", None)
+            if packet is None:
+                raise RuntimeError("semantic packet missing in relational speech path")
             text = LenaOrganicSpeechEngine.synthesize(
                 memory,
                 user_text,
-                topic,
-                mode,
-                stance,
-                secondary_topic=secondary_topic,
-                latent_topic=latent_topic,
+                packet.primary_topic,
+                packet.mode,
+                packet.stance,
+                secondary_topic=packet.secondary_topic,
+                latent_topic=packet.latent_topic,
+                semantic_packet=packet,
             )
         elif semantic_mode == "neutral":
             text = self._neutral_smalltalk(user_text)
@@ -89,7 +91,6 @@ class LenaSpeechCortex:
             return LenaResponseHumanizer.social_invite("intimate")
         return self._pick(["oi.", "tô aqui.", "oi, pode falar."])
 
-
     def _neutral_smalltalk(self, user_text: str) -> str:
         lowered = user_text.lower().strip()
 
@@ -112,7 +113,7 @@ class LenaSpeechCortex:
         return f"na prática: {payload}" if payload.strip() else OrganicResponseComposer.compose_utilitarian("practical_generic")
 
     def _factual(self, payload: str) -> str:
-        return f"o ponto objetivo é: {payload}" if payload.strip() else "deixa eu te passar o dado central."
+        return payload.strip() if payload.strip() else "não encontrei um dado objetivo suficiente."
 
     def _anti_robotic(self, text: str) -> str:
         robotic = {

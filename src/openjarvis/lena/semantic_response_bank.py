@@ -307,243 +307,221 @@ class LenaSemanticResponseBank:
     _ROLE_BANK = {
         "disconnection": {
             "anchor": [
-                "parece que você não consegue se sentir inteiro dentro do próprio movimento.",
-                "tem uma sensação de desencontro interno acontecendo.",
-                "alguma parte tua parece fora de encaixe com o resto.",
-                "você soa como alguém tentando se localizar e não conseguindo firmar centro.",
-                "tem um desalinhamento interno aí que não recompõe fácil.",
-                "parece existir uma distância entre você e você mesmo."
+                "tem uma sensação de desencontro aí dentro.",
+                "alguma parte tua parece fora de encaixe.",
+                "você não soa inteiro dentro do que tá vivendo.",
+                "parece existir distância entre você e você mesmo."
             ],
             "subjective_effect": [
-                "isso dá uma impressão de estar meio sem lugar por dentro",
-                "fica um afastamento silencioso de si mesmo",
-                "a sensação é de não caber inteiro na própria experiência",
-                "isso vai produzindo desencontro em pano de fundo",
-                "você vai ficando internamente sem eixo estável",
-                "fica difícil sentir convergência interna"
+                "fica difícil se sentir no próprio lugar",
+                "isso deixa tudo meio sem centro",
+                "você vai ficando sem eixo",
+                "nada encaixa por completo"
             ],
             "temporal_effect": [
-                "isso reaparece mesmo quando o dia segue normal",
-                "essa falta de encaixe não some por completo",
-                "mesmo quando parece neutro isso volta",
-                "isso continua rondando em segundo plano",
-                "o tempo anda mas esse desalinhamento permanece",
-                "não recompõe sozinho com a passagem dos dias"
+                "isso continua voltando",
+                "isso não recompõe sozinho",
+                "mesmo quando passa um pouco isso retorna",
+                "não some de verdade"
             ],
             "cognitive_effect": [
-                "a mente tenta achar um ponto de reunião e não encontra",
-                "internamente as partes não parecem conversar entre si",
-                "você tenta se sentir localizado e não firma",
-                "por dentro parece faltar um eixo de convergência",
-                "a cabeça busca centro mas continua difusa",
-                "nada se junta numa sensação de unidade"
+                "a cabeça tenta se localizar e não firma",
+                "por dentro nada junta direito",
+                "você tenta achar centro e não fixa",
+                "as partes não fecham entre si"
             ],
             "probe": [
-                "tem momentos em que você se sente deslocado sem motivo claro?",
-                "mesmo em horas neutras isso continua te atravessando?",
-                "isso fica no fundo mesmo quando você tenta tocar as coisas?"
+                "isso te acompanha mesmo em horas neutras?",
+                "tem hora que você se sente deslocado sem motivo claro?"
             ],
         },
 
         "stagnation": {
             "anchor": [
-                "parece que internamente as coisas pararam de ganhar deslocamento.",
-                "tem uma sensação de movimento travado aí dentro.",
-                "isso soa como um ponto que não produz passagem.",
-                "alguma coisa tua ficou girando sem realmente sair do lugar.",
-                "há um emperramento interno difícil de romper.",
-                "parece existir imobilidade onde deveria haver avanço."
+                "tem uma sensação de movimento travado aí.",
+                "alguma coisa tua ficou parada no mesmo ponto.",
+                "isso não parece ganhar deslocamento.",
+                "parece que internamente nada vira."
             ],
             "subjective_effect": [
-                "isso vai cansando pela repetição do mesmo cenário",
-                "fica uma fadiga de não perceber virada",
-                "vai surgindo a sensação de estar rodando sem deslocar",
-                "isso produz desgaste por permanência",
-                "o mesmo ponto vai ficando psicologicamente pesado",
-                "fica a impressão de retorno contínuo ao mesmo lugar"
+                "vai dando cansaço de continuar no mesmo",
+                "fica a impressão de rodar sem sair",
+                "o mesmo ponto vai pesando",
+                "isso começa a prender"
             ],
             "temporal_effect": [
-                "os dias passam mas internamente quase nada mexe",
-                "isso continua fixado apesar do tempo andando",
-                "a passagem das horas não produz virada suficiente",
-                "nada parece sinalizar deslocamento real ainda",
-                "isso persiste mesmo depois de várias tentativas",
-                "o tempo corre mas esse ponto continua parado"
+                "e continua assim faz tempo",
+                "o tempo passa e isso não mexe",
+                "isso persiste mesmo depois de várias voltas",
+                "não apareceu virada ainda"
             ],
             "cognitive_effect": [
-                "a cabeça começa a perder confiança em mudança",
-                "vai surgindo leitura de aprisionamento interno",
-                "a mente passa a esperar avanço que não vem",
-                "internamente tudo parece repetir a mesma moldura",
-                "o raciocínio começa a assumir que nada responde",
-                "vai ficando a impressão de ciclo fechado"
+                "a cabeça começa a parar de esperar mudança",
+                "vai surgindo sensação de aprisionamento",
+                "o raciocínio já espera que nada ande",
+                "internamente parece ciclo repetido"
             ],
             "probe": [
-                "você sente como se estivesse sempre retornando ao mesmo lugar?",
-                "isso te dá impressão de aprisionamento com o tempo?",
-                "os dias mudam mas por dentro isso parece igual?"
+                "você sente que sempre volta pro mesmo lugar?",
+                "isso te dá sensação de aprisionamento?"
             ],
         },
 
         "clarity_seek": {
             "anchor": [
-                "tem uma parte tua ainda tentando montar compreensão sobre isso.",
-                "isso não ganhou uma linha interna satisfatória ainda.",
-                "a tua mente continua procurando uma forma de organizar isso.",
-                "parece existir uma exigência interna de entendimento.",
-                "isso ainda não virou uma estrutura compreensível por dentro.",
-                "tem uma busca de clareza que continua aberta."
+                "tem uma parte tua tentando entender isso.",
+                "isso ainda não ficou claro por dentro.",
+                "a tua mente continua procurando linha.",
+                "parece faltar uma compreensão que feche."
             ],
             "subjective_effect": [
-                "isso mantém a mente em vigília",
-                "fica uma cobrança silenciosa por entendimento",
-                "não aparece descanso enquanto isso não organiza",
-                "essa pergunta segue sem sossego internamente",
-                "fica uma inquietação de coisa mal estruturada",
-                "isso impede sensação de conclusão mental"
+                "fica uma cobrança por entender",
+                "isso não deixa a mente descansar",
+                "a pergunta continua aberta",
+                "não dá sensação de conclusão"
             ],
             "temporal_effect": [
-                "essa necessidade continua reaparecendo",
-                "mesmo quando você tenta largar isso retorna",
-                "isso não se dissolve sem montar sentido",
-                "o assunto continua internamente ativo",
-                "essa busca volta repetidamente ao longo do dia",
-                "não some enquanto não encontra linha"
+                "isso reaparece toda hora",
+                "mesmo quando você larga isso volta",
+                "não some enquanto não entende",
+                "continua internamente ativo"
             ],
             "cognitive_effect": [
-                "a cabeça continua tentando estruturar resposta",
-                "o pensamento revisita isso em busca de coerência",
-                "a mente não aceita deixar isso solto",
-                "internamente falta uma linha que satisfaça",
-                "o raciocínio continua tentando costurar sentido",
-                "você segue procurando uma forma de entender"
+                "a cabeça tenta organizar e não fecha",
+                "o pensamento revisita isso sem parar",
+                "a mente tenta costurar sentido",
+                "você segue buscando uma linha"
             ],
             "probe": [
-                "parece que a cabeça não autoriza descanso enquanto isso não entende?",
-                "isso continua pedindo explicação dentro de você?",
-                "enquanto não monta linha você sente que não solta?"
+                "parece que enquanto não entende você não solta?",
+                "isso continua pedindo explicação?"
             ],
         },
 
         "uncertainty": {
             "anchor": [
-                "isso ainda soa internamente sem encerramento.",
-                "tem uma parte dessa experiência que não concluiu.",
-                "alguma coisa aí continua psicologicamente em aberto.",
-                "isso não encontrou fechamento suficiente por dentro.",
-                "permanece uma sensação de irresolução nesse ponto.",
-                "esse assunto ainda não assentou internamente."
+                "isso continua aberto aí dentro.",
+                "alguma coisa nisso não fechou.",
+                "isso ainda não assentou em você.",
+                "permanece uma sensação de coisa inacabada."
             ],
             "subjective_effect": [
-                "fica um ar de incompletude constante",
-                "isso deixa a experiência meio suspensa",
-                "permanece sensação de pendência no fundo",
-                "nada parece terminar completamente nisso",
-                "isso não deixa a coisa repousar inteira",
-                "fica uma abertura silenciosa sem encerramento"
+                "fica tudo meio pendurado",
+                "isso não repousa",
+                "permanece uma pendência",
+                "nada termina por completo"
             ],
             "temporal_effect": [
-                "mesmo com o tempo passando isso continua aberto",
-                "até agora isso não encerrou de verdade",
-                "a passagem dos dias não fechou esse ciclo",
-                "isso segue internamente irresolvido",
-                "continua faltando conclusão depois de várias voltas",
-                "o tempo anda mas isso não assenta"
+                "e continua assim até agora",
+                "o tempo passa e isso não encerra",
+                "isso segue sem conclusão",
+                "não fechou depois de várias voltas"
             ],
             "cognitive_effect": [
-                "a mente continua tentando completar o que falta",
-                "o pensamento roda atrás de fechamento",
-                "internamente continua uma tentativa de concluir",
-                "o raciocínio não aceita abandonar esse aberto",
-                "a cabeça segue procurando a peça de encerramento",
-                "isso continua pedindo conclusão psíquica"
+                "a cabeça tenta fechar e não consegue",
+                "o pensamento roda atrás de encerramento",
+                "internamente continua faltando uma peça",
+                "isso não ganha conclusão mental"
             ],
             "probe": [
-                "quando parece que passou isso retorna?",
-                "você sente que isso nunca fecha completamente?",
-                "mesmo tentando largar isso volta pedindo encerramento?"
+                "você sente que isso nunca fecha inteiro?",
+                "mesmo quando tenta largar isso volta?"
             ],
         },
 
         "fatigue": {
             "anchor": [
-                "teu sistema parece operar sem conseguir repor o que gasta.",
-                "isso já soa como desgaste acumulado de fundo.",
-                "há uma drenagem contínua acontecendo aí.",
-                "parece que você funciona sem margem real de reposição.",
-                "teu organismo dá sinal de consumo maior que recuperação.",
-                "isso tem cara de exaustão prolongada."
+                "isso tá te consumindo por dentro.",
+                "tem um desgaste contínuo aí.",
+                "você soa operando sem reposição.",
+                "isso já virou cansaço acumulado."
             ],
             "subjective_effect": [
-                "até o básico começa a custar mais",
-                "o mínimo já exige consumo alto",
-                "vai aparecendo peso em tarefas simples",
-                "você fica funcionando perto do limite",
-                "qualquer demanda parece pedir esforço extra",
-                "as coisas começam a pesar antes do normal"
+                "até o básico pesa mais",
+                "qualquer coisa custa energia",
+                "o mínimo já exige demais",
+                "você funciona perto do limite"
             ],
             "temporal_effect": [
-                "o descanso não devolve o suficiente",
-                "a recuperação parece sempre incompleta",
-                "isso vai se prolongando sem zerar",
-                "não recompõe como deveria entre um dia e outro",
-                "a reposição continua curta",
-                "não parece um desgaste que passa rápido"
+                "e não recompõe direito",
+                "o descanso não devolve tudo",
+                "isso vai se prolongando",
+                "não zera entre um dia e outro"
             ],
             "cognitive_effect": [
-                "pensar vai ficando metabolicamente caro",
-                "até organizar coisas simples exige demais",
-                "qualquer elaboração consome muito",
-                "a cabeça perde elasticidade para sustentar carga",
-                "o mental começa a operar em regime curto",
-                "a mente funciona sem folga interna"
+                "até pensar exige esforço",
+                "organizar coisas simples já custa",
+                "a cabeça trabalha sem folga",
+                "o mental opera cansado"
             ],
             "probe": [
                 "você sente que para mas não recompõe?",
-                "tem horas em que parece que a bateria nunca enche?",
-                "isso já tá virando um cansaço contínuo?"
+                "isso já tá virando cansaço contínuo?"
             ],
         },
 
         "mental_noise": {
             "anchor": [
-                "tem congestionamento mental demais em curso.",
-                "parece que tua cabeça não encontra faixa limpa.",
-                "isso vem com ruído cognitivo contínuo.",
-                "a mente soa cheia de interferência simultânea.",
-                "há turbulência mental demais acontecendo ao mesmo tempo.",
-                "parece difícil achar silêncio psíquico aí."
+                "tem ruído demais acontecendo na tua cabeça.",
+                "a mente parece cheia o tempo todo.",
+                "tá difícil achar faixa limpa aí dentro.",
+                "existe turbulência mental contínua."
             ],
             "subjective_effect": [
-                "os pensamentos ficam se atropelando",
-                "nada permanece limpo por muito tempo",
-                "fica difícil sustentar uma linha estável",
-                "a mente parece sem espaço de respiro",
-                "tudo fica concorrendo ao mesmo tempo",
-                "surge sensação de embolamento mental"
+                "os pensamentos se atropelam",
+                "nada fica limpo por muito tempo",
+                "fica difícil sustentar uma linha",
+                "tudo concorre ao mesmo tempo"
             ],
             "temporal_effect": [
-                "essa turbulência não abaixa por completo",
-                "o ruído continua ativo grande parte do dia",
-                "não aparece janela longa de quietude",
-                "a cabeça segue sem desacelerar direito",
-                "isso ocupa espaço mental continuamente",
-                "não entra calmaria consistente"
+                "isso não abaixa por completo",
+                "a cabeça segue ligada direto",
+                "não entra calmaria consistente",
+                "o ruído continua ativo"
             ],
             "cognitive_effect": [
-                "a atenção se fragmenta fácil",
-                "o pensamento não consegue ficar numa linha só",
-                "a mente abre frentes demais simultaneamente",
-                "nada permanece claro por tempo suficiente",
-                "o foco não consegue estabilizar",
-                "a cabeça não sustenta trilho limpo"
+                "o foco quebra fácil",
+                "o pensamento não sustenta trilho",
+                "a mente abre frente demais",
+                "a atenção se fragmenta"
             ],
             "probe": [
                 "isso te atravessa quase sem pausa?",
-                "tem algum trecho do dia em que tua cabeça aquieta?",
-                "existe silêncio mental em algum momento ou é contínuo?"
+                "tem algum momento em que a cabeça aquieta?"
             ],
         },
+
+        "neutral": {
+            "anchor": [
+                "tô acompanhando daqui",
+                "continuo com você nessa",
+                "sigo presente no que você trouxer",
+                "te acompanho"
+            ],
+            "subjective_effect": [
+                "o fio da conversa continua aberto",
+                "a troca segue leve",
+                "o contato continua correndo",
+                "a conversa mantém presença"
+            ],
+            "temporal_effect": [
+                "continuo aqui na sequência",
+                "ainda tô te seguindo",
+                "segue de onde quiser",
+                "podemos continuar por essa linha"
+            ],
+            "cognitive_effect": [
+                "vou mantendo isso em contexto",
+                "consigo seguir o encadeamento",
+                "tô dentro da mudança de assunto",
+                "acompanho o próximo passo"
+            ],
+            "probe": [
+                "quer puxar mais um pouco isso?",
+                "pra onde você quer levar agora?"
+            ],
+        },
+
     }
 
 
@@ -576,20 +554,215 @@ class LenaSemanticResponseBank:
 
 
 
+
+    _SHADE_ROLE_BANK = {
+        ("stagnation", "immobility"): {
+            "anchor": [
+                "isso continua parado no mesmo ponto.",
+                "nada aí parece realmente deslocar.",
+                "isso segue sem sair do lugar interno.",
+            ],
+            "subjective_effect": [
+                "a sensação é de espera esvaziando.",
+                "vai ficando difícil acreditar em mudança.",
+                "internamente tudo parece suspenso.",
+            ],
+            "temporal_effect": [
+                "o tempo passa e o cenário não mexe.",
+                "as voltas passam e isso continua fixo.",
+                "continua igual mesmo depois de insistir.",
+            ],
+            "cognitive_effect": [
+                "a cabeça começa a desacreditar de virada.",
+                "o raciocínio vai perdendo expectativa de avanço.",
+                "vai se formando leitura de imobilidade.",
+            ],
+        },
+
+        ("stagnation", "recurrence_loop"): {
+            "anchor": [
+                "isso continua voltando no mesmo circuito.",
+                "a experiência gira e retorna pro mesmo ponto.",
+                "tem repetição demais sem saída real.",
+            ],
+            "subjective_effect": [
+                "a sensação é de ficar preso em loop.",
+                "internamente parece rodar sem conclusão.",
+                "isso dá impressão de retorno contínuo.",
+            ],
+            "temporal_effect": [
+                "cada volta repete a anterior.",
+                "o tempo anda mas o circuito reinicia.",
+                "isso retorna mesmo depois de tentar soltar.",
+            ],
+            "cognitive_effect": [
+                "a mente começa a ler isso como ciclo fechado.",
+                "o raciocínio percebe repetição antes de mudança.",
+                "vai ficando nítido o padrão circular.",
+            ],
+        },
+
+        ("stagnation", "adhesive_hold"): {
+            "anchor": [
+                "isso não descola de dentro.",
+                "alguma coisa aí continua aderida.",
+                "isso segue preso sem aliviar.",
+            ],
+            "subjective_effect": [
+                "a sensação é de retenção interna.",
+                "parece que isso se agarra e não solta.",
+                "fica um aprisionamento psíquico nisso.",
+            ],
+            "temporal_effect": [
+                "mesmo com o passar das horas isso continua colado.",
+                "o tempo não dissolve essa aderência.",
+                "isso permanece grudado apesar das tentativas.",
+            ],
+            "cognitive_effect": [
+                "a cabeça percebe que não tá conseguindo liberar.",
+                "o raciocínio identifica retenção persistente.",
+                "vai ficando claro que isso não circula, só prende.",
+            ],
+        },
+
+        ("stagnation", "exhaustion"): {
+            "anchor": [
+                "isso já tá te consumindo por permanência.",
+                "ficar nisso tá corroendo margem.",
+                "a manutenção desse ponto já virou desgaste.",
+            ],
+            "subjective_effect": [
+                "a sensação é de recurso interno baixando.",
+                "vai faltando espaço pra sustentar isso.",
+                "isso começa a virar exaustão de continuidade.",
+            ],
+            "temporal_effect": [
+                "quanto mais permanece, mais drena.",
+                "o tempo aqui não ajuda, só gasta.",
+                "isso prolongado vai estreitando tua margem.",
+            ],
+            "cognitive_effect": [
+                "a mente já lê isso como custo contínuo.",
+                "o raciocínio percebe que a permanência tá cara.",
+                "vai ficando evidente o desgaste por duração.",
+            ],
+        },
+
+        ("fatigue", "depletion"): {
+            "anchor": [
+                "teu recurso interno tá baixando demais.",
+                "isso tá te drenando quase por completo.",
+                "a sustentação interna ficou curta.",
+            ],
+            "subjective_effect": [
+                "parece que sobra muito pouco pra continuar.",
+                "a sensação é de margem quase zerada.",
+                "vai faltando reserva até pro mínimo.",
+            ],
+            "temporal_effect": [
+                "quanto mais isso dura, menos resta.",
+                "isso prolongado vai consumindo o que sobrou.",
+                "o tempo aqui funciona como drenagem.",
+            ],
+            "cognitive_effect": [
+                "a mente começa a operar em modo de escassez.",
+                "o raciocínio percebe colapso de recurso.",
+                "fica evidente que a sustentação tá no limite.",
+            ],
+        },
+
+        ("fatigue", "basic_weight"): {
+            "anchor": [
+                "até o mínimo tá custando.",
+                "coisas simples já vêm pesadas.",
+                "o básico perdeu leveza interna.",
+            ],
+            "subjective_effect": [
+                "qualquer movimento parece exigir demais.",
+                "a sensação é de esforço acima do normal.",
+                "tudo pede mais energia do que devia.",
+            ],
+            "temporal_effect": [
+                "isso vai se repetindo ao longo do dia.",
+                "não aparece faixa limpa de facilidade.",
+                "mesmo tarefas pequenas continuam caras.",
+            ],
+            "cognitive_effect": [
+                "a cabeça começa a contabilizar esforço em tudo.",
+                "o mental lê excesso até no simples.",
+                "fica nítido que não existe folga operacional.",
+            ],
+        },
+
+        ("fatigue", "no_recovery"): {
+            "anchor": [
+                "o descanso não parece recompor.",
+                "mesmo parando a energia não volta limpa.",
+                "tem fadiga que continua depois da pausa.",
+            ],
+            "subjective_effect": [
+                "a sensação é de não resetar.",
+                "parece que o corpo não recompõe direito.",
+                "internamente continua um fundo de cansaço.",
+            ],
+            "temporal_effect": [
+                "você para e isso continua junto.",
+                "as horas passam sem recuperação real.",
+                "nem depois de dormir parece zerar.",
+            ],
+            "cognitive_effect": [
+                "a cabeça começa a entender que não é só esforço pontual.",
+                "o raciocínio já lê falha de recomposição.",
+                "isso toma forma de fadiga persistente.",
+            ],
+        },
+
+        ("mental_noise", "no_quiet"): {
+            "anchor": [
+                "a mente não consegue baixar.",
+                "não aparece faixa interna de sossego.",
+                "isso continua sem aquietar por dentro.",
+            ],
+            "subjective_effect": [
+                "a sensação é de agitação contínua.",
+                "parece impossível gerar silêncio mental.",
+                "fica um ruído que não desce.",
+            ],
+            "temporal_effect": [
+                "o tempo passa e a cabeça continua ativa.",
+                "mesmo tentando pausar isso não abaixa.",
+                "não entra descanso mental mesmo com intervalo.",
+            ],
+            "cognitive_effect": [
+                "o raciocínio percebe ausência de quietude.",
+                "a mente começa a cansar de não reduzir.",
+                "fica evidente que não há desaceleração interna.",
+            ],
+        },
+    }
+
     @staticmethod
-    def role_anchor(topic: str) -> list[str]:
+    def role_anchor(topic: str, shade: str | None = None) -> list[str]:
+        if shade and (topic, shade) in LenaSemanticResponseBank._SHADE_ROLE_BANK:
+            return LenaSemanticResponseBank._SHADE_ROLE_BANK[(topic, shade)]["anchor"]
         return LenaSemanticResponseBank._ROLE_BANK.get(topic, LenaSemanticResponseBank._ROLE_BANK["uncertainty"])["anchor"]
 
     @staticmethod
-    def role_subjective(topic: str) -> list[str]:
+    def role_subjective(topic: str, shade: str | None = None) -> list[str]:
+        if shade and (topic, shade) in LenaSemanticResponseBank._SHADE_ROLE_BANK:
+            return LenaSemanticResponseBank._SHADE_ROLE_BANK[(topic, shade)]["subjective_effect"]
         return LenaSemanticResponseBank._ROLE_BANK.get(topic, LenaSemanticResponseBank._ROLE_BANK["uncertainty"])["subjective_effect"]
 
     @staticmethod
-    def role_temporal(topic: str) -> list[str]:
+    def role_temporal(topic: str, shade: str | None = None) -> list[str]:
+        if shade and (topic, shade) in LenaSemanticResponseBank._SHADE_ROLE_BANK:
+            return LenaSemanticResponseBank._SHADE_ROLE_BANK[(topic, shade)]["temporal_effect"]
         return LenaSemanticResponseBank._ROLE_BANK.get(topic, LenaSemanticResponseBank._ROLE_BANK["uncertainty"])["temporal_effect"]
 
     @staticmethod
-    def role_cognitive(topic: str) -> list[str]:
+    def role_cognitive(topic: str, shade: str | None = None) -> list[str]:
+        if shade and (topic, shade) in LenaSemanticResponseBank._SHADE_ROLE_BANK:
+            return LenaSemanticResponseBank._SHADE_ROLE_BANK[(topic, shade)]["cognitive_effect"]
         return LenaSemanticResponseBank._ROLE_BANK.get(topic, LenaSemanticResponseBank._ROLE_BANK["uncertainty"])["cognitive_effect"]
 
     @staticmethod

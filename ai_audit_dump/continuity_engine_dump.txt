@@ -1,0 +1,41 @@
+14:class LenaContinuityEngine:
+15-    @staticmethod
+16-    def resolve(memory, topic: str | None) -> ContinuityPayload:
+17-        social = memory.social_state
+18-
+19-        if not topic:
+20-            return {
+21-                "topic": None,
+22-                "recurrence": 0,
+23-                "stage": 0,
+24-                "arc": social.current_conversation_arc,
+25-                "response_pressure": social.presence_momentum,
+26-            }
+27-
+28-        recurrence = int(memory.recent_topic_windows.get(topic, 0))
+29-        unresolved = int(social.unresolved_loops)
+30-        depth = int(social.conversation_depth)
+31-
+32-        confidence = recurrence + unresolved + depth
+33-
+34-        if confidence < 3:
+35-            stage = 0
+36-            topic = None
+37-        else:
+38-            stage = min(4, max(1, recurrence // 2 + unresolved // 2 + depth // 3))
+39-
+40-        pressure = min(
+41-            10,
+42-            recurrence
+43-            + unresolved
+44-            + social.emotional_gravity
+45-            + social.presence_momentum,
+46-        )
+47-
+48-        return {
+49-            "topic": topic,
+50-            "recurrence": recurrence,
+51-            "stage": stage,
+52-            "arc": social.current_conversation_arc,
+53-            "response_pressure": pressure,
+54-        }

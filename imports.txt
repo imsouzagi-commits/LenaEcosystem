@@ -1,0 +1,1568 @@
+src/openjarvis/connectors/sync_engine.py:from openjarvis.connectors._stubs import BaseConnector
+src/openjarvis/connectors/sync_engine.py:from openjarvis.connectors.pipeline import IngestionPipeline
+src/openjarvis/connectors/sync_engine.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/connectors/store.py:from openjarvis.core.events import EventType, get_event_bus
+src/openjarvis/connectors/store.py:from openjarvis.core.registry import MemoryRegistry
+src/openjarvis/connectors/store.py:from openjarvis.tools.storage._stubs import MemoryBackend, RetrievalResult
+src/openjarvis/connectors/apple_health.py:from openjarvis.connectors._stubs import BaseConnector, Document, SyncStatus
+src/openjarvis/connectors/apple_health.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/connectors/apple_health.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/google_tasks.py:from openjarvis.connectors._stubs import BaseConnector, Document, SyncStatus
+src/openjarvis/connectors/google_tasks.py:from openjarvis.connectors.oauth import load_tokens, resolve_google_credentials
+src/openjarvis/connectors/google_tasks.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/connectors/google_tasks.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/hackernews.py:from openjarvis.connectors._stubs import BaseConnector, Document, SyncStatus
+src/openjarvis/connectors/hackernews.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/gmail_imap.py:from openjarvis.connectors._stubs import BaseConnector, Document, SyncStatus
+src/openjarvis/connectors/gmail_imap.py:from openjarvis.connectors.oauth import delete_tokens, load_tokens, save_tokens
+src/openjarvis/connectors/gmail_imap.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/connectors/gmail_imap.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/gmail_imap.py:from openjarvis.tools._stubs import ToolSpec
+src/openjarvis/connectors/apple_music.py:from openjarvis.connectors._stubs import BaseConnector, Document, SyncStatus
+src/openjarvis/connectors/apple_music.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/whatsapp.py:from openjarvis.connectors._stubs import BaseConnector, Document, SyncStatus
+src/openjarvis/connectors/whatsapp.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/whatsapp.py:from openjarvis.tools._stubs import ToolSpec
+src/openjarvis/connectors/gcalendar.py:from openjarvis.lena.thread_guard import run_guarded_background
+src/openjarvis/connectors/gcalendar.py:from openjarvis.connectors._stubs import BaseConnector, Document, SyncStatus
+src/openjarvis/connectors/gcalendar.py:from openjarvis.connectors.oauth import (
+src/openjarvis/connectors/gcalendar.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/connectors/gcalendar.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/gcalendar.py:from openjarvis.tools._stubs import ToolSpec
+src/openjarvis/connectors/retriever.py:from openjarvis.connectors.store import KnowledgeStore
+src/openjarvis/connectors/retriever.py:from openjarvis.tools.storage._stubs import RetrievalResult
+src/openjarvis/connectors/github_notifications.py:from openjarvis.connectors._stubs import BaseConnector, Document, SyncStatus
+src/openjarvis/connectors/github_notifications.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/connectors/github_notifications.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/imessage.py:from openjarvis.connectors._stubs import BaseConnector, Document, SyncStatus
+src/openjarvis/connectors/imessage.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/imessage.py:from openjarvis.tools._stubs import ToolSpec
+src/openjarvis/connectors/weather.py:from openjarvis.connectors._stubs import BaseConnector, Document, SyncStatus
+src/openjarvis/connectors/weather.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/connectors/weather.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/strava.py:from openjarvis.connectors._stubs import BaseConnector, Document, SyncStatus
+src/openjarvis/connectors/strava.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/connectors/strava.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/__init__.py:from openjarvis.connectors._stubs import (
+src/openjarvis/connectors/__init__.py:from openjarvis.connectors.store import KnowledgeStore
+src/openjarvis/connectors/slack_connector.py:from openjarvis.connectors._stubs import BaseConnector, Document, SyncStatus
+src/openjarvis/connectors/slack_connector.py:from openjarvis.connectors.oauth import delete_tokens, load_tokens, save_tokens
+src/openjarvis/connectors/slack_connector.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/connectors/slack_connector.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/slack_connector.py:from openjarvis.tools._stubs import ToolSpec
+src/openjarvis/connectors/oura.py:from openjarvis.connectors._stubs import BaseConnector, Document, SyncStatus
+src/openjarvis/connectors/oura.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/connectors/oura.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/granola.py:from openjarvis.connectors._stubs import BaseConnector, Document, SyncStatus
+src/openjarvis/connectors/granola.py:from openjarvis.connectors.oauth import delete_tokens, load_tokens, save_tokens
+src/openjarvis/connectors/granola.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/connectors/granola.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/granola.py:from openjarvis.tools._stubs import ToolSpec
+src/openjarvis/connectors/dropbox.py:from openjarvis.connectors._stubs import BaseConnector, Document, SyncStatus
+src/openjarvis/connectors/dropbox.py:from openjarvis.connectors.oauth import delete_tokens, load_tokens, save_tokens
+src/openjarvis/connectors/dropbox.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/connectors/dropbox.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/dropbox.py:from openjarvis.tools._stubs import ToolSpec
+src/openjarvis/connectors/gmail.py:from openjarvis.connectors._stubs import BaseConnector, Document, SyncStatus
+src/openjarvis/connectors/gmail.py:from openjarvis.connectors.oauth import (
+src/openjarvis/connectors/gmail.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/connectors/gmail.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/gmail.py:from openjarvis.tools._stubs import ToolSpec
+src/openjarvis/connectors/gcontacts.py:from openjarvis.lena.thread_guard import run_guarded_background
+src/openjarvis/connectors/gcontacts.py:from openjarvis.connectors._stubs import BaseConnector, Document, SyncStatus
+src/openjarvis/connectors/gcontacts.py:from openjarvis.connectors.oauth import (
+src/openjarvis/connectors/gcontacts.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/connectors/gcontacts.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/gcontacts.py:from openjarvis.tools._stubs import ToolSpec
+src/openjarvis/connectors/outlook.py:from openjarvis.connectors._stubs import Document
+src/openjarvis/connectors/outlook.py:from openjarvis.connectors.gmail_imap import GmailIMAPConnector
+src/openjarvis/connectors/outlook.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/connectors/outlook.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/pipeline.py:from openjarvis.connectors._stubs import Attachment, Document
+src/openjarvis/connectors/pipeline.py:from openjarvis.connectors.chunker import SemanticChunker
+src/openjarvis/connectors/pipeline.py:from openjarvis.connectors.store import KnowledgeStore
+src/openjarvis/connectors/gdrive.py:from openjarvis.lena.thread_guard import run_guarded_background
+src/openjarvis/connectors/gdrive.py:from openjarvis.connectors._stubs import BaseConnector, Document, SyncStatus
+src/openjarvis/connectors/gdrive.py:from openjarvis.connectors.oauth import (
+src/openjarvis/connectors/gdrive.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/connectors/gdrive.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/gdrive.py:from openjarvis.tools._stubs import ToolSpec
+src/openjarvis/connectors/obsidian.py:from openjarvis.connectors._stubs import BaseConnector, Document, SyncStatus
+src/openjarvis/connectors/obsidian.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/obsidian.py:from openjarvis.tools._stubs import ToolSpec
+src/openjarvis/connectors/scheduler.py:from openjarvis.connectors._stubs import BaseConnector
+src/openjarvis/connectors/scheduler.py:from openjarvis.connectors.sync_engine import SyncEngine
+src/openjarvis/connectors/news_rss.py:from openjarvis.connectors._stubs import BaseConnector, Document, SyncStatus
+src/openjarvis/connectors/news_rss.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/connectors/news_rss.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/notion.py:from openjarvis.connectors._stubs import BaseConnector, Document, SyncStatus
+src/openjarvis/connectors/notion.py:from openjarvis.connectors.oauth import delete_tokens, load_tokens, save_tokens
+src/openjarvis/connectors/notion.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/connectors/notion.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/notion.py:from openjarvis.tools._stubs import ToolSpec
+src/openjarvis/connectors/apple_notes.py:from openjarvis.connectors._stubs import BaseConnector, Document, SyncStatus
+src/openjarvis/connectors/apple_notes.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/apple_notes.py:from openjarvis.tools._stubs import ToolSpec
+src/openjarvis/connectors/apple_contacts.py:from openjarvis.connectors._stubs import BaseConnector, Document, SyncStatus
+src/openjarvis/connectors/apple_contacts.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/apple_contacts.py:from openjarvis.tools._stubs import ToolSpec
+src/openjarvis/connectors/spotify.py:from openjarvis.connectors._stubs import BaseConnector, Document, SyncStatus
+src/openjarvis/connectors/spotify.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/connectors/spotify.py:from openjarvis.core.registry import ConnectorRegistry
+src/openjarvis/connectors/oauth.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/connectors/_stubs.py:from openjarvis.tools._stubs import ToolSpec
+src/openjarvis/traces/store.py:from openjarvis.core.events import Event, EventBus, EventType
+src/openjarvis/traces/store.py:from openjarvis.core.types import StepType, Trace, TraceStep
+src/openjarvis/traces/analyzer.py:from openjarvis.core.types import StepType, Trace, TraceStep
+src/openjarvis/traces/analyzer.py:from openjarvis.traces.store import TraceStore
+src/openjarvis/traces/collector.py:from openjarvis.agents._stubs import AgentContext, AgentResult, BaseAgent
+src/openjarvis/traces/collector.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/traces/collector.py:from openjarvis.core.types import StepType, Trace, TraceStep
+src/openjarvis/traces/collector.py:from openjarvis.traces.store import TraceStore
+src/openjarvis/traces/__init__.py:from openjarvis.traces.analyzer import TraceAnalyzer
+src/openjarvis/traces/__init__.py:from openjarvis.traces.collector import TraceCollector
+src/openjarvis/traces/__init__.py:from openjarvis.traces.store import TraceStore
+src/openjarvis/bench/latency.py:from openjarvis.bench._stats import compute_stats
+src/openjarvis/bench/latency.py:from openjarvis.bench._stubs import BaseBenchmark, BenchmarkResult
+src/openjarvis/bench/latency.py:from openjarvis.core.registry import BenchmarkRegistry
+src/openjarvis/bench/latency.py:from openjarvis.core.types import Message, Role
+src/openjarvis/bench/latency.py:from openjarvis.engine._stubs import InferenceEngine
+src/openjarvis/bench/throughput.py:from openjarvis.bench._stats import compute_stats
+src/openjarvis/bench/throughput.py:from openjarvis.bench._stubs import BaseBenchmark, BenchmarkResult
+src/openjarvis/bench/throughput.py:from openjarvis.core.registry import BenchmarkRegistry
+src/openjarvis/bench/throughput.py:from openjarvis.core.types import Message, Role
+src/openjarvis/bench/throughput.py:from openjarvis.engine._stubs import InferenceEngine
+src/openjarvis/bench/__init__.py:from openjarvis.bench._stubs import BaseBenchmark, BenchmarkResult, BenchmarkSuite
+src/openjarvis/bench/__init__.py:from openjarvis.core.registry import BenchmarkRegistry
+src/openjarvis/bench/energy.py:from openjarvis.bench._stats import compute_stats
+src/openjarvis/bench/energy.py:from openjarvis.bench._stubs import BaseBenchmark, BenchmarkResult
+src/openjarvis/bench/energy.py:from openjarvis.core.registry import BenchmarkRegistry
+src/openjarvis/bench/energy.py:from openjarvis.core.types import Message, Role
+src/openjarvis/bench/energy.py:from openjarvis.engine._stubs import InferenceEngine
+src/openjarvis/bench/_stubs.py:from openjarvis.engine._stubs import InferenceEngine
+src/openjarvis/system.py:from openjarvis.core.config import JarvisConfig, load_config
+src/openjarvis/system.py:from openjarvis.core.events import EventBus, get_event_bus
+src/openjarvis/system.py:from openjarvis.core.types import Message, Role
+src/openjarvis/system.py:from openjarvis.engine._stubs import InferenceEngine
+src/openjarvis/system.py:from openjarvis.tools._stubs import BaseTool, ToolExecutor
+src/openjarvis/evals/core/runner.py:from openjarvis.evals.core.backend import InferenceBackend
+src/openjarvis/evals/core/runner.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/core/runner.py:from openjarvis.evals.core.export import _hardware_info_dict
+src/openjarvis/evals/core/runner.py:from openjarvis.evals.core.scorer import Scorer
+src/openjarvis/evals/core/runner.py:from openjarvis.evals.core.tracker import ResultTracker
+src/openjarvis/evals/core/runner.py:from openjarvis.evals.core.types import (
+src/openjarvis/evals/core/config.py:from openjarvis.evals.core.types import (
+src/openjarvis/evals/core/export.py:from openjarvis.evals.core.trace import QueryTrace
+src/openjarvis/evals/core/dataset.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/core/pricing.py:from openjarvis.engine.cloud import PRICING, estimate_cost
+src/openjarvis/evals/core/environment.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/core/tracker.py:from openjarvis.evals.core.types import EvalResult, RunConfig, RunSummary
+src/openjarvis/evals/core/agentic_runner.py:from openjarvis.evals.core.event_recorder import AgentEvent, EventRecorder, EventType
+src/openjarvis/evals/core/agentic_runner.py:from openjarvis.evals.core.trace import QueryTrace, TurnTrace
+src/openjarvis/evals/core/scorer.py:from openjarvis.evals.core.backend import InferenceBackend
+src/openjarvis/evals/core/scorer.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/environments/lifelong_agent_env.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/environments/lifelong_agent_env.py:from openjarvis.evals.environments.base import TaskEnvironment
+src/openjarvis/evals/environments/lifelong_agent_env.py:from openjarvis.evals.scorers.lifelong_agent_scorer import (
+src/openjarvis/evals/environments/__init__.py:from openjarvis.evals.environments.base import TaskEnvironment
+src/openjarvis/evals/environments/base.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/backends/jarvis_agent.py:from openjarvis.evals.core.backend import InferenceBackend
+src/openjarvis/evals/backends/terminalbench_native.py:from openjarvis.evals.core.backend import InferenceBackend
+src/openjarvis/evals/backends/jarvis_direct.py:from openjarvis.evals.core.backend import InferenceBackend
+src/openjarvis/evals/datasets/terminalbench.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/terminalbench.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/simpleqa.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/simpleqa.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/swefficiency.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/swefficiency.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/gpqa.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/gpqa.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/coding_task.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/coding_task.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/loghub.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/loghub.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/supergpqa.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/supergpqa.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/swebench.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/swebench.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/taubench.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/taubench.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/knowledge_base.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/knowledge_base.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/research_mining.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/research_mining.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/morning_brief.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/morning_brief.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/email_triage.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/email_triage.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/math500.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/math500.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/natural_reasoning.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/natural_reasoning.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/hle.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/hle.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/liveresearch.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/liveresearch.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/gaia.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/gaia.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/paperarena.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/paperarena.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/browser_assistant.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/browser_assistant.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/livecodebench.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/livecodebench.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/wildchat.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/wildchat.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/frames.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/frames.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/security_scanner.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/security_scanner.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/ama_bench.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/ama_bench.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/mmlu_pro.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/mmlu_pro.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/terminalbench_native.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/terminalbench_native.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/doc_qa.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/doc_qa.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/pinchbench.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/pinchbench.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/lifelong_agent.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/lifelong_agent.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/coding_assistant.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/coding_assistant.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/toolcall15.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/toolcall15.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/ipw_mixed.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/ipw_mixed.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/webchorearena.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/webchorearena.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/workarena.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/workarena.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/deepplanning.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/deepplanning.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/daily_digest.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/daily_digest.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/datasets/liveresearchbench.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/datasets/liveresearchbench.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/tests/conftest.py:from openjarvis.evals.core.backend import InferenceBackend
+src/openjarvis/evals/tests/conftest.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/evals/tests/conftest.py:from openjarvis.evals.core.scorer import Scorer
+src/openjarvis/evals/tests/conftest.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/tests/test_frames.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/tests/test_frames.py:from openjarvis.evals.scorers.frames_judge import _GRADER_TEMPLATE, FRAMESScorer
+src/openjarvis/evals/tests/test_frames.py:from openjarvis.evals.tests.conftest import MockBackend
+src/openjarvis/evals/tests/test_display.py:from openjarvis.evals.core.display import (
+src/openjarvis/evals/tests/test_display.py:from openjarvis.evals.core.types import MetricStats, RunSummary
+src/openjarvis/evals/tests/test_gaia.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/tests/test_gaia.py:from openjarvis.evals.scorers.gaia_exact import (
+src/openjarvis/evals/tests/test_gaia.py:from openjarvis.evals.tests.conftest import MockBackend
+src/openjarvis/evals/tests/test_cli_flags.py:from openjarvis.evals.cli import main
+src/openjarvis/evals/tests/test_supergpqa.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/tests/test_supergpqa.py:from openjarvis.evals.tests.conftest import MockBackend
+src/openjarvis/evals/tests/test_runner.py:from openjarvis.evals.core.runner import (
+src/openjarvis/evals/tests/test_runner.py:from openjarvis.evals.core.types import EvalRecord, MetricStats, RunConfig
+src/openjarvis/evals/tests/test_runner.py:from openjarvis.evals.tests.conftest import MockBackend, MockDataset, MockScorer
+src/openjarvis/evals/tests/test_config.py:from openjarvis.evals.core.config import EvalConfigError, expand_suite, load_eval_config
+src/openjarvis/evals/tests/test_config.py:from openjarvis.evals.core.types import (
+src/openjarvis/evals/tests/test_wildchat.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/tests/test_wildchat.py:from openjarvis.evals.scorers.wildchat_judge import WildChatScorer
+src/openjarvis/evals/tests/test_wildchat.py:from openjarvis.evals.tests.conftest import MockBackend
+src/openjarvis/evals/tests/test_types.py:from openjarvis.evals.core.types import (
+src/openjarvis/evals/trackers/sheets_tracker.py:from openjarvis.evals.core.tracker import ResultTracker
+src/openjarvis/evals/trackers/sheets_tracker.py:from openjarvis.evals.core.types import EvalResult, MetricStats, RunConfig, RunSummary
+src/openjarvis/evals/trackers/wandb_tracker.py:from openjarvis.evals.core.tracker import ResultTracker
+src/openjarvis/evals/trackers/wandb_tracker.py:from openjarvis.evals.core.types import EvalResult, MetricStats, RunConfig, RunSummary
+src/openjarvis/evals/scorers/mmlu_pro_mcq.py:from openjarvis.evals.core.scorer import LLMJudgeScorer
+src/openjarvis/evals/scorers/mmlu_pro_mcq.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/wildchat_judge.py:from openjarvis.evals.core.scorer import LLMJudgeScorer
+src/openjarvis/evals/scorers/wildchat_judge.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/gaia_exact.py:from openjarvis.evals.core.scorer import LLMJudgeScorer
+src/openjarvis/evals/scorers/gaia_exact.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/gpqa_mcq.py:from openjarvis.evals.core.scorer import LLMJudgeScorer
+src/openjarvis/evals/scorers/gpqa_mcq.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/coding_task.py:from openjarvis.evals.core.scorer import Scorer
+src/openjarvis/evals/scorers/coding_task.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/frames_judge.py:from openjarvis.evals.core.scorer import LLMJudgeScorer
+src/openjarvis/evals/scorers/frames_judge.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/taubench.py:from openjarvis.evals.core.scorer import Scorer
+src/openjarvis/evals/scorers/taubench.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/terminalbench_native_structural.py:from openjarvis.evals.core.scorer import Scorer
+src/openjarvis/evals/scorers/terminalbench_native_structural.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/knowledge_base.py:from openjarvis.evals.core.scorer import LLMJudgeScorer
+src/openjarvis/evals/scorers/knowledge_base.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/ama_bench_judge.py:from openjarvis.evals.core.scorer import LLMJudgeScorer
+src/openjarvis/evals/scorers/ama_bench_judge.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/terminalbench_judge.py:from openjarvis.evals.core.scorer import LLMJudgeScorer
+src/openjarvis/evals/scorers/terminalbench_judge.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/research_mining.py:from openjarvis.evals.core.scorer import LLMJudgeScorer
+src/openjarvis/evals/scorers/research_mining.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/morning_brief.py:from openjarvis.evals.core.scorer import LLMJudgeScorer
+src/openjarvis/evals/scorers/morning_brief.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/email_triage.py:from openjarvis.evals.core.scorer import LLMJudgeScorer
+src/openjarvis/evals/scorers/email_triage.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/liveresearch.py:from openjarvis.evals.core.scorer import LLMJudgeScorer
+src/openjarvis/evals/scorers/liveresearch.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/workarena_scorer.py:from openjarvis.evals.core.scorer import Scorer
+src/openjarvis/evals/scorers/workarena_scorer.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/webchorearena_scorer.py:from openjarvis.evals.core.scorer import Scorer
+src/openjarvis/evals/scorers/webchorearena_scorer.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/browser_assistant.py:from openjarvis.evals.core.scorer import Scorer
+src/openjarvis/evals/scorers/browser_assistant.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/browser_assistant.py:from openjarvis.evals.scorers._checklist import (
+src/openjarvis/evals/scorers/livecodebench.py:from openjarvis.evals.core.scorer import Scorer
+src/openjarvis/evals/scorers/livecodebench.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/paperarena_judge.py:from openjarvis.evals.core.scorer import LLMJudgeScorer
+src/openjarvis/evals/scorers/paperarena_judge.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/lifelong_agent_scorer.py:from openjarvis.evals.core.scorer import Scorer
+src/openjarvis/evals/scorers/lifelong_agent_scorer.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/security_scanner.py:from openjarvis.evals.core.scorer import Scorer
+src/openjarvis/evals/scorers/security_scanner.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/security_scanner.py:from openjarvis.evals.scorers._checklist import ChecklistScorer, normalize_str
+src/openjarvis/evals/scorers/hle_judge.py:from openjarvis.evals.core.scorer import LLMJudgeScorer
+src/openjarvis/evals/scorers/hle_judge.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/hle_judge.py:from openjarvis.evals.scorers.reasoning_judge import reasoning_exact_match
+src/openjarvis/evals/scorers/loghub_scorer.py:from openjarvis.evals.core.scorer import LLMJudgeScorer
+src/openjarvis/evals/scorers/loghub_scorer.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/reasoning_judge.py:from openjarvis.evals.core.scorer import LLMJudgeScorer
+src/openjarvis/evals/scorers/reasoning_judge.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/simpleqa_judge.py:from openjarvis.evals.core.scorer import LLMJudgeScorer
+src/openjarvis/evals/scorers/simpleqa_judge.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/deepplanning_scorer.py:from openjarvis.evals.core.scorer import LLMJudgeScorer
+src/openjarvis/evals/scorers/deepplanning_scorer.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/swebench_structural.py:from openjarvis.evals.core.scorer import Scorer
+src/openjarvis/evals/scorers/swebench_structural.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/doc_qa.py:from openjarvis.evals.core.scorer import Scorer
+src/openjarvis/evals/scorers/doc_qa.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/doc_qa.py:from openjarvis.evals.scorers._checklist import ChecklistScorer, normalize_str
+src/openjarvis/evals/scorers/pinchbench.py:from openjarvis.evals.core.event_recorder import EventType
+src/openjarvis/evals/scorers/pinchbench.py:from openjarvis.evals.core.scorer import LLMJudgeScorer
+src/openjarvis/evals/scorers/pinchbench.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/supergpqa_mcq.py:from openjarvis.evals.core.scorer import LLMJudgeScorer
+src/openjarvis/evals/scorers/supergpqa_mcq.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/coding_assistant.py:from openjarvis.evals.core.scorer import Scorer
+src/openjarvis/evals/scorers/coding_assistant.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/swefficiency_structural.py:from openjarvis.evals.core.scorer import Scorer
+src/openjarvis/evals/scorers/swefficiency_structural.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/toolcall15.py:from openjarvis.evals.core.scorer import LLMJudgeScorer
+src/openjarvis/evals/scorers/toolcall15.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/ipw_mixed.py:from openjarvis.evals.core.scorer import LLMJudgeScorer
+src/openjarvis/evals/scorers/ipw_mixed.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/daily_digest.py:from openjarvis.evals.core.scorer import Scorer
+src/openjarvis/evals/scorers/daily_digest.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/scorers/daily_digest.py:from openjarvis.evals.scorers._checklist import ChecklistScorer, normalize_str
+src/openjarvis/evals/scorers/liveresearchbench.py:from openjarvis.evals.core.scorer import LLMJudgeScorer
+src/openjarvis/evals/scorers/liveresearchbench.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/cli.py:from openjarvis.evals.core.display import (
+src/openjarvis/evals/execution/pinchbench_env.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/execution/taubench_env.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/evals/__main__.py:from openjarvis.evals.cli import main
+src/openjarvis/tools/image_tool.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/image_tool.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/image_tool.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/shell_exec.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/shell_exec.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/shell_exec.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/file_write.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/file_write.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/file_write.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/scan_chunks.py:from openjarvis.connectors.store import KnowledgeStore
+src/openjarvis/tools/scan_chunks.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/scan_chunks.py:from openjarvis.core.types import Message, Role, ToolResult
+src/openjarvis/tools/scan_chunks.py:from openjarvis.engine._stubs import InferenceEngine
+src/openjarvis/tools/scan_chunks.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/audio_tool.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/audio_tool.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/audio_tool.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/git_tool.py:from openjarvis._rust_bridge import get_rust_module
+src/openjarvis/tools/git_tool.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/git_tool.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/git_tool.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/llm_tool.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/llm_tool.py:from openjarvis.core.types import Message, Role, ToolResult
+src/openjarvis/tools/llm_tool.py:from openjarvis.engine._stubs import InferenceEngine
+src/openjarvis/tools/llm_tool.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/code_interpreter.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/code_interpreter.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/code_interpreter.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/user_profile_manage.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/user_profile_manage.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/user_profile_manage.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/storage_tools.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/storage_tools.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/storage_tools.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/storage_tools.py:from openjarvis.tools.storage._stubs import MemoryBackend
+src/openjarvis/tools/code_interpreter_docker.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/code_interpreter_docker.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/code_interpreter_docker.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/apply_patch.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/apply_patch.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/apply_patch.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/knowledge_tools.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/knowledge_tools.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/knowledge_tools.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/repl.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/repl.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/repl.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/mcp_adapter.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/mcp_adapter.py:from openjarvis.mcp.client import MCPClient
+src/openjarvis/tools/mcp_adapter.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/think.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/think.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/think.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/__init__.py:from openjarvis.tools._stubs import BaseTool, ToolExecutor, ToolSpec
+src/openjarvis/tools/digest_collect.py:from openjarvis.connectors._stubs import Document
+src/openjarvis/tools/digest_collect.py:from openjarvis.core.registry import ConnectorRegistry, ToolRegistry
+src/openjarvis/tools/digest_collect.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/digest_collect.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/knowledge_sql.py:from openjarvis.connectors.store import KnowledgeStore
+src/openjarvis/tools/knowledge_sql.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/knowledge_sql.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/knowledge_sql.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/pdf_tool.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/pdf_tool.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/pdf_tool.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/channel_tools.py:from openjarvis.channels._stubs import BaseChannel
+src/openjarvis/tools/channel_tools.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/channel_tools.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/channel_tools.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/db_query.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/db_query.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/db_query.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/storage/bm25.py:from openjarvis._rust_bridge import get_rust_module
+src/openjarvis/tools/storage/bm25.py:from openjarvis.core.events import EventType, get_event_bus
+src/openjarvis/tools/storage/bm25.py:from openjarvis.core.registry import MemoryRegistry
+src/openjarvis/tools/storage/bm25.py:from openjarvis.tools.storage._stubs import MemoryBackend, RetrievalResult
+src/openjarvis/tools/storage/ingest.py:from openjarvis.tools.storage.chunking import Chunk, ChunkConfig, chunk_text
+src/openjarvis/tools/storage/faiss_backend.py:from openjarvis.core.events import EventType, get_event_bus
+src/openjarvis/tools/storage/faiss_backend.py:from openjarvis.core.registry import MemoryRegistry
+src/openjarvis/tools/storage/faiss_backend.py:from openjarvis.tools.storage._stubs import MemoryBackend, RetrievalResult
+src/openjarvis/tools/storage/faiss_backend.py:from openjarvis.tools.storage.embeddings import (
+src/openjarvis/tools/storage/knowledge_graph.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/tools/storage/knowledge_graph.py:from openjarvis.core.registry import MemoryRegistry
+src/openjarvis/tools/storage/hybrid.py:from openjarvis.core.events import EventType, get_event_bus
+src/openjarvis/tools/storage/hybrid.py:from openjarvis.core.registry import MemoryRegistry
+src/openjarvis/tools/storage/hybrid.py:from openjarvis.tools.storage._stubs import MemoryBackend, RetrievalResult
+src/openjarvis/tools/storage/__init__.py:from openjarvis.tools.storage._stubs import MemoryBackend, RetrievalResult
+src/openjarvis/tools/storage/__init__.py:from openjarvis.tools.storage.chunking import Chunk, ChunkConfig, chunk_text
+src/openjarvis/tools/storage/__init__.py:from openjarvis.tools.storage.context import ContextConfig, inject_context
+src/openjarvis/tools/storage/__init__.py:from openjarvis.tools.storage.ingest import ingest_path, read_document
+src/openjarvis/tools/storage/sqlite.py:from openjarvis.core.events import EventType, get_event_bus
+src/openjarvis/tools/storage/sqlite.py:from openjarvis.core.registry import MemoryRegistry
+src/openjarvis/tools/storage/sqlite.py:from openjarvis.tools.storage._stubs import MemoryBackend, RetrievalResult
+src/openjarvis/tools/storage/context.py:from openjarvis.core.events import EventType, get_event_bus
+src/openjarvis/tools/storage/context.py:from openjarvis.core.types import Message, Role
+src/openjarvis/tools/storage/context.py:from openjarvis.tools.storage._stubs import MemoryBackend, RetrievalResult
+src/openjarvis/tools/storage/colbert_backend.py:from openjarvis.core.events import EventType, get_event_bus
+src/openjarvis/tools/storage/colbert_backend.py:from openjarvis.core.registry import MemoryRegistry
+src/openjarvis/tools/storage/colbert_backend.py:from openjarvis.tools.storage._stubs import MemoryBackend, RetrievalResult
+src/openjarvis/tools/text_to_speech.py:from openjarvis.core.registry import ToolRegistry, TTSRegistry
+src/openjarvis/tools/text_to_speech.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/text_to_speech.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/skill_manage.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/skill_manage.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/skill_manage.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/browser.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/browser.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/browser.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/calculator.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/calculator.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/calculator.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/knowledge_search.py:from openjarvis.connectors.store import KnowledgeStore
+src/openjarvis/tools/knowledge_search.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/knowledge_search.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/knowledge_search.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/retrieval.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/retrieval.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/retrieval.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/retrieval.py:from openjarvis.tools.storage._stubs import MemoryBackend
+src/openjarvis/tools/retrieval.py:from openjarvis.tools.storage.context import format_context
+src/openjarvis/tools/templates/__init__.py:from openjarvis.tools.templates.loader import ToolTemplate, discover_templates
+src/openjarvis/tools/templates/loader.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/templates/loader.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/browser_axtree.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/browser_axtree.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/browser_axtree.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/web_search.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/web_search.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/web_search.py:from openjarvis.security.ssrf import check_ssrf
+src/openjarvis/tools/web_search.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/file_read.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/file_read.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/file_read.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/http_request.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/http_request.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/http_request.py:from openjarvis.security.ssrf import check_ssrf
+src/openjarvis/tools/http_request.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/agent_tools.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/agent_tools.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/agent_tools.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/tools/_stubs.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/tools/_stubs.py:from openjarvis.core.types import ToolCall, ToolResult
+src/openjarvis/tools/memory_manage.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/tools/memory_manage.py:from openjarvis.core.types import ToolResult
+src/openjarvis/tools/memory_manage.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/core/lena_state.py:from openjarvis.lena.thread_guard import run_guarded_background
+src/openjarvis/core/__init__.py:from openjarvis.core.registry import (
+src/openjarvis/core/__init__.py:from openjarvis.core.types import (
+src/openjarvis/sdk.py:from openjarvis.core.config import JarvisConfig, load_config
+src/openjarvis/sdk.py:from openjarvis.core.events import EventBus
+src/openjarvis/sdk.py:from openjarvis.core.types import Message, Role
+src/openjarvis/sdk.py:from openjarvis.engine._discovery import get_engine
+src/openjarvis/sdk.py:from openjarvis.system import JarvisSystem, SystemBuilder
+src/openjarvis/sdk.py:from openjarvis.telemetry.instrumented_engine import InstrumentedEngine
+src/openjarvis/sdk.py:from openjarvis.telemetry.store import TelemetryStore
+src/openjarvis/operators/__init__.py:from openjarvis.operators.loader import load_operator
+src/openjarvis/operators/__init__.py:from openjarvis.operators.manager import OperatorManager
+src/openjarvis/operators/__init__.py:from openjarvis.operators.types import OperatorManifest
+src/openjarvis/operators/loader.py:from openjarvis.operators.types import OperatorManifest
+src/openjarvis/operators/manager.py:from openjarvis.operators.loader import load_operator
+src/openjarvis/operators/manager.py:from openjarvis.operators.types import OperatorManifest
+src/openjarvis/intelligence/__init__.py:from openjarvis.intelligence.model_catalog import (
+src/openjarvis/intelligence/model_catalog.py:from openjarvis.core.registry import ModelRegistry
+src/openjarvis/intelligence/model_catalog.py:from openjarvis.core.types import ModelSpec, Quantization
+src/openjarvis/intelligence/spoken_entity_resolver.py:from openjarvis.intelligence.brazilian_phonetic_engine import BrazilianPhoneticEngine
+src/openjarvis/intelligence/uo_semantic_interpreter.py:from openjarvis.intelligence.uo_action_schema import UOBatch, UOCommand
+src/openjarvis/intelligence/uo_semantic_interpreter.py:from openjarvis.intelligence.uo_target_registry import UOTargetRegistry
+src/openjarvis/intelligence/uo_semantic_interpreter.py:from openjarvis.intelligence.brazilian_phonetic_engine import BrazilianPhoneticEngine
+src/openjarvis/intelligence/operational_parser.py:from openjarvis.intelligence.action_schema import ActionBatch, ActionCommand
+src/openjarvis/intelligence/operational_parser.py:from openjarvis.intelligence.confidence_engine import ConfidenceEngine
+src/openjarvis/intelligence/operational_parser.py:from openjarvis.intelligence.spoken_entity_resolver import SpokenEntityResolver
+src/openjarvis/intelligence/operational_parser.py:from openjarvis.intelligence.wakeword_resolver import WakewordResolver
+src/openjarvis/intelligence/uo_execution_plan.py:from openjarvis.intelligence.uo_action_schema import UOBatch
+src/openjarvis/security/boundary.py:from openjarvis.core.types import ToolCall
+src/openjarvis/security/scanner.py:from openjarvis._rust_bridge import get_rust_module, scan_result_from_json
+src/openjarvis/security/scanner.py:from openjarvis.security._stubs import BaseScanner
+src/openjarvis/security/scanner.py:from openjarvis.security.types import ScanResult, ThreatLevel
+src/openjarvis/security/audit.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/security/audit.py:from openjarvis.core.events import Event, EventBus, EventType
+src/openjarvis/security/audit.py:from openjarvis.security.types import (
+src/openjarvis/security/__init__.py:from openjarvis.core.events import EventBus
+src/openjarvis/security/__init__.py:from openjarvis.security._stubs import BaseScanner
+src/openjarvis/security/__init__.py:from openjarvis.security.audit import AuditLogger
+src/openjarvis/security/__init__.py:from openjarvis.security.file_policy import (
+src/openjarvis/security/__init__.py:from openjarvis.security.guardrails import GuardrailsEngine, SecurityBlockError
+src/openjarvis/security/__init__.py:from openjarvis.security.scanner import PIIScanner, SecretScanner
+src/openjarvis/security/__init__.py:from openjarvis.security.ssrf import check_ssrf, is_private_ip
+src/openjarvis/security/__init__.py:from openjarvis.security.types import (
+src/openjarvis/security/guardrails.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/security/guardrails.py:from openjarvis.core.types import Message
+src/openjarvis/security/guardrails.py:from openjarvis.engine._stubs import InferenceEngine, StreamChunk
+src/openjarvis/security/guardrails.py:from openjarvis.security._stubs import BaseScanner
+src/openjarvis/security/guardrails.py:from openjarvis.security.scanner import PIIScanner, SecretScanner
+src/openjarvis/security/guardrails.py:from openjarvis.security.types import RedactionMode, ScanResult
+src/openjarvis/security/severity_policy.py:from openjarvis.security.types import ThreatLevel
+src/openjarvis/security/_stubs.py:from openjarvis.security.types import ScanResult
+src/openjarvis/security/injection_scanner.py:from openjarvis.security.types import ScanFinding, ThreatLevel
+src/openjarvis/a2a/server.py:from openjarvis.a2a.protocol import (
+src/openjarvis/a2a/server.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/a2a/client.py:from openjarvis.a2a.protocol import A2ARequest, A2ATask, AgentCard
+src/openjarvis/a2a/__init__.py:from openjarvis.a2a.client import A2AClient
+src/openjarvis/a2a/__init__.py:from openjarvis.a2a.protocol import A2ARequest, A2AResponse, A2ATask, AgentCard
+src/openjarvis/a2a/__init__.py:from openjarvis.a2a.server import A2AServer
+src/openjarvis/a2a/__init__.py:from openjarvis.a2a.tool import A2AAgentTool
+src/openjarvis/a2a/tool.py:from openjarvis.a2a.client import A2AClient
+src/openjarvis/a2a/tool.py:from openjarvis.core.types import ToolResult
+src/openjarvis/a2a/tool.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/learning/optimize/personal/__init__.py:from openjarvis.learning.optimize.personal.dataset import PersonalBenchmarkDataset
+src/openjarvis/learning/optimize/personal/__init__.py:from openjarvis.learning.optimize.personal.scorer import PersonalBenchmarkScorer
+src/openjarvis/learning/optimize/personal/__init__.py:from openjarvis.learning.optimize.personal.synthesizer import (
+src/openjarvis/learning/optimize/personal/dataset.py:from openjarvis.evals.core.dataset import DatasetProvider
+src/openjarvis/learning/optimize/personal/dataset.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/learning/optimize/personal/dataset.py:from openjarvis.learning.optimize.personal.synthesizer import PersonalBenchmark
+src/openjarvis/learning/optimize/personal/synthesizer.py:from openjarvis.traces.store import TraceStore
+src/openjarvis/learning/optimize/personal/scorer.py:from openjarvis.evals.core.backend import InferenceBackend
+src/openjarvis/learning/optimize/personal/scorer.py:from openjarvis.evals.core.scorer import LLMJudgeScorer
+src/openjarvis/learning/optimize/personal/scorer.py:from openjarvis.evals.core.types import EvalRecord
+src/openjarvis/learning/optimize/store.py:from openjarvis.learning.optimize.types import (
+src/openjarvis/learning/optimize/config.py:from openjarvis.learning.optimize.types import ObjectiveSpec
+src/openjarvis/learning/optimize/trial_runner.py:from openjarvis.evals.core.types import RunConfig, RunSummary
+src/openjarvis/learning/optimize/trial_runner.py:from openjarvis.learning.optimize.types import (
+src/openjarvis/learning/optimize/__init__.py:from openjarvis.learning.optimize.config import (
+src/openjarvis/learning/optimize/__init__.py:from openjarvis.learning.optimize.llm_optimizer import LLMOptimizer
+src/openjarvis/learning/optimize/__init__.py:from openjarvis.learning.optimize.optimizer import (
+src/openjarvis/learning/optimize/__init__.py:from openjarvis.learning.optimize.search_space import (
+src/openjarvis/learning/optimize/__init__.py:from openjarvis.learning.optimize.store import OptimizationStore
+src/openjarvis/learning/optimize/__init__.py:from openjarvis.learning.optimize.trial_runner import (
+src/openjarvis/learning/optimize/__init__.py:from openjarvis.learning.optimize.types import (
+src/openjarvis/learning/optimize/llm_optimizer.py:from openjarvis.core.types import Trace
+src/openjarvis/learning/optimize/llm_optimizer.py:from openjarvis.evals.core.backend import InferenceBackend
+src/openjarvis/learning/optimize/llm_optimizer.py:from openjarvis.evals.core.types import RunSummary
+src/openjarvis/learning/optimize/llm_optimizer.py:from openjarvis.learning.optimize.types import (
+src/openjarvis/learning/optimize/types.py:from openjarvis.evals.core.types import RunSummary
+src/openjarvis/learning/optimize/types.py:from openjarvis.recipes.loader import Recipe
+src/openjarvis/learning/optimize/feedback/collector.py:from openjarvis.core.types import Trace
+src/openjarvis/learning/optimize/feedback/collector.py:from openjarvis.learning.optimize.feedback.judge import TraceJudge
+src/openjarvis/learning/optimize/feedback/__init__.py:from openjarvis.learning.optimize.feedback.collector import FeedbackCollector
+src/openjarvis/learning/optimize/feedback/__init__.py:from openjarvis.learning.optimize.feedback.judge import TraceJudge
+src/openjarvis/learning/optimize/feedback/judge.py:from openjarvis.core.types import Trace
+src/openjarvis/learning/optimize/feedback/judge.py:from openjarvis.evals.core.backend import InferenceBackend
+src/openjarvis/learning/optimize/optimizer.py:from openjarvis.learning.optimize.llm_optimizer import LLMOptimizer
+src/openjarvis/learning/optimize/optimizer.py:from openjarvis.learning.optimize.store import OptimizationStore
+src/openjarvis/learning/optimize/optimizer.py:from openjarvis.learning.optimize.trial_runner import TrialRunner
+src/openjarvis/learning/optimize/optimizer.py:from openjarvis.learning.optimize.types import (
+src/openjarvis/learning/optimize/search_space.py:from openjarvis.learning.optimize.types import SearchDimension, SearchSpace
+src/openjarvis/learning/intelligence/sft_trainer.py:from openjarvis.core.config import SFTConfig
+src/openjarvis/learning/intelligence/sft_trainer.py:from openjarvis.core.registry import LearningRegistry
+src/openjarvis/learning/intelligence/sft_trainer.py:from openjarvis.learning._stubs import IntelligenceLearningPolicy
+src/openjarvis/learning/intelligence/grpo_trainer.py:from openjarvis.core.config import GRPOConfig
+src/openjarvis/learning/intelligence/grpo_trainer.py:from openjarvis.core.registry import LearningRegistry
+src/openjarvis/learning/intelligence/grpo_trainer.py:from openjarvis.learning._stubs import IntelligenceLearningPolicy
+src/openjarvis/learning/intelligence/orchestrator/sft_trainer.py:from openjarvis.core.registry import LearningRegistry
+src/openjarvis/learning/intelligence/orchestrator/sft_trainer.py:from openjarvis.learning._stubs import IntelligenceLearningPolicy
+src/openjarvis/learning/intelligence/orchestrator/__init__.py:from openjarvis.learning.intelligence.orchestrator.environment import (
+src/openjarvis/learning/intelligence/orchestrator/__init__.py:from openjarvis.learning.intelligence.orchestrator.grpo_trainer import (
+src/openjarvis/learning/intelligence/orchestrator/__init__.py:from openjarvis.learning.intelligence.orchestrator.policy_model import (
+src/openjarvis/learning/intelligence/orchestrator/__init__.py:from openjarvis.learning.intelligence.orchestrator.prompt_registry import (
+src/openjarvis/learning/intelligence/orchestrator/__init__.py:from openjarvis.learning.intelligence.orchestrator.reward import (
+src/openjarvis/learning/intelligence/orchestrator/__init__.py:from openjarvis.learning.intelligence.orchestrator.sft_trainer import (
+src/openjarvis/learning/intelligence/orchestrator/__init__.py:from openjarvis.learning.intelligence.orchestrator.types import (
+src/openjarvis/learning/intelligence/orchestrator/environment.py:from openjarvis.core.types import ToolCall
+src/openjarvis/learning/intelligence/orchestrator/environment.py:from openjarvis.learning.intelligence.orchestrator.types import (
+src/openjarvis/learning/intelligence/orchestrator/environment.py:from openjarvis.tools._stubs import BaseTool, ToolExecutor
+src/openjarvis/learning/intelligence/orchestrator/reward.py:from openjarvis.learning.intelligence.orchestrator.types import Episode
+src/openjarvis/learning/intelligence/orchestrator/grpo_trainer.py:from openjarvis.core.registry import LearningRegistry
+src/openjarvis/learning/intelligence/orchestrator/grpo_trainer.py:from openjarvis.learning._stubs import IntelligenceLearningPolicy
+src/openjarvis/learning/intelligence/orchestrator/policy_model.py:from openjarvis.learning.intelligence.orchestrator.types import (
+src/openjarvis/learning/training/__init__.py:from openjarvis.learning.training.data import TrainingDataMiner
+src/openjarvis/learning/training/__init__.py:from openjarvis.learning.training.lora import (
+src/openjarvis/learning/training/data.py:from openjarvis.core.types import StepType, Trace
+src/openjarvis/learning/training/data.py:from openjarvis.learning.routing._utils import classify_query
+src/openjarvis/learning/__init__.py:from openjarvis.learning._stubs import (
+src/openjarvis/learning/__init__.py:from openjarvis.learning.agents.agent_evolver import AgentConfigEvolver
+src/openjarvis/learning/__init__.py:from openjarvis.learning.learning_orchestrator import LearningOrchestrator
+src/openjarvis/learning/__init__.py:from openjarvis.learning.optimize.llm_optimizer import LLMOptimizer
+src/openjarvis/learning/__init__.py:from openjarvis.learning.optimize.optimizer import OptimizationEngine
+src/openjarvis/learning/__init__.py:from openjarvis.learning.optimize.store import OptimizationStore
+src/openjarvis/learning/__init__.py:from openjarvis.learning.routing.complexity import (
+src/openjarvis/learning/__init__.py:from openjarvis.learning.routing.heuristic_reward import HeuristicRewardFunction
+src/openjarvis/learning/__init__.py:from openjarvis.learning.routing.router import (
+src/openjarvis/learning/__init__.py:from openjarvis.learning.training.data import TrainingDataMiner
+src/openjarvis/learning/__init__.py:from openjarvis.learning.training.lora import HAS_TORCH, LoRATrainer, LoRATrainingConfig
+src/openjarvis/learning/agents/gepa_optimizer.py:from openjarvis.core.config import GEPAOptimizerConfig
+src/openjarvis/learning/agents/gepa_optimizer.py:from openjarvis.core.registry import LearningRegistry
+src/openjarvis/learning/agents/gepa_optimizer.py:from openjarvis.learning._stubs import AgentLearningPolicy
+src/openjarvis/learning/agents/dspy_optimizer.py:from openjarvis.core.config import DSPyOptimizerConfig
+src/openjarvis/learning/agents/dspy_optimizer.py:from openjarvis.core.registry import LearningRegistry
+src/openjarvis/learning/agents/dspy_optimizer.py:from openjarvis.learning._stubs import AgentLearningPolicy
+src/openjarvis/learning/agents/agent_evolver.py:from openjarvis.core.types import StepType, Trace
+src/openjarvis/learning/agents/agent_evolver.py:from openjarvis.learning.routing._utils import classify_query
+src/openjarvis/learning/agents/agent_evolver.py:from openjarvis.traces.store import TraceStore
+src/openjarvis/learning/agents/skill_optimizer.py:from openjarvis.core.types import Trace, TraceStep
+src/openjarvis/learning/agents/skill_optimizer.py:from openjarvis.skills.manager import SkillManager
+src/openjarvis/learning/agents/skill_optimizer.py:from openjarvis.skills.overlay import SkillOverlay, write_overlay
+src/openjarvis/learning/routing/heuristic_reward.py:from openjarvis.learning._stubs import RewardFunction, RoutingContext
+src/openjarvis/learning/routing/complexity.py:from openjarvis.core.types import RoutingContext
+src/openjarvis/learning/routing/complexity.py:from openjarvis.learning._stubs import QueryAnalyzer
+src/openjarvis/learning/routing/heuristic_policy.py:from openjarvis.core.registry import RouterPolicyRegistry
+src/openjarvis/learning/routing/heuristic_policy.py:from openjarvis.learning.routing.router import HeuristicRouter
+src/openjarvis/learning/routing/router.py:from openjarvis.core.registry import ModelRegistry
+src/openjarvis/learning/routing/router.py:from openjarvis.core.types import RoutingContext
+src/openjarvis/learning/routing/router.py:from openjarvis.learning._stubs import QueryAnalyzer, RouterPolicy
+src/openjarvis/learning/routing/learned_router.py:from openjarvis.core.registry import RouterPolicyRegistry
+src/openjarvis/learning/routing/learned_router.py:from openjarvis.core.types import RoutingContext
+src/openjarvis/learning/routing/learned_router.py:from openjarvis.learning._stubs import RouterPolicy
+src/openjarvis/learning/routing/learned_router.py:from openjarvis.learning.routing._utils import classify_query
+src/openjarvis/learning/_stubs.py:from openjarvis.core.registry import LearningRegistry  # noqa: F401
+src/openjarvis/learning/_stubs.py:from openjarvis.core.types import RoutingContext  # noqa: F401
+src/openjarvis/scheduler/tools.py:from openjarvis.core.registry import ToolRegistry
+src/openjarvis/scheduler/tools.py:from openjarvis.core.types import ToolResult
+src/openjarvis/scheduler/tools.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/scheduler/__init__.py:from openjarvis.scheduler.scheduler import ScheduledTask, TaskScheduler
+src/openjarvis/scheduler/__init__.py:from openjarvis.scheduler.store import SchedulerStore
+src/openjarvis/scheduler/scheduler.py:from openjarvis.lena.thread_guard import run_guarded_background
+src/openjarvis/scheduler/scheduler.py:from openjarvis.scheduler.store import SchedulerStore
+src/openjarvis/agents/rlm.py:from openjarvis.agents._stubs import AgentContext, AgentResult, ToolUsingAgent
+src/openjarvis/agents/rlm.py:from openjarvis.agents.rlm_repl import RLMRepl
+src/openjarvis/agents/rlm.py:from openjarvis.core.events import EventBus
+src/openjarvis/agents/rlm.py:from openjarvis.core.registry import AgentRegistry
+src/openjarvis/agents/rlm.py:from openjarvis.core.types import Message, Role, ToolCall, ToolResult
+src/openjarvis/agents/rlm.py:from openjarvis.engine._stubs import InferenceEngine
+src/openjarvis/agents/rlm.py:from openjarvis.tools._stubs import BaseTool, build_tool_descriptions
+src/openjarvis/agents/native_react.py:from openjarvis.agents._stubs import AgentContext, AgentResult, ToolUsingAgent
+src/openjarvis/agents/native_react.py:from openjarvis.core.events import EventBus
+src/openjarvis/agents/native_react.py:from openjarvis.core.registry import AgentRegistry
+src/openjarvis/agents/native_react.py:from openjarvis.core.types import Message, Role, ToolCall, ToolResult, _message_to_dict
+src/openjarvis/agents/native_react.py:from openjarvis.engine._stubs import InferenceEngine
+src/openjarvis/agents/native_react.py:from openjarvis.tools._stubs import BaseTool, build_tool_descriptions
+src/openjarvis/agents/__init__.py:from openjarvis.agents._stubs import (
+src/openjarvis/agents/native_openhands.py:from openjarvis.agents._stubs import AgentContext, AgentResult, ToolUsingAgent
+src/openjarvis/agents/native_openhands.py:from openjarvis.core.events import EventBus
+src/openjarvis/agents/native_openhands.py:from openjarvis.core.registry import AgentRegistry
+src/openjarvis/agents/native_openhands.py:from openjarvis.core.types import Message, Role, ToolCall, ToolResult
+src/openjarvis/agents/native_openhands.py:from openjarvis.engine._stubs import InferenceEngine
+src/openjarvis/agents/native_openhands.py:from openjarvis.tools._stubs import BaseTool, build_tool_descriptions
+src/openjarvis/agents/channel_agent.py:from openjarvis.channels._stubs import BaseChannel, ChannelMessage
+src/openjarvis/agents/orchestrator.py:from openjarvis.agents._stubs import AgentContext, AgentResult, ToolUsingAgent
+src/openjarvis/agents/orchestrator.py:from openjarvis.core.events import EventBus
+src/openjarvis/agents/orchestrator.py:from openjarvis.core.registry import AgentRegistry
+src/openjarvis/agents/orchestrator.py:from openjarvis.core.types import Message, Role, ToolCall, ToolResult
+src/openjarvis/agents/orchestrator.py:from openjarvis.engine._stubs import InferenceEngine
+src/openjarvis/agents/orchestrator.py:from openjarvis.tools._stubs import BaseTool
+src/openjarvis/agents/morning_digest.py:from openjarvis.agents._stubs import AgentContext, AgentResult, ToolUsingAgent
+src/openjarvis/agents/morning_digest.py:from openjarvis.agents.digest_store import DigestArtifact, DigestStore
+src/openjarvis/agents/morning_digest.py:from openjarvis.core.registry import AgentRegistry
+src/openjarvis/agents/morning_digest.py:from openjarvis.core.types import Message, Role, ToolCall
+src/openjarvis/agents/scheduler.py:from openjarvis.core.events import EventType
+src/openjarvis/agents/loop_guard.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/agents/monitor_operative.py:from openjarvis.agents._stubs import AgentContext, AgentResult, ToolUsingAgent
+src/openjarvis/agents/monitor_operative.py:from openjarvis.core.events import EventBus
+src/openjarvis/agents/monitor_operative.py:from openjarvis.core.registry import AgentRegistry
+src/openjarvis/agents/monitor_operative.py:from openjarvis.core.types import Message, Role, ToolCall, ToolResult, _message_to_dict
+src/openjarvis/agents/monitor_operative.py:from openjarvis.engine._stubs import InferenceEngine
+src/openjarvis/agents/monitor_operative.py:from openjarvis.tools._stubs import BaseTool
+src/openjarvis/agents/simple.py:from openjarvis.agents._stubs import AgentContext, AgentResult, BaseAgent
+src/openjarvis/agents/simple.py:from openjarvis.core.registry import AgentRegistry
+src/openjarvis/agents/operative.py:from openjarvis.agents._stubs import AgentContext, AgentResult, ToolUsingAgent
+src/openjarvis/agents/operative.py:from openjarvis.core.events import EventBus
+src/openjarvis/agents/operative.py:from openjarvis.core.registry import AgentRegistry
+src/openjarvis/agents/operative.py:from openjarvis.core.types import Message, Role, ToolCall, ToolResult
+src/openjarvis/agents/operative.py:from openjarvis.engine._stubs import InferenceEngine
+src/openjarvis/agents/operative.py:from openjarvis.tools._stubs import BaseTool
+src/openjarvis/agents/openhands.py:from openjarvis.agents._stubs import AgentContext, AgentResult, BaseAgent
+src/openjarvis/agents/openhands.py:from openjarvis.core.events import EventBus
+src/openjarvis/agents/openhands.py:from openjarvis.core.registry import AgentRegistry
+src/openjarvis/agents/openhands.py:from openjarvis.engine._stubs import InferenceEngine
+src/openjarvis/agents/claude_code.py:from openjarvis.agents._stubs import AgentContext, AgentResult, BaseAgent
+src/openjarvis/agents/claude_code.py:from openjarvis.core.events import EventBus
+src/openjarvis/agents/claude_code.py:from openjarvis.core.registry import AgentRegistry
+src/openjarvis/agents/claude_code.py:from openjarvis.core.types import ToolResult
+src/openjarvis/agents/claude_code.py:from openjarvis.engine._stubs import InferenceEngine
+src/openjarvis/agents/executor.py:from openjarvis.agents._stubs import AgentResult
+src/openjarvis/agents/executor.py:from openjarvis.agents.errors import (
+src/openjarvis/agents/executor.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/agents/deep_research.py:from openjarvis.agents._stubs import AgentContext, AgentResult, ToolUsingAgent
+src/openjarvis/agents/deep_research.py:from openjarvis.core.events import EventBus
+src/openjarvis/agents/deep_research.py:from openjarvis.core.registry import AgentRegistry
+src/openjarvis/agents/deep_research.py:from openjarvis.core.types import Message, Role, ToolCall, ToolResult
+src/openjarvis/agents/deep_research.py:from openjarvis.engine._stubs import InferenceEngine
+src/openjarvis/agents/deep_research.py:from openjarvis.tools._stubs import BaseTool
+src/openjarvis/agents/_stubs.py:from openjarvis.core.config import load_config
+src/openjarvis/agents/_stubs.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/agents/_stubs.py:from openjarvis.core.types import Conversation, Message, Role, ToolResult
+src/openjarvis/agents/_stubs.py:from openjarvis.engine._stubs import InferenceEngine
+src/openjarvis/server/routes.py.bak:from openjarvis.core.types import Message, Role
+src/openjarvis/server/routes.py.bak:from openjarvis.quick_commands import processar_com_deteccao
+src/openjarvis/server/routes.py.bak:from openjarvis.server.models import (
+src/openjarvis/server/connectors_router.py:from openjarvis.lena.thread_guard import run_guarded_background
+src/openjarvis/server/channel_bridge.py:from openjarvis.channels._stubs import BaseChannel, ChannelStatus
+src/openjarvis/server/channel_bridge.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/server/channel_bridge.py:from openjarvis.quick_commands import processar_com_deteccao
+src/openjarvis/server/channel_bridge.py:from openjarvis.server.session_store import SessionStore
+src/openjarvis/server/webhook_routes.py:from openjarvis.lena.thread_guard import run_guarded_background
+src/openjarvis/server/cost_calculator.py:from openjarvis.server.savings import CLOUD_PRICING
+src/openjarvis/server/ws_bridge.py:from openjarvis.core.events import Event, EventBus, EventType
+src/openjarvis/server/upload_router.py:from openjarvis.connectors.store import KnowledgeStore
+src/openjarvis/server/upload_router.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/server/app.py:from openjarvis.server.api_routes import include_all_routes
+src/openjarvis/server/app.py:from openjarvis.server.comparison import comparison_router
+src/openjarvis/server/app.py:from openjarvis.server.connectors_router import create_connectors_router
+src/openjarvis/server/app.py:from openjarvis.server.dashboard import dashboard_router
+src/openjarvis/server/app.py:from openjarvis.server.digest_routes import create_digest_router
+src/openjarvis/server/app.py:from openjarvis.server.routes import router
+src/openjarvis/server/app.py:from openjarvis.server.upload_router import router as upload_router
+src/openjarvis/server/cloud_router.py:from openjarvis.core.types import Message
+src/openjarvis/server/stream_bridge.py:from openjarvis.agents._stubs import AgentContext, BaseAgent
+src/openjarvis/server/stream_bridge.py:from openjarvis.core.events import Event, EventBus, EventType
+src/openjarvis/server/stream_bridge.py:from openjarvis.server.models import (
+src/openjarvis/server/agent_manager_routes.py:from openjarvis.lena.thread_guard import run_guarded_background
+src/openjarvis/server/agent_manager_routes.py:from openjarvis.agents.manager import AgentManager
+src/openjarvis/server/digest_routes.py:from openjarvis.agents.digest_store import DigestStore
+src/openjarvis/server/digest_routes.py:from openjarvis.cli.digest_cmd import (
+src/openjarvis/server/digest_routes.py:from openjarvis.core.config import load_config
+src/openjarvis/server/routes.py.bak2:from openjarvis.core.types import Message, Role
+src/openjarvis/server/routes.py.bak2:from openjarvis.quick_commands import processar_com_deteccao
+src/openjarvis/server/routes.py.bak2:from openjarvis.server.models import (
+src/openjarvis/server/routes.py:from openjarvis.core.types import Message, Role
+src/openjarvis/server/routes.py:from openjarvis.quick_commands import processar_com_deteccao
+src/openjarvis/server/routes.py:from openjarvis.server.models import (
+src/openjarvis/agent/lena_agent.py:from openjarvis.lena.runtime.dependencies import LenaDependencies
+src/openjarvis/agent/lena_agent.py:from openjarvis.lena.fallback_controller import LenaFallbackController
+src/openjarvis/agent/lena_agent.py:from openjarvis.lena.intent_dispatcher import LenaIntentDispatcher
+src/openjarvis/agent/lena_agent.py:from openjarvis.lena.unified_route_resolver import UnifiedRouteResolver
+src/openjarvis/agent/lena_agent.py:from openjarvis.lena.memory_facade import LenaMemoryFacade
+src/openjarvis/agent/lena_agent.py:from openjarvis.lena.cognitive_orchestrator import LenaCognitiveOrchestrator
+src/openjarvis/agent/lena_agent.py:from openjarvis.lena.action_orchestrator import LenaActionOrchestrator
+src/openjarvis/agent/lena_agent.py:from openjarvis.lena.conversation_orchestrator import LenaConversationOrchestrator
+src/openjarvis/agent/lena_agent.py:from openjarvis.lena.conversation_learner import LenaConversationLearner
+src/openjarvis/agent/lena_agent.py:from openjarvis.lena.task_orchestrator import LenaTaskOrchestrator
+src/openjarvis/agent/lena_agent.py:from openjarvis.lena.learning_runtime import LenaLearningRuntime
+src/openjarvis/agent/lena_agent.py:from openjarvis.lena.turn_manager import LenaTurnManager
+src/openjarvis/agent/lena_agent.py:from openjarvis.lena.cognition.semantic_packet_builder import LenaSemanticPacketBuilder
+src/openjarvis/agent/lena_agent.py:from openjarvis.lena.observability.semantic_trace import LenaSemanticTrace
+src/openjarvis/agent/lena_memory_engine.py:from openjarvis.core.types import Message
+src/openjarvis/agent/lena_memory_engine.py:from openjarvis.memory.manager import MemoryManager
+src/openjarvis/mcp/server.py:from openjarvis.core.types import ToolCall
+src/openjarvis/mcp/server.py:from openjarvis.mcp.protocol import (
+src/openjarvis/mcp/server.py:from openjarvis.tools._stubs import BaseTool, ToolExecutor
+src/openjarvis/mcp/transport.py:from openjarvis.mcp.protocol import MCPRequest, MCPResponse
+src/openjarvis/mcp/client.py:from openjarvis.mcp.protocol import MCPError, MCPRequest, MCPResponse
+src/openjarvis/mcp/client.py:from openjarvis.mcp.transport import MCPTransport
+src/openjarvis/mcp/client.py:from openjarvis.tools._stubs import ToolSpec
+src/openjarvis/mcp/__init__.py:from openjarvis.mcp.client import MCPClient
+src/openjarvis/mcp/__init__.py:from openjarvis.mcp.protocol import MCPError, MCPNotification, MCPRequest, MCPResponse
+src/openjarvis/mcp/__init__.py:from openjarvis.mcp.server import MCPServer
+src/openjarvis/mcp/__init__.py:from openjarvis.mcp.transport import (
+src/openjarvis/cli/chat_cmd.py:from openjarvis.cli._tool_names import resolve_tool_names
+src/openjarvis/cli/chat_cmd.py:from openjarvis.core.config import load_config
+src/openjarvis/cli/chat_cmd.py:from openjarvis.core.types import Message, Role
+src/openjarvis/cli/memory_cmd.py:from openjarvis.core.config import load_config
+src/openjarvis/cli/memory_cmd.py:from openjarvis.core.registry import MemoryRegistry
+src/openjarvis/cli/memory_cmd.py:from openjarvis.tools.storage.chunking import ChunkConfig
+src/openjarvis/cli/memory_cmd.py:from openjarvis.tools.storage.ingest import ingest_path
+src/openjarvis/cli/init_cmd.py:from openjarvis.cli.model import find_model_spec, hf_download, ollama_pull
+src/openjarvis/cli/init_cmd.py:from openjarvis.cli.scan_cmd import PrivacyScanner
+src/openjarvis/cli/init_cmd.py:from openjarvis.core.config import (
+src/openjarvis/cli/vault_cmd.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/cli/add_cmd.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/cli/ask.py:from openjarvis.cli._tool_names import resolve_tool_names
+src/openjarvis/cli/ask.py:from openjarvis.cli.hints import hint_no_engine
+src/openjarvis/cli/ask.py:from openjarvis.core.config import load_config
+src/openjarvis/cli/ask.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/cli/ask.py:from openjarvis.core.types import Message, Role
+src/openjarvis/cli/ask.py:from openjarvis.engine import (
+src/openjarvis/cli/ask.py:from openjarvis.intelligence import merge_discovered_models, register_builtin_models
+src/openjarvis/cli/ask.py:from openjarvis.lena.kernel import LenaKernel
+src/openjarvis/cli/ask.py:from openjarvis.quick_commands import (
+src/openjarvis/cli/ask.py:from openjarvis.telemetry.instrumented_engine import InstrumentedEngine
+src/openjarvis/cli/ask.py:from openjarvis.telemetry.store import TelemetryStore
+src/openjarvis/cli/log_config.py:from openjarvis.security.credential_stripper import CredentialStripper
+src/openjarvis/cli/daemon_cmd.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR, load_config
+src/openjarvis/cli/__init__.py:from openjarvis.cli.add_cmd import add
+src/openjarvis/cli/__init__.py:from openjarvis.cli.agent_cmd import agent
+src/openjarvis/cli/__init__.py:from openjarvis.cli.ask import ask
+src/openjarvis/cli/__init__.py:from openjarvis.cli.bench_cmd import bench
+src/openjarvis/cli/__init__.py:from openjarvis.cli.channel_cmd import channel
+src/openjarvis/cli/__init__.py:from openjarvis.cli.channels_cmd import channels
+src/openjarvis/cli/__init__.py:from openjarvis.cli.chat_cmd import chat
+src/openjarvis/cli/__init__.py:from openjarvis.cli.compose_cmd import compose
+src/openjarvis/cli/__init__.py:from openjarvis.cli.config_cmd import config
+src/openjarvis/cli/__init__.py:from openjarvis.cli.connect_cmd import connect
+src/openjarvis/cli/__init__.py:from openjarvis.cli.daemon_cmd import daemon
+src/openjarvis/cli/__init__.py:from openjarvis.cli.deep_research_setup_cmd import deep_research_setup
+src/openjarvis/cli/__init__.py:from openjarvis.cli.digest_cmd import digest
+src/openjarvis/cli/__init__.py:from openjarvis.cli.doctor_cmd import doctor
+src/openjarvis/cli/__init__.py:from openjarvis.cli.eval_cmd import eval_group
+src/openjarvis/cli/__init__.py:from openjarvis.cli.feedback_cmd import feedback_group
+src/openjarvis/cli/__init__.py:from openjarvis.cli.gateway_cmd import gateway
+src/openjarvis/cli/__init__.py:from openjarvis.cli.host_cmd import host
+src/openjarvis/cli/__init__.py:from openjarvis.cli.init_cmd import init
+src/openjarvis/cli/__init__.py:from openjarvis.cli.memory_cmd import memory
+src/openjarvis/cli/__init__.py:from openjarvis.cli.model import model
+src/openjarvis/cli/__init__.py:from openjarvis.cli.operators_cmd import operators
+src/openjarvis/cli/__init__.py:from openjarvis.cli.optimize_cmd import optimize_group
+src/openjarvis/cli/__init__.py:from openjarvis.cli.quickstart_cmd import quickstart
+src/openjarvis/cli/__init__.py:from openjarvis.cli.registry_cmd import registry
+src/openjarvis/cli/__init__.py:from openjarvis.cli.scan_cmd import scan
+src/openjarvis/cli/__init__.py:from openjarvis.cli.scheduler_cmd import scheduler
+src/openjarvis/cli/__init__.py:from openjarvis.cli.serve import serve
+src/openjarvis/cli/__init__.py:from openjarvis.cli.skill_cmd import skill
+src/openjarvis/cli/__init__.py:from openjarvis.cli.telemetry_cmd import telemetry
+src/openjarvis/cli/__init__.py:from openjarvis.cli.tool_cmd import tool
+src/openjarvis/cli/__init__.py:from openjarvis.cli.vault_cmd import vault
+src/openjarvis/cli/__init__.py:from openjarvis.cli.workflow_cmd import workflow
+src/openjarvis/cli/serve.py:from openjarvis.agent.lena_agent import LenaAgent
+src/openjarvis/cli/serve.py:from openjarvis.server.routes import router
+src/openjarvis/cli/auth_cmd.py:from openjarvis.core.config import (
+src/openjarvis/cli/auth_cmd.py:from openjarvis.server.auth_middleware import generate_api_key
+src/openjarvis/cli/digest_cmd.py:from openjarvis.agents.digest_store import DigestStore
+src/openjarvis/cli/digest_cmd.py:from openjarvis.core.config import DEFAULT_CONFIG_PATH, load_config
+src/openjarvis/cli/model.py:from openjarvis.core.config import load_config
+src/openjarvis/cli/model.py:from openjarvis.core.registry import ModelRegistry
+src/openjarvis/cli/model.py:from openjarvis.engine import discover_engines, discover_models
+src/openjarvis/cli/model.py:from openjarvis.intelligence import merge_discovered_models, register_builtin_models
+src/openjarvis/cli/model.py:from openjarvis.intelligence.model_catalog import BUILTIN_MODELS
+src/openjarvis/cli/tunnel_cmd.py:from openjarvis.core.config import DEFAULT_CONFIG_PATH
+src/openjarvis/cli/voice_cli.py:from openjarvis.agent.lena_agent import LenaAgent
+src/openjarvis/cli/voice_cli.py:from openjarvis.voice.voice_input import record_audio, transcribe
+src/openjarvis/cli/doctor_cmd.py:from openjarvis.core.config import DEFAULT_CONFIG_PATH, load_config
+src/openjarvis/cli/bench_cmd.py:from openjarvis.core.config import load_config
+src/openjarvis/cli/bench_cmd.py:from openjarvis.engine import get_engine
+src/openjarvis/cli/quickstart_cmd.py:from openjarvis.core.config import (
+src/openjarvis/cli/telemetry_cmd.py:from openjarvis.core.config import load_config
+src/openjarvis/cli/telemetry_cmd.py:from openjarvis.telemetry.aggregator import TelemetryAggregator
+src/openjarvis/cli/main.py:from openjarvis.agent.lena_agent import LenaAgent
+src/openjarvis/cli/deep_research_setup_cmd.py:from openjarvis.connectors.pipeline import IngestionPipeline
+src/openjarvis/cli/deep_research_setup_cmd.py:from openjarvis.connectors.store import KnowledgeStore
+src/openjarvis/cli/deep_research_setup_cmd.py:from openjarvis.connectors.sync_engine import SyncEngine
+src/openjarvis/cli/deep_research_setup_cmd.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/cli/__main__.py:from openjarvis.cli import main
+src/openjarvis/cli/skill_cmd.py:from openjarvis.core.config import load_config
+src/openjarvis/cli/skill_cmd.py:from openjarvis.core.events import EventBus
+src/openjarvis/cli/skill_cmd.py:from openjarvis.skills.manager import SkillManager
+src/openjarvis/speech/openai_whisper.py:from openjarvis.core.registry import SpeechRegistry
+src/openjarvis/speech/openai_whisper.py:from openjarvis.speech._stubs import SpeechBackend, TranscriptionResult
+src/openjarvis/speech/deepgram.py:from openjarvis.core.registry import SpeechRegistry
+src/openjarvis/speech/deepgram.py:from openjarvis.speech._stubs import SpeechBackend, TranscriptionResult
+src/openjarvis/speech/openai_tts.py:from openjarvis.core.registry import TTSRegistry
+src/openjarvis/speech/openai_tts.py:from openjarvis.speech.tts import TTSBackend, TTSResult
+src/openjarvis/speech/kokoro_tts.py:from openjarvis.core.registry import TTSRegistry
+src/openjarvis/speech/kokoro_tts.py:from openjarvis.speech.tts import TTSBackend, TTSResult
+src/openjarvis/speech/faster_whisper.py:from openjarvis.core.registry import SpeechRegistry
+src/openjarvis/speech/faster_whisper.py:from openjarvis.speech._stubs import Segment, SpeechBackend, TranscriptionResult
+src/openjarvis/speech/cartesia_tts.py:from openjarvis.core.registry import TTSRegistry
+src/openjarvis/speech/cartesia_tts.py:from openjarvis.speech.tts import TTSBackend, TTSResult
+src/openjarvis/lena/smart_brain.py:from openjarvis.engine.azure_openai_engine import AzureOpenAIEngine
+src/openjarvis/lena/smart_brain.py:from openjarvis.engine.ollama_engine import OllamaEngine
+src/openjarvis/lena/response_synthesizer.py:from openjarvis.lena.organic_speech_engine import LenaOrganicSpeechEngine
+src/openjarvis/lena/response_synthesizer.py:from openjarvis.lena.semantic_packet import LenaSemanticPacket
+src/openjarvis/lena/response_selector.py:from openjarvis.lena.lena_speech_cortex import LenaSpeechCortex
+src/openjarvis/lena/response_selector.py:from openjarvis.lena.phenomenology_signal_engine import LenaPhenomenologySignalEngine
+src/openjarvis/lena/phenomenology/speech_field.py:from openjarvis.lena.semantic_packet import LenaSemanticPacket
+src/openjarvis/lena/phenomenology/semantic_drift.py:from openjarvis.lena.phenomenology.cognitive_state import (
+src/openjarvis/lena/phenomenology/semantic_drift.py:from openjarvis.lena.semantic_packet import (
+src/openjarvis/lena/fallback_controller.py:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/memory_persistence.py:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/memory_persistence.py:from openjarvis.lena.workspace_center import LenaWorkspaceCenter
+src/openjarvis/lena/intention_memory_engine.py:from openjarvis.lena.intention_state import LenaIntentionState
+src/openjarvis/lena/kernel.py:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/kernel.py:from openjarvis.lena.kernel_watchdog import LenaKernelWatchdog
+src/openjarvis/lena/kernel.py:from openjarvis.lena.permission_center import LenaPermissionCenter
+src/openjarvis/lena/kernel.py:from openjarvis.lena.service_registry import LenaServiceRegistry
+src/openjarvis/lena/kernel.py:from openjarvis.lena.state_center import HealthStatus, LenaGlobalState
+src/openjarvis/lena/kernel.py:from openjarvis.lena.workspace_center import LenaWorkspaceCenter
+src/openjarvis/lena/memory_facade.py:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/memory_facade.py:from openjarvis.lena.learned_patterns import LenaLearnedPatterns
+src/openjarvis/lena/memory_facade.py:from openjarvis.lena.learned_responses import LenaLearnedResponses
+src/openjarvis/lena/memory_facade.py:from openjarvis.lena.relational_impression import LenaRelationalImpression
+src/openjarvis/lena/memory_facade.py:from openjarvis.lena.human_memory_reflector import LenaHumanMemoryReflector
+src/openjarvis/lena/memory_facade.py:from openjarvis.lena.memory_persistence import LenaMemoryPersistence
+src/openjarvis/lena/memory_facade.py:from openjarvis.lena.social_state import LenaSocialState
+src/openjarvis/lena/memory_facade.py:from openjarvis.lena.continuity_engine import LenaContinuityEngine
+src/openjarvis/lena/memory_facade.py:from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+src/openjarvis/lena/memory_facade.py:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/memory_facade.py:from openjarvis.lena.closure_cognition_engine import LenaClosureCognitionEngine
+src/openjarvis/lena/memory_facade.py:from openjarvis.lena.learning_runtime import LenaLearningRuntime
+src/openjarvis/lena/runtime_guard.py:from openjarvis.lena.action_guard import LenaActionGuard
+src/openjarvis/lena/persistent_store.py:from openjarvis.lena.workspace_center import LenaWorkspaceCenter
+src/openjarvis/lena/response_naturalizer.py:from openjarvis.engine.ollama_engine import OllamaEngine
+src/openjarvis/lena/os_async.py:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/cognition/semantic_packet_builder.py:from openjarvis.lena.semantic_packet import LenaSemanticPacket
+src/openjarvis/lena/cognition/semantic_packet_builder.py:from openjarvis.lena.cognition.response_pressure_engine import (
+src/openjarvis/lena/cognition/semantic_packet_builder.py:from openjarvis.lena.cognition.continuity_engine import (
+src/openjarvis/lena/file_controller.py:from openjarvis.lena.action_guard import LenaActionGuard
+src/openjarvis/lena/file_controller.py:from openjarvis.lena.file_operator import LenaFileOperator
+src/openjarvis/lena/intent_dispatcher.py:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/organic_speech_engine.py:from openjarvis.lena.semantic_response_bank import LenaSemanticResponseBank
+src/openjarvis/lena/organic_speech_engine.py:from openjarvis.lena.semantic_packet import LenaSemanticPacket
+src/openjarvis/lena/organic_speech_engine.py:from openjarvis.lena.phenomenology.speech_field import (
+src/openjarvis/lena/organic_speech_engine.py:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/turn_manager.py:from openjarvis.lena.social_engine import LenaSocialEngine
+src/openjarvis/lena/learning_runtime.py:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/learning_runtime.py:from openjarvis.lena.learned_patterns import LenaLearnedPatterns
+src/openjarvis/lena/learning_runtime.py:from openjarvis.lena.learned_responses import LenaLearnedResponses
+src/openjarvis/lena/page_bridge.py:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/page_bridge.py:from openjarvis.lena.workspace_center import LenaWorkspaceCenter
+src/openjarvis/lena/observability/semantic_trace.py:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/conversation_orchestrator.py:from openjarvis.lena.response_synthesizer import LenaResponseSynthesizer
+src/openjarvis/lena/conversation_orchestrator.py:from openjarvis.lena.organic_response_composer import OrganicResponseComposer
+src/openjarvis/lena/conversation_orchestrator.py:from openjarvis.lena.unified_mental_state import LenaUnifiedMentalStateResolver
+src/openjarvis/lena/boot_logger.py:from openjarvis.lena.workspace_center import LenaWorkspaceCenter
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak:from openjarvis.lena.desktop_controller import LenaDesktopController
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak:from openjarvis.lena.fallback_controller import LenaFallbackController
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak:from openjarvis.lena.file_controller import LenaFileController
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak:from openjarvis.lena.intent_dispatcher import LenaIntentDispatcher
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak:from openjarvis.lena.kernel import LenaKernel
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak:from openjarvis.lena.memory_facade import LenaMemoryFacade
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak:from openjarvis.lena.cognitive_orchestrator import CognitiveDecision, LenaCognitiveOrchestrator
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak:from openjarvis.lena.search_orchestrator import LenaSearchOrchestrator
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak:from openjarvis.lena.action_orchestrator import LenaActionOrchestrator
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak:from openjarvis.lena.conversation_orchestrator import LenaConversationOrchestrator
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak:from openjarvis.lena.router import LenaRouter
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak:from openjarvis.lena.smart_brain import LenaSmartBrain
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak:from openjarvis.lena.task_orchestrator import LenaTaskOrchestrator
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak:from openjarvis.lena.turn_manager import LenaTurnManager
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak:from openjarvis.lena.web_controller import LenaWebController
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_idempotent_packet:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_idempotent_packet:from openjarvis.lena.learned_patterns import LenaLearnedPatterns
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_idempotent_packet:from openjarvis.lena.learned_responses import LenaLearnedResponses
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_idempotent_packet:from openjarvis.lena.relational_impression import LenaRelationalImpression
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_idempotent_packet:from openjarvis.lena.human_memory_reflector import LenaHumanMemoryReflector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_idempotent_packet:from openjarvis.lena.memory_persistence import LenaMemoryPersistence
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_idempotent_packet:from openjarvis.lena.social_state import LenaSocialState
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_idempotent_packet:from openjarvis.lena.continuity_engine import LenaContinuityEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_idempotent_packet:from openjarvis.lena.response_selector import LenaResponseSelector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_idempotent_packet:from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_idempotent_packet:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_idempotent_packet:from openjarvis.lena.closure_cognition_engine import LenaClosureCognitionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_idempotent_packet:from openjarvis.lena.learning_runtime import LenaLearningRuntime
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_idempotent_packet:from openjarvis.lena.semantic_packet import LenaSemanticPacket
+src/openjarvis/lena/_lab_backup/memory_persistence.py.bak_full_contract_restore:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/_lab_backup/memory_persistence.py.bak_full_contract_restore:from openjarvis.lena.workspace_center import LenaWorkspaceCenter
+src/openjarvis/lena/_lab_backup/turn_manager.py.bak_idempotent_packet:from openjarvis.lena.social_engine import LenaSocialEngine
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_wave16:from openjarvis.lena.semantic_response_bank import LenaSemanticResponseBank
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_wave16:from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_wave16:from openjarvis.lena.narrative_recall_engine import LenaNarrativeRecallEngine
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_wave16:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_wave16:from openjarvis.lena.intention_recall_engine import LenaIntentionRecallEngine
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_wave16:from openjarvis.lena.autonomous_curiosity_engine import LenaAutonomousCuriosityEngine
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_wave16:from openjarvis.lena.cognitive_stance_engine import LenaCognitiveStanceEngine
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_semantic_stable:from openjarvis.lena.semantic_response_bank import LenaSemanticResponseBank
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_semantic_stable:from openjarvis.lena.semantic_packet import LenaSemanticPacket
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_semantic_stable:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolic_weight:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolic_weight:from openjarvis.lena.learned_patterns import LenaLearnedPatterns
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolic_weight:from openjarvis.lena.learned_responses import LenaLearnedResponses
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolic_weight:from openjarvis.lena.relational_impression import LenaRelationalImpression
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolic_weight:from openjarvis.lena.human_memory_reflector import LenaHumanMemoryReflector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolic_weight:from openjarvis.lena.memory_persistence import LenaMemoryPersistence
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolic_weight:from openjarvis.lena.social_state import LenaSocialState
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolic_weight:from openjarvis.lena.continuity_engine import LenaContinuityEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolic_weight:from openjarvis.lena.response_selector import LenaResponseSelector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolic_weight:from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolic_weight:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolic_weight:from openjarvis.lena.closure_cognition_engine import LenaClosureCognitionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolic_weight:from openjarvis.lena.learning_runtime import LenaLearningRuntime
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolic_weight:from openjarvis.lena.semantic_packet import LenaSemanticPacket
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_wave1:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_wave1:from openjarvis.lena.learned_patterns import LenaLearnedPatterns
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_wave1:from openjarvis.lena.learned_responses import LenaLearnedResponses
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_wave1:from openjarvis.lena.relational_impression import LenaRelationalImpression
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_wave1:from openjarvis.lena.human_memory_reflector import LenaHumanMemoryReflector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_wave1:from openjarvis.lena.memory_persistence import LenaMemoryPersistence
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_wave1:from openjarvis.lena.social_state import LenaSocialState
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_wave1:from openjarvis.lena.continuity_engine import LenaContinuityEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_wave1:from openjarvis.lena.response_selector import LenaResponseSelector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_wave1:from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_wave1:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_wave1:from openjarvis.lena.closure_cognition_engine import LenaClosureCognitionEngine
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_h87:from openjarvis.lena.response_synthesizer import LenaResponseSynthesizer
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_h87:from openjarvis.lena.response_selector import LenaResponseSelector
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_h87:from openjarvis.lena.continuity_engine import LenaContinuityEngine
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_h87:from openjarvis.lena.organic_response_composer import OrganicResponseComposer
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_h87:from openjarvis.lena.unified_mental_state import LenaUnifiedMentalStateResolver
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_semantic_stable:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_semantic_stable:from openjarvis.lena.learned_patterns import LenaLearnedPatterns
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_semantic_stable:from openjarvis.lena.learned_responses import LenaLearnedResponses
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_semantic_stable:from openjarvis.lena.relational_impression import LenaRelationalImpression
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_semantic_stable:from openjarvis.lena.human_memory_reflector import LenaHumanMemoryReflector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_semantic_stable:from openjarvis.lena.memory_persistence import LenaMemoryPersistence
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_semantic_stable:from openjarvis.lena.social_state import LenaSocialState
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_semantic_stable:from openjarvis.lena.continuity_engine import LenaContinuityEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_semantic_stable:from openjarvis.lena.response_selector import LenaResponseSelector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_semantic_stable:from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_semantic_stable:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_semantic_stable:from openjarvis.lena.closure_cognition_engine import LenaClosureCognitionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_semantic_stable:from openjarvis.lena.learning_runtime import LenaLearningRuntime
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_semantic_stable:from openjarvis.lena.semantic_packet import LenaSemanticPacket
+src/openjarvis/lena/_lab_backup/lena_conversationalizer.py:from openjarvis.lena.social_state import LenaSocialState
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_packet_first:from openjarvis.lena.response_synthesizer import LenaResponseSynthesizer
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_packet_first:from openjarvis.lena.organic_response_composer import OrganicResponseComposer
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_packet_first:from openjarvis.lena.unified_mental_state import LenaUnifiedMentalStateResolver
+src/openjarvis/lena/_lab_backup/response_synthesizer.py.bak_h87:from openjarvis.lena.lena_speech_cortex import LenaSpeechCortex
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_final:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_final:from openjarvis.lena.learned_patterns import LenaLearnedPatterns
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_final:from openjarvis.lena.learned_responses import LenaLearnedResponses
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_final:from openjarvis.lena.relational_impression import LenaRelationalImpression
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_final:from openjarvis.lena.human_memory_reflector import LenaHumanMemoryReflector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_final:from openjarvis.lena.memory_persistence import LenaMemoryPersistence
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_final:from openjarvis.lena.social_state import LenaSocialState
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_final:from openjarvis.lena.continuity_engine import LenaContinuityEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_final:from openjarvis.lena.response_selector import LenaResponseSelector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_final:from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_final:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_final:from openjarvis.lena.closure_cognition_engine import LenaClosureCognitionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_neuralfix1:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_neuralfix1:from openjarvis.lena.learned_patterns import LenaLearnedPatterns
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_neuralfix1:from openjarvis.lena.learned_responses import LenaLearnedResponses
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_neuralfix1:from openjarvis.lena.relational_impression import LenaRelationalImpression
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_neuralfix1:from openjarvis.lena.human_memory_reflector import LenaHumanMemoryReflector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_neuralfix1:from openjarvis.lena.memory_persistence import LenaMemoryPersistence
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_neuralfix1:from openjarvis.lena.social_state import LenaSocialState
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_neuralfix1:from openjarvis.lena.continuity_engine import LenaContinuityEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_neuralfix1:from openjarvis.lena.response_selector import LenaResponseSelector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_neuralfix1:from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_neuralfix1:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_neuralfix1:from openjarvis.lena.closure_cognition_engine import LenaClosureCognitionEngine
+src/openjarvis/lena/_lab_backup/presence_orchestrator.py.bak_p8:from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+src/openjarvis/lena/_lab_backup/memory_persistence.py.bak_metabolism_split:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/_lab_backup/memory_persistence.py.bak_metabolism_split:from openjarvis.lena.workspace_center import LenaWorkspaceCenter
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_neuralcore:from openjarvis.lena.response_synthesizer import LenaResponseSynthesizer
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_neuralcore:from openjarvis.lena.response_selector import LenaResponseSelector
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_neuralcore:from openjarvis.lena.continuity_engine import LenaContinuityEngine
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_neuralcore:from openjarvis.lena.presence_orchestrator import LenaPresenceOrchestrator
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_neuralcore:from openjarvis.lena.organic_response_composer import OrganicResponseComposer
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_neuralcore:from openjarvis.lena.utterance_interpreter import LenaUtteranceInterpreter
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_neuralcore:from openjarvis.lena.response_regime_resolver import LenaResponseRegimeResolver
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_p3:from openjarvis.lena.semantic_response_bank import LenaSemanticResponseBank
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_p3:from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_p3:from openjarvis.lena.linguistic_cadence_engine import LenaLinguisticCadenceEngine
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_p3:from openjarvis.lena.narrative_recall_engine import LenaNarrativeRecallEngine
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_p3:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_p3:from openjarvis.lena.intention_recall_engine import LenaIntentionRecallEngine
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_p3:from openjarvis.lena.autonomous_curiosity_engine import LenaAutonomousCuriosityEngine
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_p3:from openjarvis.lena.semantic_diffuser_engine import LenaSemanticDiffuserEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_h87:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_h87:from openjarvis.lena.learned_patterns import LenaLearnedPatterns
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_h87:from openjarvis.lena.learned_responses import LenaLearnedResponses
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_h87:from openjarvis.lena.relational_impression import LenaRelationalImpression
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_h87:from openjarvis.lena.human_memory_reflector import LenaHumanMemoryReflector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_h87:from openjarvis.lena.memory_persistence import LenaMemoryPersistence
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_h87:from openjarvis.lena.social_state import LenaSocialState
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_h87:from openjarvis.lena.continuity_engine import LenaContinuityEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_h87:from openjarvis.lena.response_selector import LenaResponseSelector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_h87:from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_h87:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_h87:from openjarvis.lena.closure_cognition_engine import LenaClosureCognitionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_h87:from openjarvis.lena.learning_runtime import LenaLearningRuntime
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_p1:from openjarvis.lena.response_synthesizer import LenaResponseSynthesizer
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_p1:from openjarvis.lena.response_selector import LenaResponseSelector
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_p1:from openjarvis.lena.continuity_engine import LenaContinuityEngine
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_p1:from openjarvis.lena.presence_orchestrator import LenaPresenceOrchestrator
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_first:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_first:from openjarvis.lena.learned_patterns import LenaLearnedPatterns
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_first:from openjarvis.lena.learned_responses import LenaLearnedResponses
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_first:from openjarvis.lena.relational_impression import LenaRelationalImpression
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_first:from openjarvis.lena.human_memory_reflector import LenaHumanMemoryReflector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_first:from openjarvis.lena.memory_persistence import LenaMemoryPersistence
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_first:from openjarvis.lena.social_state import LenaSocialState
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_first:from openjarvis.lena.continuity_engine import LenaContinuityEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_first:from openjarvis.lena.response_selector import LenaResponseSelector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_first:from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_first:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_first:from openjarvis.lena.closure_cognition_engine import LenaClosureCognitionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_first:from openjarvis.lena.learning_runtime import LenaLearningRuntime
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_first:from openjarvis.lena.semantic_packet import LenaSemanticPacket
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_restore_contract_fix:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_restore_contract_fix:from openjarvis.lena.learned_patterns import LenaLearnedPatterns
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_restore_contract_fix:from openjarvis.lena.learned_responses import LenaLearnedResponses
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_restore_contract_fix:from openjarvis.lena.relational_impression import LenaRelationalImpression
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_restore_contract_fix:from openjarvis.lena.human_memory_reflector import LenaHumanMemoryReflector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_restore_contract_fix:from openjarvis.lena.memory_persistence import LenaMemoryPersistence
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_restore_contract_fix:from openjarvis.lena.social_state import LenaSocialState
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_restore_contract_fix:from openjarvis.lena.continuity_engine import LenaContinuityEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_restore_contract_fix:from openjarvis.lena.response_selector import LenaResponseSelector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_restore_contract_fix:from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_restore_contract_fix:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_restore_contract_fix:from openjarvis.lena.closure_cognition_engine import LenaClosureCognitionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_restore_contract_fix:from openjarvis.lena.learning_runtime import LenaLearningRuntime
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_restore_contract_fix:from openjarvis.lena.semantic_packet import LenaSemanticPacket
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_split:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_split:from openjarvis.lena.learned_patterns import LenaLearnedPatterns
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_split:from openjarvis.lena.learned_responses import LenaLearnedResponses
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_split:from openjarvis.lena.relational_impression import LenaRelationalImpression
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_split:from openjarvis.lena.human_memory_reflector import LenaHumanMemoryReflector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_split:from openjarvis.lena.memory_persistence import LenaMemoryPersistence
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_split:from openjarvis.lena.social_state import LenaSocialState
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_split:from openjarvis.lena.continuity_engine import LenaContinuityEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_split:from openjarvis.lena.response_selector import LenaResponseSelector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_split:from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_split:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_split:from openjarvis.lena.closure_cognition_engine import LenaClosureCognitionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_split:from openjarvis.lena.learning_runtime import LenaLearningRuntime
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_metabolism_split:from openjarvis.lena.semantic_packet import LenaSemanticPacket
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_packet_first:from openjarvis.lena.desktop_controller import LenaDesktopController
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_packet_first:from openjarvis.lena.fallback_controller import LenaFallbackController
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_packet_first:from openjarvis.lena.file_controller import LenaFileController
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_packet_first:from openjarvis.lena.intent_dispatcher import LenaIntentDispatcher
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_packet_first:from openjarvis.lena.unified_route_resolver import UnifiedRouteResolver
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_packet_first:from openjarvis.lena.kernel import LenaKernel
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_packet_first:from openjarvis.lena.memory_facade import LenaMemoryFacade
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_packet_first:from openjarvis.lena.cognitive_orchestrator import LenaCognitiveOrchestrator
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_packet_first:from openjarvis.lena.search_orchestrator import LenaSearchOrchestrator
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_packet_first:from openjarvis.lena.action_orchestrator import LenaActionOrchestrator
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_packet_first:from openjarvis.lena.conversation_orchestrator import LenaConversationOrchestrator
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_packet_first:from openjarvis.lena.conversation_learner import LenaConversationLearner
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_packet_first:from openjarvis.lena.learned_patterns import LenaLearnedPatterns
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_packet_first:from openjarvis.lena.learned_responses import LenaLearnedResponses
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_packet_first:from openjarvis.lena.task_orchestrator import LenaTaskOrchestrator
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_packet_first:from openjarvis.lena.smart_brain import LenaSmartBrain
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_packet_first:from openjarvis.lena.learning_runtime import LenaLearningRuntime
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_packet_first:from openjarvis.lena.turn_manager import LenaTurnManager
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_wave2:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_wave2:from openjarvis.lena.learned_patterns import LenaLearnedPatterns
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_wave2:from openjarvis.lena.learned_responses import LenaLearnedResponses
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_wave2:from openjarvis.lena.relational_impression import LenaRelationalImpression
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_wave2:from openjarvis.lena.human_memory_reflector import LenaHumanMemoryReflector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_wave2:from openjarvis.lena.memory_persistence import LenaMemoryPersistence
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_wave2:from openjarvis.lena.social_state import LenaSocialState
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_wave2:from openjarvis.lena.continuity_engine import LenaContinuityEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_wave2:from openjarvis.lena.response_selector import LenaResponseSelector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_wave2:from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_wave2:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_wave2:from openjarvis.lena.closure_cognition_engine import LenaClosureCognitionEngine
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_one_turn_packet:from openjarvis.lena.semantic_response_bank import LenaSemanticResponseBank
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_one_turn_packet:from openjarvis.lena.semantic_packet import LenaSemanticPacket
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_one_turn_packet:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_p1:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_p1:from openjarvis.lena.learned_patterns import LenaLearnedPatterns
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_p1:from openjarvis.lena.learned_responses import LenaLearnedResponses
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_p1:from openjarvis.lena.relational_impression import LenaRelationalImpression
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_p1:from openjarvis.lena.human_memory_reflector import LenaHumanMemoryReflector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_p1:from openjarvis.lena.memory_persistence import LenaMemoryPersistence
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_p1:from openjarvis.lena.social_state import LenaSocialState
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_p1:from openjarvis.lena.continuity_engine import LenaContinuityEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_p1:from openjarvis.lena.response_selector import LenaResponseSelector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_p1:from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_p1:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_p1:from openjarvis.lena.closure_cognition_engine import LenaClosureCognitionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_full_contract_restore:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_full_contract_restore:from openjarvis.lena.learned_patterns import LenaLearnedPatterns
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_full_contract_restore:from openjarvis.lena.learned_responses import LenaLearnedResponses
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_full_contract_restore:from openjarvis.lena.relational_impression import LenaRelationalImpression
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_full_contract_restore:from openjarvis.lena.human_memory_reflector import LenaHumanMemoryReflector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_full_contract_restore:from openjarvis.lena.memory_persistence import LenaMemoryPersistence
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_full_contract_restore:from openjarvis.lena.social_state import LenaSocialState
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_full_contract_restore:from openjarvis.lena.continuity_engine import LenaContinuityEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_full_contract_restore:from openjarvis.lena.response_selector import LenaResponseSelector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_full_contract_restore:from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_full_contract_restore:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_full_contract_restore:from openjarvis.lena.closure_cognition_engine import LenaClosureCognitionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_full_contract_restore:from openjarvis.lena.learning_runtime import LenaLearningRuntime
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_full_contract_restore:from openjarvis.lena.semantic_packet import LenaSemanticPacket
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_real_callback:from openjarvis.lena.semantic_response_bank import LenaSemanticResponseBank
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_real_callback:from openjarvis.lena.semantic_packet import LenaSemanticPacket
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_real_callback:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_p7:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_p7:from openjarvis.lena.learned_patterns import LenaLearnedPatterns
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_p7:from openjarvis.lena.learned_responses import LenaLearnedResponses
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_p7:from openjarvis.lena.relational_impression import LenaRelationalImpression
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_p7:from openjarvis.lena.human_memory_reflector import LenaHumanMemoryReflector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_p7:from openjarvis.lena.memory_persistence import LenaMemoryPersistence
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_p7:from openjarvis.lena.social_state import LenaSocialState
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_p7:from openjarvis.lena.continuity_engine import LenaContinuityEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_p7:from openjarvis.lena.response_selector import LenaResponseSelector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_p7:from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_p7:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_p7:from openjarvis.lena.closure_cognition_engine import LenaClosureCognitionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_pure_packet:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_pure_packet:from openjarvis.lena.learned_patterns import LenaLearnedPatterns
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_pure_packet:from openjarvis.lena.learned_responses import LenaLearnedResponses
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_pure_packet:from openjarvis.lena.relational_impression import LenaRelationalImpression
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_pure_packet:from openjarvis.lena.human_memory_reflector import LenaHumanMemoryReflector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_pure_packet:from openjarvis.lena.memory_persistence import LenaMemoryPersistence
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_pure_packet:from openjarvis.lena.social_state import LenaSocialState
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_pure_packet:from openjarvis.lena.continuity_engine import LenaContinuityEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_pure_packet:from openjarvis.lena.response_selector import LenaResponseSelector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_pure_packet:from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_pure_packet:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_pure_packet:from openjarvis.lena.closure_cognition_engine import LenaClosureCognitionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_pure_packet:from openjarvis.lena.learning_runtime import LenaLearningRuntime
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_pure_packet:from openjarvis.lena.semantic_packet import LenaSemanticPacket
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_unifycore:from openjarvis.lena.response_synthesizer import LenaResponseSynthesizer
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_unifycore:from openjarvis.lena.response_selector import LenaResponseSelector
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_unifycore:from openjarvis.lena.continuity_engine import LenaContinuityEngine
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_unifycore:from openjarvis.lena.presence_orchestrator import LenaPresenceOrchestrator
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_unifycore:from openjarvis.lena.organic_response_composer import OrganicResponseComposer
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_unifycore:from openjarvis.lena.utterance_interpreter import LenaUtteranceInterpreter
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_semantic_stable:from openjarvis.lena.desktop_controller import LenaDesktopController
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_semantic_stable:from openjarvis.lena.fallback_controller import LenaFallbackController
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_semantic_stable:from openjarvis.lena.file_controller import LenaFileController
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_semantic_stable:from openjarvis.lena.intent_dispatcher import LenaIntentDispatcher
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_semantic_stable:from openjarvis.lena.unified_route_resolver import UnifiedRouteResolver
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_semantic_stable:from openjarvis.lena.kernel import LenaKernel
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_semantic_stable:from openjarvis.lena.memory_facade import LenaMemoryFacade
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_semantic_stable:from openjarvis.lena.cognitive_orchestrator import LenaCognitiveOrchestrator
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_semantic_stable:from openjarvis.lena.search_orchestrator import LenaSearchOrchestrator
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_semantic_stable:from openjarvis.lena.action_orchestrator import LenaActionOrchestrator
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_semantic_stable:from openjarvis.lena.conversation_orchestrator import LenaConversationOrchestrator
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_semantic_stable:from openjarvis.lena.conversation_learner import LenaConversationLearner
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_semantic_stable:from openjarvis.lena.learned_patterns import LenaLearnedPatterns
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_semantic_stable:from openjarvis.lena.learned_responses import LenaLearnedResponses
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_semantic_stable:from openjarvis.lena.task_orchestrator import LenaTaskOrchestrator
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_semantic_stable:from openjarvis.lena.smart_brain import LenaSmartBrain
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_semantic_stable:from openjarvis.lena.learning_runtime import LenaLearningRuntime
+src/openjarvis/lena/_lab_backup/lena_agent.py.bak_semantic_stable:from openjarvis.lena.turn_manager import LenaTurnManager
+src/openjarvis/lena/_lab_backup/lena_speech_cortex.py.bak_one_turn_packet:from openjarvis.lena.organic_speech_engine import LenaOrganicSpeechEngine
+src/openjarvis/lena/_lab_backup/lena_speech_cortex.py.bak_one_turn_packet:from openjarvis.lena.organic_response_composer import OrganicResponseComposer
+src/openjarvis/lena/_lab_backup/lena_speech_cortex.py.bak_one_turn_packet:from openjarvis.lena.response_humanizer import LenaResponseHumanizer
+src/openjarvis/lena/_lab_backup/lena_speech_cortex.py.bak_one_turn_packet:from openjarvis.lena.response_naturalizer import LenaResponseNaturalizer
+src/openjarvis/lena/_lab_backup/lena_speech_cortex.py.bak_one_turn_packet:from openjarvis.lena.semantic_packet import LenaSemanticPacket
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_h87:from openjarvis.lena.semantic_response_bank import LenaSemanticResponseBank
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_h87:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_one_turn_packet:from openjarvis.lena.response_synthesizer import LenaResponseSynthesizer
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_one_turn_packet:from openjarvis.lena.organic_response_composer import OrganicResponseComposer
+src/openjarvis/lena/_lab_backup/conversation_orchestrator.py.bak_one_turn_packet:from openjarvis.lena.unified_mental_state import LenaUnifiedMentalStateResolver
+src/openjarvis/lena/_lab_backup/intention_memory_engine.py.bak_metabolic_weight:from openjarvis.lena.intention_state import LenaIntentionState
+src/openjarvis/lena/_lab_backup/lena_speech_cortex.py.bak_h87:from openjarvis.lena.organic_speech_engine import LenaOrganicSpeechEngine
+src/openjarvis/lena/_lab_backup/lena_speech_cortex.py.bak_h87:from openjarvis.lena.organic_response_composer import OrganicResponseComposer
+src/openjarvis/lena/_lab_backup/lena_speech_cortex.py.bak_h87:from openjarvis.lena.response_humanizer import LenaResponseHumanizer
+src/openjarvis/lena/_lab_backup/lena_speech_cortex.py.bak_h87:from openjarvis.lena.response_naturalizer import LenaResponseNaturalizer
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_shade_memory_contract:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_shade_memory_contract:from openjarvis.lena.learned_patterns import LenaLearnedPatterns
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_shade_memory_contract:from openjarvis.lena.learned_responses import LenaLearnedResponses
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_shade_memory_contract:from openjarvis.lena.relational_impression import LenaRelationalImpression
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_shade_memory_contract:from openjarvis.lena.human_memory_reflector import LenaHumanMemoryReflector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_shade_memory_contract:from openjarvis.lena.memory_persistence import LenaMemoryPersistence
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_shade_memory_contract:from openjarvis.lena.social_state import LenaSocialState
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_shade_memory_contract:from openjarvis.lena.continuity_engine import LenaContinuityEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_shade_memory_contract:from openjarvis.lena.response_selector import LenaResponseSelector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_shade_memory_contract:from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_shade_memory_contract:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_shade_memory_contract:from openjarvis.lena.closure_cognition_engine import LenaClosureCognitionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_shade_memory_contract:from openjarvis.lena.learning_runtime import LenaLearningRuntime
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_shade_memory_contract:from openjarvis.lena.semantic_packet import LenaSemanticPacket
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_p9:from openjarvis.lena.semantic_response_bank import LenaSemanticResponseBank
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_p9:from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_p9:from openjarvis.lena.narrative_recall_engine import LenaNarrativeRecallEngine
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_p9:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_p9:from openjarvis.lena.intention_recall_engine import LenaIntentionRecallEngine
+src/openjarvis/lena/_lab_backup/organic_speech_engine.py.bak_p9:from openjarvis.lena.autonomous_curiosity_engine import LenaAutonomousCuriosityEngine
+src/openjarvis/lena/_lab_backup/narrative_tension_engine.py.bak_metabolic_weight:from openjarvis.lena.narrative_state import LenaNarrativeState
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_cache:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_cache:from openjarvis.lena.learned_patterns import LenaLearnedPatterns
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_cache:from openjarvis.lena.learned_responses import LenaLearnedResponses
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_cache:from openjarvis.lena.relational_impression import LenaRelationalImpression
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_cache:from openjarvis.lena.human_memory_reflector import LenaHumanMemoryReflector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_cache:from openjarvis.lena.memory_persistence import LenaMemoryPersistence
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_cache:from openjarvis.lena.social_state import LenaSocialState
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_cache:from openjarvis.lena.continuity_engine import LenaContinuityEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_cache:from openjarvis.lena.response_selector import LenaResponseSelector
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_cache:from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_cache:from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_cache:from openjarvis.lena.closure_cognition_engine import LenaClosureCognitionEngine
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_cache:from openjarvis.lena.learning_runtime import LenaLearningRuntime
+src/openjarvis/lena/_lab_backup/memory_facade.py.bak_packet_cache:from openjarvis.lena.semantic_packet import LenaSemanticPacket
+src/openjarvis/lena/presence_orchestrator.py:from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+src/openjarvis/lena/browser_executor.py:from openjarvis.lena.action_guard import LenaActionGuard
+src/openjarvis/lena/browser_executor.py:from openjarvis.lena.job_center import LenaJobCenter
+src/openjarvis/lena/browser_executor.py:from openjarvis.lena.kernel import LenaKernel
+src/openjarvis/lena/web_controller.py:from openjarvis.lena.action_guard import LenaActionGuard
+src/openjarvis/lena/autonomous_curiosity_engine.py:from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+src/openjarvis/lena/autonomous_curiosity_engine.py:from openjarvis.lena.intention_recall_engine import LenaIntentionRecallEngine
+src/openjarvis/lena/job_center.py:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/job_center.py:from openjarvis.lena.persistent_store import LenaPersistentStore
+src/openjarvis/lena/desktop_controller.py:from openjarvis.lena.action_guard import LenaActionGuard
+src/openjarvis/lena/desktop_controller.py:from openjarvis.lena.app_registry import LenaAppRegistry
+src/openjarvis/lena/desktop_controller.py:from openjarvis.lena.runtime_guard import LenaRuntimeGuard
+src/openjarvis/lena/desktop_controller.py:from openjarvis.lena.task_context import LenaTaskContext
+src/openjarvis/lena/workspace_indexer.py:from openjarvis.lena.workspace_center import LenaWorkspaceCenter
+src/openjarvis/lena/file_operator.py:from openjarvis.lena.action_guard import LenaActionGuard
+src/openjarvis/lena/file_operator.py:from openjarvis.lena.workspace_center import LenaWorkspaceCenter
+src/openjarvis/lena/action_guard.py:from openjarvis.lena.audit_log_center import LenaAuditLogCenter
+src/openjarvis/lena/action_guard.py:from openjarvis.lena.safety_center import LenaSafetyCenter
+src/openjarvis/lena/memory_schema.py:from openjarvis.lena.social_state import LenaSocialState
+src/openjarvis/lena/conversation_learner.py:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/conversation_learner.py:from openjarvis.lena.learned_patterns import LenaLearnedPatterns
+src/openjarvis/lena/conversation_learner.py:from openjarvis.lena.learned_responses import LenaLearnedResponses
+src/openjarvis/lena/thread_guard.py:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/lena_speech_cortex.py:from openjarvis.lena.organic_speech_engine import LenaOrganicSpeechEngine
+src/openjarvis/lena/lena_speech_cortex.py:from openjarvis.lena.organic_response_composer import OrganicResponseComposer
+src/openjarvis/lena/lena_speech_cortex.py:from openjarvis.lena.response_humanizer import LenaResponseHumanizer
+src/openjarvis/lena/lena_speech_cortex.py:from openjarvis.lena.response_naturalizer import LenaResponseNaturalizer
+src/openjarvis/lena/lena_speech_cortex.py:from openjarvis.lena.semantic_packet import LenaSemanticPacket
+src/openjarvis/lena/narrative_tension_engine.py:from openjarvis.lena.narrative_state import LenaNarrativeState
+src/openjarvis/lena/audit_log_center.py:from openjarvis.lena.persistent_store import LenaPersistentStore
+src/openjarvis/lena/action_center.py:from openjarvis.core.desktop.mac_controller import MacDesktopController
+src/openjarvis/lena/action_center.py:from openjarvis.lena.command_center import LenaCommandCenter
+src/openjarvis/lena/kernel_watchdog.py:from openjarvis.lena.thread_guard import run_guarded_background
+src/openjarvis/lena/kernel_watchdog.py:from openjarvis.lena.boot_logger import LenaBootLogger
+src/openjarvis/lena/kernel_watchdog.py:from openjarvis.lena.page_bridge import LenaPageBridge
+src/openjarvis/lena/unified_route_resolver.py:from openjarvis.lena.cognitive_orchestrator import CognitiveDecision
+src/openjarvis/sessions/compression.py:from openjarvis.core.registry import CompressionRegistry
+src/openjarvis/sessions/compression.py:from openjarvis.core.types import Message, Role
+src/openjarvis/sessions/session.py:from openjarvis.core.config import DEFAULT_CONFIG_DIR
+src/openjarvis/sessions/__init__.py:from openjarvis.sessions.session import Session, SessionIdentity, SessionStore
+src/openjarvis/daemon/session_expiry.py:from openjarvis.core.types import Message
+src/openjarvis/prompt/builder.py:from openjarvis.core.config import MemoryFilesConfig, SystemPromptConfig
+src/openjarvis/sandbox/runner.py:from openjarvis.agents._stubs import AgentContext, AgentResult, BaseAgent
+src/openjarvis/sandbox/runner.py:from openjarvis.core.events import EventBus
+src/openjarvis/sandbox/runner.py:from openjarvis.core.types import ToolResult
+src/openjarvis/sandbox/runner.py:from openjarvis.engine._stubs import InferenceEngine
+src/openjarvis/sandbox/__init__.py:from openjarvis.sandbox.mount_security import (
+src/openjarvis/sandbox/__init__.py:from openjarvis.sandbox.runner import ContainerRunner, SandboxedAgent
+src/openjarvis/recipes/__init__.py:from openjarvis.recipes.composer import (
+src/openjarvis/recipes/__init__.py:from openjarvis.recipes.loader import (
+src/openjarvis/workflow/graph.py:from openjarvis.workflow.types import WorkflowEdge, WorkflowNode
+src/openjarvis/workflow/__init__.py:from openjarvis.workflow.builder import WorkflowBuilder
+src/openjarvis/workflow/__init__.py:from openjarvis.workflow.engine import WorkflowEngine
+src/openjarvis/workflow/__init__.py:from openjarvis.workflow.graph import WorkflowGraph
+src/openjarvis/workflow/__init__.py:from openjarvis.workflow.loader import load_workflow
+src/openjarvis/workflow/__init__.py:from openjarvis.workflow.types import (
+src/openjarvis/workflow/builder.py:from openjarvis.workflow.graph import WorkflowGraph
+src/openjarvis/workflow/builder.py:from openjarvis.workflow.types import NodeType, WorkflowEdge, WorkflowNode
+src/openjarvis/workflow/engine.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/workflow/engine.py:from openjarvis.workflow.graph import WorkflowGraph
+src/openjarvis/workflow/engine.py:from openjarvis.workflow.types import (
+src/openjarvis/workflow/loader.py:from openjarvis.workflow.graph import WorkflowGraph
+src/openjarvis/workflow/loader.py:from openjarvis.workflow.types import NodeType, WorkflowEdge, WorkflowNode
+src/openjarvis/brain/conversation_router.py:from openjarvis.azure_integration import analisar_intencao
+src/openjarvis/brain/conversation_router.py:from openjarvis.core.types import Message, Role
+src/openjarvis/brain/conversation_router.py:from openjarvis.engine.cloud import CloudEngine
+src/openjarvis/brain/conversation_router.py:from openjarvis.learning.routing.router import HeuristicRouter, build_routing_context
+src/openjarvis/brain/conversation_router.py:from openjarvis.lena.action_center import LenaActionCenter
+src/openjarvis/brain/conversation_router.py:from openjarvis.memory.manager import memory
+src/openjarvis/brain/conversation_router.py.bak:from openjarvis.azure_integration import analisar_intencao
+src/openjarvis/brain/conversation_router.py.bak:from openjarvis.core.types import Message, Role
+src/openjarvis/brain/conversation_router.py.bak:from openjarvis.engine.cloud import CloudEngine
+src/openjarvis/brain/conversation_router.py.bak:from openjarvis.learning.routing.router import HeuristicRouter, build_routing_context
+src/openjarvis/brain/conversation_router.py.bak:from openjarvis.lena.action_center import LenaActionCenter
+src/openjarvis/brain/conversation_router.py.bak:from openjarvis.memory.manager import memory
+src/openjarvis/templates/__init__.py:from openjarvis.templates.agent_templates import (
+src/openjarvis/skills/importer.py:from openjarvis.skills.parser import SkillParser
+src/openjarvis/skills/importer.py:from openjarvis.skills.sources.base import ResolvedSkill
+src/openjarvis/skills/importer.py:from openjarvis.skills.tool_translator import ToolTranslator
+src/openjarvis/skills/security.py:from openjarvis.skills.types import SkillManifest
+src/openjarvis/skills/__init__.py:from openjarvis.skills.dependency import (
+src/openjarvis/skills/__init__.py:from openjarvis.skills.executor import SkillExecutor, SkillResult
+src/openjarvis/skills/__init__.py:from openjarvis.skills.importer import ImportResult, SkillImporter
+src/openjarvis/skills/__init__.py:from openjarvis.skills.loader import (
+src/openjarvis/skills/__init__.py:from openjarvis.skills.manager import SkillManager
+src/openjarvis/skills/__init__.py:from openjarvis.skills.parser import SkillParseError, SkillParser
+src/openjarvis/skills/__init__.py:from openjarvis.skills.tool_adapter import SkillTool
+src/openjarvis/skills/__init__.py:from openjarvis.skills.tool_translator import TOOL_TRANSLATION, ToolTranslator
+src/openjarvis/skills/__init__.py:from openjarvis.skills.types import SkillManifest, SkillStep
+src/openjarvis/skills/parser.py:from openjarvis.skills.types import SkillManifest
+src/openjarvis/skills/loader.py:from openjarvis.skills.types import SkillManifest, SkillStep
+src/openjarvis/skills/tool_adapter.py:from openjarvis.core.types import ToolResult
+src/openjarvis/skills/tool_adapter.py:from openjarvis.skills.executor import SkillExecutor
+src/openjarvis/skills/tool_adapter.py:from openjarvis.skills.types import SkillManifest
+src/openjarvis/skills/tool_adapter.py:from openjarvis.tools._stubs import BaseTool, ToolSpec
+src/openjarvis/skills/sources/__init__.py:from openjarvis.skills.sources.base import ResolvedSkill, SourceResolver
+src/openjarvis/skills/sources/__init__.py:from openjarvis.skills.sources.github import GitHubResolver
+src/openjarvis/skills/sources/__init__.py:from openjarvis.skills.sources.hermes import HERMES_REPO_URL, HermesResolver
+src/openjarvis/skills/sources/__init__.py:from openjarvis.skills.sources.openclaw import OPENCLAW_REPO_URL, OpenClawResolver
+src/openjarvis/skills/sources/hermes.py:from openjarvis.skills.sources.base import ResolvedSkill, SourceResolver
+src/openjarvis/skills/sources/github.py:from openjarvis.skills.sources.base import ResolvedSkill, SourceResolver
+src/openjarvis/skills/sources/openclaw.py:from openjarvis.skills.sources.base import ResolvedSkill, SourceResolver
+src/openjarvis/skills/manager.py:from openjarvis.core.events import EventBus
+src/openjarvis/skills/manager.py:from openjarvis.skills.dependency import validate_dependencies
+src/openjarvis/skills/manager.py:from openjarvis.skills.executor import SkillExecutor, SkillResult
+src/openjarvis/skills/manager.py:from openjarvis.skills.loader import discover_skills
+src/openjarvis/skills/manager.py:from openjarvis.skills.tool_adapter import SkillTool
+src/openjarvis/skills/manager.py:from openjarvis.skills.types import SkillManifest
+src/openjarvis/skills/manager.py:from openjarvis.tools._stubs import BaseTool, ToolExecutor
+src/openjarvis/skills/executor.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/skills/executor.py:from openjarvis.core.types import ToolCall, ToolResult
+src/openjarvis/skills/executor.py:from openjarvis.skills.types import SkillManifest
+src/openjarvis/skills/executor.py:from openjarvis.tools._stubs import ToolExecutor
+src/openjarvis/telemetry/store.py:from openjarvis.core.events import Event, EventBus, EventType
+src/openjarvis/telemetry/store.py:from openjarvis.core.types import TelemetryRecord
+src/openjarvis/telemetry/wrapper.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/telemetry/wrapper.py:from openjarvis.core.types import Message, TelemetryRecord
+src/openjarvis/telemetry/wrapper.py:from openjarvis.engine._base import InferenceEngine
+src/openjarvis/telemetry/energy_nvidia.py:from openjarvis.telemetry.energy_monitor import (
+src/openjarvis/telemetry/energy_apple.py:from openjarvis.telemetry.energy_monitor import (
+src/openjarvis/telemetry/session.py:from openjarvis.lena.thread_guard import run_guarded_background
+src/openjarvis/telemetry/__init__.py:from openjarvis.telemetry.aggregator import (
+src/openjarvis/telemetry/__init__.py:from openjarvis.telemetry.store import TelemetryStore
+src/openjarvis/telemetry/__init__.py:from openjarvis.telemetry.wrapper import instrumented_generate
+src/openjarvis/telemetry/__init__.py:from openjarvis.telemetry.batch import BatchMetrics, EnergyBatch
+src/openjarvis/telemetry/__init__.py:from openjarvis.telemetry.steady_state import (
+src/openjarvis/telemetry/energy_amd.py:from openjarvis.telemetry.energy_monitor import (
+src/openjarvis/telemetry/instrumented_engine.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/telemetry/instrumented_engine.py:from openjarvis.core.types import Message, TelemetryRecord
+src/openjarvis/telemetry/instrumented_engine.py:from openjarvis.engine._stubs import InferenceEngine, StreamChunk
+src/openjarvis/telemetry/instrumented_engine.py:from openjarvis.telemetry.gpu_monitor import GpuSample
+src/openjarvis/telemetry/energy_rapl.py:from openjarvis.telemetry.energy_monitor import (
+src/openjarvis/engine/_base.py:from openjarvis.core.types import Message
+src/openjarvis/engine/_base.py:from openjarvis.engine._stubs import InferenceEngine
+src/openjarvis/engine/openai_compat_engines.py:from openjarvis.core.registry import EngineRegistry
+src/openjarvis/engine/openai_compat_engines.py:from openjarvis.engine._openai_compat import _OpenAICompatibleEngine
+src/openjarvis/engine/cloud.py:from openjarvis.core.registry import EngineRegistry
+src/openjarvis/engine/cloud.py:from openjarvis.core.types import Message, Role
+src/openjarvis/engine/cloud.py:from openjarvis.engine._base import EngineConnectionError, InferenceEngine, messages_to_dicts
+src/openjarvis/engine/cloud.py:from openjarvis.engine._stubs import StreamChunk
+src/openjarvis/engine/multi.py:from openjarvis.core.types import Message
+src/openjarvis/engine/multi.py:from openjarvis.engine._base import InferenceEngine
+src/openjarvis/engine/multi.py:from openjarvis.engine._stubs import StreamChunk
+src/openjarvis/engine/gemma_cpp.py:from openjarvis.core.registry import EngineRegistry
+src/openjarvis/engine/gemma_cpp.py:from openjarvis.core.types import Message, Role
+src/openjarvis/engine/gemma_cpp.py:from openjarvis.engine._base import InferenceEngine, estimate_prompt_tokens
+src/openjarvis/engine/__init__.py:from openjarvis.engine._base import (
+src/openjarvis/engine/__init__.py:from openjarvis.engine._discovery import discover_engines, discover_models, get_engine
+src/openjarvis/engine/_openai_compat.py:from openjarvis.core.types import Message
+src/openjarvis/engine/_openai_compat.py:from openjarvis.engine._base import (
+src/openjarvis/engine/_openai_compat.py:from openjarvis.engine._stubs import StreamChunk
+src/openjarvis/engine/_discovery.py:from openjarvis.core.config import JarvisConfig
+src/openjarvis/engine/_discovery.py:from openjarvis.core.registry import EngineRegistry
+src/openjarvis/engine/_discovery.py:from openjarvis.engine._base import InferenceEngine
+src/openjarvis/engine/litellm.py:from openjarvis.core.registry import EngineRegistry
+src/openjarvis/engine/litellm.py:from openjarvis.core.types import Message
+src/openjarvis/engine/litellm.py:from openjarvis.engine._base import InferenceEngine, messages_to_dicts
+src/openjarvis/engine/ollama.py:from openjarvis.core.registry import EngineRegistry
+src/openjarvis/engine/ollama.py:from openjarvis.core.types import Message
+src/openjarvis/engine/ollama.py:from openjarvis.engine._base import (
+src/openjarvis/engine/_stubs.py:from openjarvis.core.types import Message
+src/openjarvis/channels/zulip_channel.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/zulip_channel.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/zulip_channel.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/whatsapp.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/whatsapp.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/whatsapp.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/webhook.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/webhook.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/webhook.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/sendblue.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/sendblue.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/sendblue.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/telegram.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/telegram.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/telegram.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/mattermost.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/mattermost.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/mattermost.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/teams.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/teams.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/teams.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/irc_channel.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/irc_channel.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/irc_channel.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/__init__.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/twilio_sms.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/twilio_sms.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/twilio_sms.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/rocketchat_channel.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/rocketchat_channel.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/rocketchat_channel.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/messenger_channel.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/messenger_channel.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/messenger_channel.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/google_chat.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/google_chat.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/google_chat.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/gmail.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/gmail.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/gmail.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/twitter.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/twitter.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/twitter.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/twitch_channel.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/twitch_channel.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/twitch_channel.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/xmpp_channel.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/xmpp_channel.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/xmpp_channel.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/bluebubbles.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/bluebubbles.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/bluebubbles.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/matrix_channel.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/matrix_channel.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/matrix_channel.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/feishu.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/feishu.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/feishu.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/discord_channel.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/discord_channel.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/discord_channel.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/webchat.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/webchat.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/webchat.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/email_channel.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/email_channel.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/email_channel.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/viber_channel.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/viber_channel.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/viber_channel.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/nostr_channel.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/nostr_channel.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/nostr_channel.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/mastodon_channel.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/mastodon_channel.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/mastodon_channel.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/line_channel.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/line_channel.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/line_channel.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/slack.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/slack.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/slack.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/whatsapp_baileys.py:from openjarvis.lena.thread_guard import run_guarded_background
+src/openjarvis/channels/whatsapp_baileys.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/whatsapp_baileys.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/whatsapp_baileys.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/reddit_channel.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/reddit_channel.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/reddit_channel.py:from openjarvis.core.registry import ChannelRegistry
+src/openjarvis/channels/signal_channel.py:from openjarvis.channels._stubs import (
+src/openjarvis/channels/signal_channel.py:from openjarvis.core.events import EventBus, EventType
+src/openjarvis/channels/signal_channel.py:from openjarvis.core.registry import ChannelRegistry

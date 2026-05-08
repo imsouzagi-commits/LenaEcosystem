@@ -13,7 +13,6 @@ from openjarvis.lena.human_memory_reflector import LenaHumanMemoryReflector
 from openjarvis.lena.memory_persistence import LenaMemoryPersistence
 from openjarvis.lena.social_state import LenaSocialState
 from openjarvis.lena.continuity_engine import LenaContinuityEngine
-from openjarvis.lena.response_selector import LenaResponseSelector
 from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
 from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
 from openjarvis.lena.closure_cognition_engine import LenaClosureCognitionEngine
@@ -58,9 +57,11 @@ class LenaMemoryFacade:
         self.recent_topic_windows: Dict[str, int] = {}
         self.semantic_response_history: Dict[str, List[str]] = {}
         self.exchange_significance: int = int(payload.get("exchange_significance", 0))
-        self.social_state: LenaSocialState = LenaSocialState(session_boot_id=int(time.time()))
-        self.narrative_state = LenaNarrativeTensionEngine.restore({})
-        self.intention_state = LenaIntentionMemoryEngine.restore({})
+        self.social_state: LenaSocialState = self._restore_social_state(payload.get("social_state"))
+        self.narrative_state = LenaNarrativeTensionEngine.restore(payload.get("narrative_state"))
+        self.intention_state = LenaIntentionMemoryEngine.restore(payload.get("intention_state"))
+
+        self._last_cognitive = None
 
         LenaLearningRuntime.reload_semantic_banks(self)
 
@@ -132,7 +133,6 @@ class LenaMemoryFacade:
                 if not personal_only:
                     self._evolve_social_state(user_text)
                     LenaClosureCognitionEngine.ingest(self, user_text)
-                    LenaNarrativeTensionEngine.ingest_user(self, user_text, self._contextual_semantic_topic(user_text.lower()))
                     self._capture_episodic_event(user_text, route_used)
 
     def _persist(self) -> None:
@@ -337,187 +337,10 @@ class LenaMemoryFacade:
         return min(score, 6)
 
 
-    def _capture_episodic_event(self, user_text: str, route_used: str) -> None:
-        significance = self._estimate_exchange_significance(user_text)
-        self.exchange_significance += significance
-
-        if significance <= 0:
-            return
-
-        self.episodic_events.append(
-            {
-                "text": user_text.strip(),
-                "semantic_topic": self._contextual_semantic_topic(user_text.lower()) or "",
-                "route": route_used,
-                "ts": time.time(),
-            }
-        )
-        self.episodic_events = self.episodic_events[-self.MAX_EPISODIC_EVENTS:]
 
     
-    def _evolve_social_state(self, user_text: str) -> None:
-        lowered = user_text.lower().strip()
-        detected_topic = self._contextual_semantic_topic(lowered)
-        lexical_topic = self._semantic_emotion_topic(lowered)
-        social = self.social_state
-
-        social.turns_count += 1
-        word_count = len(user_text.split())
-
-        continuity_markers = (
-            "continua", "ainda", "de novo", "mesmo", "igual", "segue",
-            "não acabou", "nao acabou", "permanece", "ainda tá", "ainda ta",
-            "você lembra", "voce lembra", "qual meu nome", "o que eu falei",
-        )
-        explicit_continuity = any(marker in lowered for marker in continuity_markers)
-
-        live_narrative = bool(self.narrative_state.unresolved_user_threads or self.narrative_state.assistant_open_loops)
-        live_intentions = bool(self.intention_state.open_intentions)
-        reflective_question = lowered.endswith("?") and word_count >= 4
-        meaningful_turn = bool(
-            detected_topic
-            or lexical_topic
-            or explicit_continuity
-            or reflective_question
-        )
-
-        def rise(value: int, amount: int = 1, cap: int = 10) -> int:
-            return min(cap, value + amount)
-
-        def decay(value: int, amount: int = 1) -> int:
-            return max(0, value - amount)
-
-        if detected_topic:
-            previous_window = self.recent_topic_windows.get(detected_topic, 0)
-            self.topic_counters[detected_topic] = self.topic_counters.get(detected_topic, 0) + 1
-            self.recent_topic_windows[detected_topic] = min(10, previous_window + 2)
-            self.semantic_emotional_snippets.append(user_text.strip())
-            self.semantic_emotional_snippets = self.semantic_emotional_snippets[-self.MAX_SEMANTIC_SNIPPETS:]
-            social.current_topic = detected_topic
-            social.last_emotion_topic = detected_topic
-        else:
-            previous_window = 0
-            dominant_window = self.recent_topic_windows.get(social.current_topic, 0)
-            if dominant_window <= 1:
-                social.current_topic = "neutral"
-
-        for key in list(self.recent_topic_windows.keys()):
-            if key != social.current_topic:
-                self.recent_topic_windows[key] = max(0, self.recent_topic_windows.get(key, 0) - 1)
-
-        if meaningful_turn:
-            social.familiarity = rise(social.familiarity, 1)
-            social.presence_momentum = rise(social.presence_momentum, 1)
-
-        if meaningful_turn and (word_count >= 4 or lowered.endswith("?")):
-            social.trust_level = rise(social.trust_level, 1)
-
-        if meaningful_turn and social.turns_count >= 4:
-            social.conversation_depth = rise(social.conversation_depth, 1)
-
-        if explicit_continuity:
-            social.unresolved_loops = rise(social.unresolved_loops, 1)
-            social.emotional_tension = rise(social.emotional_tension, 1)
-        elif live_narrative or live_intentions:
-            social.unresolved_loops = rise(social.unresolved_loops, 1 if word_count >= 6 else 0)
-            social.emotional_tension = rise(social.emotional_tension, 1 if detected_topic else 0)
-
-        if detected_topic and (explicit_continuity or previous_window >= 3):
-            social.emotional_gravity = rise(social.emotional_gravity, 1)
-
-        if social.trust_level >= 4 and social.unresolved_loops >= 3:
-            social.reflection_depth = rise(social.reflection_depth, 1)
-
-        if social.reflection_depth >= 3:
-            social.intimacy_level = rise(social.intimacy_level, 1)
-
-        if social.intimacy_level >= 2:
-            social.warmth_level = rise(social.warmth_level, 1)
-
-        if not meaningful_turn:
-            social.presence_momentum = decay(social.presence_momentum, 1)
-
-        if not explicit_continuity and not live_narrative and not live_intentions and not detected_topic:
-            social.unresolved_loops = decay(social.unresolved_loops, 1)
-            social.emotional_tension = decay(social.emotional_tension, 1)
-
-        if social.unresolved_loops >= 5:
-            social.current_conversation_arc = "deepening"
-        elif social.unresolved_loops >= 2:
-            social.current_conversation_arc = "holding"
-        else:
-            social.current_conversation_arc = "surface"
-
-        social.arc_stage = min(
-            10,
-            int(
-                social.conversation_depth * 0.35 +
-                social.trust_level * 0.20 +
-                social.reflection_depth * 0.20 +
-                social.presence_momentum * 0.15 +
-                social.unresolved_loops * 0.10
-            )
-        )
-
-        active_topics = [v for v in self.recent_topic_windows.values() if v > 0]
-        social.continuity_score = min(10, len(active_topics))
-
-        self.infer_psychological_signature()
 
 
-    def _semantic_topic_scores(self, lowered: str) -> dict[str, float]:
-        normalized = lowered.lower().strip()
-
-        weighted_roots = {
-            "disconnection": {
-                "tem algo desconectado": 4, "desconect": 3, "fora do lugar": 4, "fora do eixo": 4,
-                "não consigo me achar": 5, "nao consigo me achar": 5, "não consigo me encontrar": 5, "nao consigo me encontrar": 5,
-                "sem encaixe": 4, "não caber": 3, "nao caber": 3, "fora do eixo": 4, "desalinhado": 4, "não me localizo": 4, "nao me localizo": 4, "nao caber": 3, "desencontrado": 4, "me prendendo": 3, "não me encontro": 5, "nao me encontro": 5,
-            },
-            "stagnation": {
-                "nada anda": 5, "preso nisso": 5, "travado": 4, "mesmo ponto": 4, "não saio": 3, "nao saio": 3,
-                "continua igual": 3, "sem sair disso": 4, "sem deslocamento": 3, "parado": 3, "não anda": 4,
-            },
-            "clarity_seek": {
-                "não consigo entender": 5, "nao consigo entender": 5, "preciso organizar": 4, "linha sobre isso": 4,
-                "não faz sentido": 4, "nao faz sentido": 4, "clareza": 3, "estruturar isso": 4, "montar sentido": 3, "organizar minha cabeça": 5, "não monto linha": 5, "nao monto linha": 5, "não consigo organizar": 5, "nao consigo organizar": 5, "tento estruturar": 4,
-            },
-            "uncertainty": {
-                "em aberto": 5, "aberto ainda": 5, "não fecha": 5, "nao fecha": 5, "pendurado em mim": 5,
-                "sem conclusão": 5, "inacabado": 4, "continua me rondando": 4, "fechamento": 3, "encerramento": 3,
-            },
-            "fatigue": {
-                "drenado": 5, "sem margem": 4, "desgaste acumulado": 5, "não recomponho": 5, "nao recomponho": 5,
-                "sem energia": 4, "exausto": 4, "funcionando sem energia": 5, "sem reposição": 3, "cansado": 3, "não volto": 5, "nao volto": 5, "não recompõe": 5, "nao recompõe": 5, "bateria nunca enche": 5, "vou drenando": 4, "só dreno": 4, "sem força": 4,
-            },
-            "mental_noise": {
-                "ruído": 5, "ruido": 5, "cabeça não aquieta": 5, "cabeca não aquieta": 5, "cabeca nao aquieta": 5,
-                "pensamento demais": 5, "penso demais": 5, "barulho demais": 5, "mente acelerada": 5, "mente corre": 5, "não desligo": 4, "nao desligo": 4, "sem foco": 4, "embaralhado": 4, "silêncio mental": 5, "silencio mental": 5,
-                "não encontro silêncio": 5, "nao encontro silencio": 5, "mente não para": 4, "mente nao para": 4,
-            },
-        }
-
-        scores = {}
-
-        for topic, roots in weighted_roots.items():
-            topic_score = 0.0
-
-            for root, weight in roots.items():
-                if root in normalized:
-                    topic_score += weight
-
-            if self._matches_learned_topic(normalized, topic):
-                topic_score += 2.0
-
-            topic_score += min(0.35, self.recent_topic_windows.get(topic, 0) * 0.05)
-
-            if self.social_state.current_topic == topic and self._is_contextual_continuation(normalized):
-                topic_score += 0.18
-
-            if topic_score > 0:
-                scores[topic] = topic_score
-
-        return scores
 
 
 
@@ -782,6 +605,90 @@ class LenaMemoryFacade:
         return any(marker in lowered for marker in continuation_markers)
 
 
+
+    def finalize_user_semantic_turn(
+        self,
+        user_text: str,
+        route_used: str = "",
+    ):
+        from openjarvis.lena.semantic_packet import LenaSemanticPacket
+
+        lowered = user_text.lower().strip()
+
+        fused = self.detect_semantic_topic_fusion(user_text)
+        primary, secondary, latent = self.govern_semantic_fusion(
+            user_text,
+            fused,
+        )
+
+        raw_scores = self._semantic_topic_scores(lowered)
+
+        recurrence = 0
+        recent_topics = []
+
+        for old_user, _ in self.history[-8:]:
+            detected = self.detect_semantic_topic(old_user)
+            if detected:
+                recent_topics.append(detected)
+
+        if primary:
+            recurrence = recent_topics.count(primary)
+
+        echoes = []
+        echo_responses = []
+
+        for old_user, old_assistant in self.history[-6:]:
+            if primary and primary in (
+                self.detect_semantic_topic(old_user) or ""
+            ):
+                echoes.append(old_user[:180])
+                echo_responses.append(old_assistant[:180])
+
+        familiarity_density = len(echoes)
+        session_hits = len(self.history)
+
+        continuation_flag = False
+
+        continuity_markers = (
+            "continua",
+            "ainda",
+            "mesmo",
+            "de novo",
+            "nisso",
+            "igual",
+            "permanece",
+        )
+
+        if any(marker in lowered for marker in continuity_markers):
+            continuation_flag = True
+
+        memory_resonance = min(
+            9.0,
+            round(
+                (familiarity_density * 1.4)
+                + (recurrence * 0.9),
+                2,
+            ),
+        )
+
+        packet = LenaSemanticPacket(
+            primary_topic=primary or "neutral",
+            secondary_topic=secondary,
+            latent_topic=latent,
+            raw_scores=raw_scores,
+            matched_roots=[],
+            continuation_flag=continuation_flag,
+            recurrence=recurrence,
+            memory_resonance=memory_resonance,
+            echo_snippets=echoes,
+            echo_responses=echo_responses,
+            familiarity_density=familiarity_density,
+            session_hits=session_hits,
+        )
+
+        return packet
+
+
     def _contextual_semantic_topic(self, lowered: str) -> str | None:
         lexical = self._semantic_emotion_topic(lowered)
         if lexical:
@@ -811,3 +718,17 @@ class LenaMemoryFacade:
         patterns = self.learned_patterns.get(topic, [])
         return any(p.lower() in lowered for p in patterns)
 
+
+
+    def commit_assistant_turn(
+        self,
+        user_text: str,
+        assistant_text: str,
+        route_used: str = "",
+    ) -> None:
+        self.push_exchange(
+            user_text,
+            assistant_text,
+            light=False,
+            route_used=route_used,
+        )

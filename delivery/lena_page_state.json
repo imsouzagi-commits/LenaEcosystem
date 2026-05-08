@@ -1,13 +1,13 @@
 {
-  "ts": "2026-05-05T12:07:46.023906",
+  "ts": "2026-05-07T23:37:05.558425",
   "initialized": true,
   "active_jobs": 0,
   "queued_notifications": 0,
   "workspace_index_status": false,
   "workspace_index_size": 0,
   "health": {
-    "cpu": 16.5,
-    "memory": 81.9,
-    "uptime": 35887.115677666996
+    "cpu": 30.5,
+    "memory": 69.3,
+    "uptime": 99930.318829125
   }
 }

@@ -1,0 +1,500 @@
+
+
+====================================================================================================
+FILE: memory_facade_dump.txt
+====================================================================================================
+
+
+
+
+====================================================================================================
+FILE: organic_speech_engine_dump.txt
+====================================================================================================
+
+10:class LenaOrganicSpeechEngine:
+11-    @staticmethod
+12-    def _clean(text: str | None) -> str:
+13-        return " ".join((text or "").strip().split())
+14-
+15-    @classmethod
+16-    def _intent_of(cls, text: str | None) -> str:
+17-        tx = (text or "").lower()
+18-
+19-        groups = {
+20-            "unity_loss": ["encontr", "inteiro", "reun", "desencontr", "eixo", "encaixa", "lugar"],
+21-            "no_progress": ["mudando", "deslocamento", "parada", "mesmo trilho", "tempo passa", "mesmo ponto", "anda"],
+22-            "unresolved": ["encerr", "fecha", "aberta", "resolução", "concluir", "pendurado"],
+23-            "drained": ["desgaste", "recompõe", "recupera", "cansaço", "margem", "drenad"],
+24-            "clarity": ["entender", "estruturar", "organizar", "linha compreensível"],
+25-            "noise": ["aquieta", "atravessando", "linha contínua", "ruído", "embaralh"],
+26-        }
+27-
+28-        for tag, roots in groups.items():
+29-            if any(root in tx for root in roots):
+30-                return tag
+31-
+32-        return tx[:24]
+33-
+34-    @classmethod
+35-    def _same_semantic_family(cls, a: str | None, b: str | None) -> bool:
+36-        if not a or not b:
+37-            return False
+38-        return cls._intent_of(a) == cls._intent_of(b)
+39-
+40-    @classmethod
+41-    def _is_recently_used(cls, memory, candidate: str) -> bool:
+42-        for text in memory.recent_semantic_responses(memory.social_state.current_topic or "uncertainty"):
+43-            if cls._same_semantic_family(candidate, text):
+44-                return True
+45-        return False
+46-
+47-    @classmethod
+48-    def _pick_fresh(cls, memory, pool: list[str]) -> str:
+49-        recent_fragments = set(memory.recent_semantic_fragments())
+50-        fresh = [
+51-            p for p in pool
+52-            if not cls._is_recently_used(memory, p)
+53-            and p.strip().lower() not in recent_fragments
+54-        ]
+55-        choice = random.choice(fresh) if fresh else random.choice(pool)
+56-        memory.remember_semantic_fragment(choice)
+57-        return choice
+58-
+59-    @classmethod
+60-    def _join_unique(cls, fragments: list[str]) -> str:
+61-        chosen = []
+62-        for fragment in fragments:
+63-            fragment = cls._clean(fragment)
+64-            if not fragment:
+65-                continue
+66-            if any(cls._same_semantic_family(fragment, x) for x in chosen):
+67-                continue
+68-            chosen.append(fragment)
+69-        return " ".join(chosen).strip()
+70-
+71-    @classmethod
+72-    def _anchor_fragment(cls, memory, topic: str) -> str:
+73-        return cls._pick_fresh(memory, LenaSemanticResponseBank.role_anchor(topic))
+74-
+75-    @classmethod
+76-    def _support_fragment(cls, memory, topic: str, stance: str) -> str | None:
+77-        if stance not in {"pattern_link", "locate", "compress"}:
+78-            return None
+79-        return cls._pick_fresh(memory, LenaSemanticResponseBank.role_subjective(topic))
+80-
+81-    @classmethod
+82-    def _continuity_fragment(cls, memory, topic: str, stance: str) -> str | None:
+83-        if stance not in {"pattern_link", "locate", "compress"}:
+84-            return None
+85-        pool = LenaSemanticResponseBank.role_temporal(topic)
+86-        return cls._pick_fresh(memory, pool)
+87-
+88-    @classmethod
+89-    def _probe_cognitive_fragment(cls, memory, topic: str) -> str | None:
+90-        return cls._pick_fresh(memory, LenaSemanticResponseBank.role_cognitive(topic))
+91-
+92-    @classmethod
+93-    def _probe_fragment(cls, memory, topic: str) -> str | None:
+94-        if random.random() < 0.40:
+95-            return cls._pick_fresh(memory, LenaSemanticResponseBank.role_probe(topic))
+96-        return None
+97-
+98-    @classmethod
+99-    def _surface_clean(cls, text: str) -> str:
+100-        tx = text
+101-
+102-        tx = re.sub(r'\s+,', ',', tx)
+103-        tx = re.sub(r'\s+\.', '.', tx)
+104-        tx = re.sub(r'\s+', ' ', tx)
+105-
+106-        tx = tx.replace("..", ".")
+107-        tx = tx.replace(",.", ".")
+108-        tx = tx.replace(". Porque", " porque")
+109-        tx = tx.replace(". porque", " porque")
+110-        tx = tx.replace("vai te deixa", "vai te deixando")
+111-
+112-        return tx.strip()
+113-
+114-
+115-
+116-    @classmethod
+117-    def _build_discursive_line(
+118-        cls,
+119-        memory,
+120-        anchor: str,
+121-        subjective: str | None,
+122-        temporal: str | None,
+123-        cognitive: str | None,
+124-        secondary_fragment: str | None = None,
+125-    ) -> str:
+126-        anchor = cls._clean(anchor).rstrip(".")
+127-        subjective = cls._clean(subjective).rstrip(".") if subjective else None
+128-        temporal = cls._clean(temporal).rstrip(".") if temporal else None
+129-        cognitive = cls._clean(cognitive).rstrip(".") if cognitive else None
+130-        secondary_fragment = cls._clean(secondary_fragment).rstrip(".") if secondary_fragment else None
+131-
+132-        variants = [anchor + "."]
+133-
+134-        if subjective and cognitive:
+135-            variants.append(f"{anchor}, {subjective}, porque {cognitive}.")
+136-            variants.append(f"{anchor}, e isso vai gerando {subjective}, porque {cognitive}.")
+137-            variants.append(f"{anchor}. {subjective.capitalize()} porque {cognitive}.")
+138-
+139-        if temporal and cognitive:
+140-            variants.append(f"{anchor}, {temporal}, porque {cognitive}.")
+141-            variants.append(f"{anchor}. {temporal.capitalize()}, já que {cognitive}.")
+142-            variants.append(f"{anchor}, e com o tempo {temporal}, porque {cognitive}.")
+143-
+144-        if subjective and temporal:
+145-            variants.append(f"{anchor}, {subjective}, e {temporal}.")
+146-            variants.append(f"{anchor}. {subjective.capitalize()}. Com o tempo {temporal}.")
+147-
+148-        if subjective and temporal and cognitive:
+149-            variants.append(f"{anchor}, {subjective}, e {temporal}, porque {cognitive}.")
+150-            variants.append(f"{anchor}. {subjective.capitalize()}. {temporal.capitalize()} porque {cognitive}.")
+151-
+152-        if secondary_fragment:
+153-            variants.append(f"{anchor}, enquanto {secondary_fragment}.")
+154-            if subjective:
+155-                variants.append(f"{anchor}, {subjective}, enquanto {secondary_fragment}.")
+156-            if cognitive:
+157-                variants.append(f"{anchor}, porque {cognitive}, enquanto {secondary_fragment}.")
+158-            if subjective and cognitive:
+159-                variants.append(f"{anchor}, {subjective}, porque {cognitive}, enquanto {secondary_fragment}.")
+160-
+161-        weighted = variants
+162-        chosen = random.choice(weighted)
+163-        return cls._surface_clean(chosen)
+164-
+165-    @classmethod
+166-    def _build_response(
+167-        cls,
+168-        memory,
+169-        primary_topic: str,
+170-        stance: str,
+171-        secondary_topic: str | None = None,
+172-        latent_topic: str | None = None,
+173-    ) -> list[str]:
+174-        topics = [x for x in [primary_topic, secondary_topic, latent_topic] if x]
+175-
+176-        anchor_topic = primary_topic
+177-        subjective_topic = secondary_topic or primary_topic
+178-        temporal_topic = latent_topic or secondary_topic or primary_topic
+179-        cognitive_topic = secondary_topic or latent_topic or primary_topic
+180-
+181-        anchor = cls._anchor_fragment(memory, anchor_topic)
+182-        subjective = cls._support_fragment(memory, subjective_topic, stance)
+183-        temporal = cls._continuity_fragment(memory, temporal_topic, stance)
+184-        cognitive = cls._probe_cognitive_fragment(memory, cognitive_topic)
+185-
+186-        secondary_fragment = None
+187-        if len(topics) >= 2:
+188-            secondary_pool = [
+189-                cls._anchor_fragment(memory, secondary_topic or primary_topic),
+190-                cls._support_fragment(memory, secondary_topic or primary_topic, stance),
+191-                cls._continuity_fragment(memory, secondary_topic or primary_topic, stance),
+192-                cls._probe_cognitive_fragment(memory, secondary_topic or primary_topic),
+193-            ]
+194-            secondary_pool = [x for x in secondary_pool if x]
+195-            secondary_fragment = random.choice(secondary_pool) if secondary_pool else None
+196-
+197-        mainline = cls._build_discursive_line(
+198-            memory,
+199-            anchor,
+200-            subjective,
+201-            temporal,
+202-            cognitive,
+203-            secondary_fragment,
+204-        )
+205-
+206-        fragments = [mainline]
+207-
+208-        if len(topics) >= 2:
+209-            extra_secondary_pool = [
+210-                cls._anchor_fragment(memory, secondary_topic or primary_topic),
+211-                cls._support_fragment(memory, secondary_topic or primary_topic, stance),
+212-                cls._continuity_fragment(memory, secondary_topic or primary_topic, stance),
+213-                cls._probe_cognitive_fragment(memory, secondary_topic or primary_topic),
+214-            ]
+215-            extra_secondary_pool = [x for x in extra_secondary_pool if x]
+216-            if extra_secondary_pool:
+217-                fragments.append(random.choice(extra_secondary_pool))
+218-
+219-        if latent_topic:
+220-            latent_pool = [
+221-                cls._anchor_fragment(memory, latent_topic),
+222-                cls._support_fragment(memory, latent_topic, stance),
+223-                cls._continuity_fragment(memory, latent_topic, stance),
+224-                cls._probe_cognitive_fragment(memory, latent_topic),
+225-            ]
+226-            latent_pool = [x for x in latent_pool if x]
+227-            if latent_pool:
+228-                fragments.append(random.choice(latent_pool))
+229-
+230-        if random.random() < 0.55:
+231-            probe = cls._probe_fragment(memory, cognitive_topic)
+232-            if probe:
+233-                fragments.append(probe)
+234-
+235-        return fragments
+236-
+237-    @classmethod
+238-    def synthesize(
+239-        cls,
+240-        memory,
+241-        user_text: str,
+242-        topic: str,
+243-        mode: str,
+244-        stance: str = "observe",
+245-        secondary_topic: str | None = None,
+246-        latent_topic: str | None = None,
+247-    ) -> str:
+248-        fragments = cls._build_response(
+249-            memory,
+250-            topic,
+251-            stance,
+252-            secondary_topic=secondary_topic,
+253-            latent_topic=latent_topic,
+254-        )
+255-        if not fragments:
+256-            text = cls._anchor_fragment(memory, topic)
+257-        else:
+258-            mainline = fragments[0]
+259-            probe_line = None
+260-            if len(fragments) > 1 and random.random() < 0.45:
+261-                probe_line = fragments[-1]
+262-
+263-            text = mainline
+264-            if probe_line and probe_line != mainline:
+265-                text = f"{mainline} {probe_line}"
+266-
+267-        memory.remember_semantic_response(topic, text)
+268-
+269-        if mode == "invite":
+270-            LenaIntentionMemoryEngine.capture(memory, "exploration", topic, text)
+271-        elif mode == "contain":
+272-            LenaIntentionMemoryEngine.capture(memory, "contain", topic, text)
+273-        elif mode == "continuity":
+274-            LenaIntentionMemoryEngine.capture(memory, "continuity_hold", topic, text)
+275-
+276-        return LenaSemanticResponseBank.soften(memory, text)
+277-
+278-    @classmethod
+279-    def synthesize_greeting(cls, memory, topic: str) -> str:
+280-        return cls._pick_fresh(memory, LenaSemanticResponseBank.greeting_fragments(topic))
+
+
+
+====================================================================================================
+FILE: semantic_response_bank_dump.txt
+====================================================================================================
+
+307:    _ROLE_BANK = {
+308-        "disconnection": {
+309-            "anchor": [
+310-                "parece que você não consegue se sentir inteiro dentro do próprio movimento.",
+311-                "tem uma sensação de desencontro interno acontecendo.",
+312-                "alguma parte tua parece fora de encaixe com o resto.",
+313-                "você soa como alguém tentando se localizar e não conseguindo firmar centro.",
+314-                "tem um desalinhamento interno aí que não recompõe fácil.",
+315-                "parece existir uma distância entre você e você mesmo."
+316-            ],
+317-            "subjective_effect": [
+318-                "isso dá uma impressão de estar meio sem lugar por dentro",
+319-                "fica um afastamento silencioso de si mesmo",
+320-                "a sensação é de não caber inteiro na própria experiência",
+321-                "isso vai produzindo desencontro em pano de fundo",
+322-                "você vai ficando internamente sem eixo estável",
+323-                "fica difícil sentir convergência interna"
+324-            ],
+325-            "temporal_effect": [
+326-                "isso reaparece mesmo quando o dia segue normal",
+327-                "essa falta de encaixe não some por completo",
+328-                "mesmo quando parece neutro isso volta",
+329-                "isso continua rondando em segundo plano",
+330-                "o tempo anda mas esse desalinhamento permanece",
+331-                "não recompõe sozinho com a passagem dos dias"
+332-            ],
+333-            "cognitive_effect": [
+334-                "a mente tenta achar um ponto de reunião e não encontra",
+335-                "internamente as partes não parecem conversar entre si",
+336-                "você tenta se sentir localizado e não firma",
+337-                "por dentro parece faltar um eixo de convergência",
+338-                "a cabeça busca centro mas continua difusa",
+339-                "nada se junta numa sensação de unidade"
+340-            ],
+341-            "probe": [
+342-                "tem momentos em que você se sente deslocado sem motivo claro?",
+343-                "mesmo em horas neutras isso continua te atravessando?",
+344-                "isso fica no fundo mesmo quando você tenta tocar as coisas?"
+345-            ],
+346-        },
+347-
+348-        "stagnation": {
+349-            "anchor": [
+350-                "parece que internamente as coisas pararam de ganhar deslocamento.",
+351-                "tem uma sensação de movimento travado aí dentro.",
+352-                "isso soa como um ponto que não produz passagem.",
+353-                "alguma coisa tua ficou girando sem realmente sair do lugar.",
+354-                "há um emperramento interno difícil de romper.",
+355-                "parece existir imobilidade onde deveria haver avanço."
+356-            ],
+357-            "subjective_effect": [
+358-                "isso vai cansando pela repetição do mesmo cenário",
+359-                "fica uma fadiga de não perceber virada",
+360-                "vai surgindo a sensação de estar rodando sem deslocar",
+361-                "isso produz desgaste por permanência",
+362-                "o mesmo ponto vai ficando psicologicamente pesado",
+363-                "fica a impressão de retorno contínuo ao mesmo lugar"
+364-            ],
+365-            "temporal_effect": [
+366-                "os dias passam mas internamente quase nada mexe",
+367-                "isso continua fixado apesar do tempo andando",
+368-                "a passagem das horas não produz virada suficiente",
+369-                "nada parece sinalizar deslocamento real ainda",
+370-                "isso persiste mesmo depois de várias tentativas",
+371-                "o tempo corre mas esse ponto continua parado"
+372-            ],
+373-            "cognitive_effect": [
+374-                "a cabeça começa a perder confiança em mudança",
+375-                "vai surgindo leitura de aprisionamento interno",
+376-                "a mente passa a esperar avanço que não vem",
+377-                "internamente tudo parece repetir a mesma moldura",
+378-                "o raciocínio começa a assumir que nada responde",
+379-                "vai ficando a impressão de ciclo fechado"
+380-            ],
+381-            "probe": [
+382-                "você sente como se estivesse sempre retornando ao mesmo lugar?",
+383-                "isso te dá impressão de aprisionamento com o tempo?",
+384-                "os dias mudam mas por dentro isso parece igual?"
+385-            ],
+386-        },
+387-
+388-        "clarity_seek": {
+389-            "anchor": [
+390-                "tem uma parte tua ainda tentando montar compreensão sobre isso.",
+391-                "isso não ganhou uma linha interna satisfatória ainda.",
+392-                "a tua mente continua procurando uma forma de organizar isso.",
+393-                "parece existir uma exigência interna de entendimento.",
+394-                "isso ainda não virou uma estrutura compreensível por dentro.",
+395-                "tem uma busca de clareza que continua aberta."
+396-            ],
+397-            "subjective_effect": [
+398-                "isso mantém a mente em vigília",
+399-                "fica uma cobrança silenciosa por entendimento",
+400-                "não aparece descanso enquanto isso não organiza",
+401-                "essa pergunta segue sem sossego internamente",
+402-                "fica uma inquietação de coisa mal estruturada",
+403-                "isso impede sensação de conclusão mental"
+404-            ],
+405-            "temporal_effect": [
+406-                "essa necessidade continua reaparecendo",
+407-                "mesmo quando você tenta largar isso retorna",
+408-                "isso não se dissolve sem montar sentido",
+409-                "o assunto continua internamente ativo",
+410-                "essa busca volta repetidamente ao longo do dia",
+411-                "não some enquanto não encontra linha"
+412-            ],
+413-            "cognitive_effect": [
+414-                "a cabeça continua tentando estruturar resposta",
+415-                "o pensamento revisita isso em busca de coerência",
+416-                "a mente não aceita deixar isso solto",
+417-                "internamente falta uma linha que satisfaça",
+418-                "o raciocínio continua tentando costurar sentido",
+419-                "você segue procurando uma forma de entender"
+420-            ],
+421-            "probe": [
+422-                "parece que a cabeça não autoriza descanso enquanto isso não entende?",
+423-                "isso continua pedindo explicação dentro de você?",
+424-                "enquanto não monta linha você sente que não solta?"
+425-            ],
+426-        },
+427-
+428-        "uncertainty": {
+429-            "anchor": [
+430-                "isso ainda soa internamente sem encerramento.",
+431-                "tem uma parte dessa experiência que não concluiu.",
+432-                "alguma coisa aí continua psicologicamente em aberto.",
+433-                "isso não encontrou fechamento suficiente por dentro.",
+434-                "permanece uma sensação de irresolução nesse ponto.",
+435-                "esse assunto ainda não assentou internamente."
+436-            ],
+437-            "subjective_effect": [
+438-                "fica um ar de incompletude constante",
+439-                "isso deixa a experiência meio suspensa",
+440-                "permanece sensação de pendência no fundo",
+441-                "nada parece terminar completamente nisso",
+442-                "isso não deixa a coisa repousar inteira",
+443-                "fica uma abertura silenciosa sem encerramento"
+444-            ],
+445-            "temporal_effect": [
+446-                "mesmo com o tempo passando isso continua aberto",
+447-                "até agora isso não encerrou de verdade",
+448-                "a passagem dos dias não fechou esse ciclo",
+449-                "isso segue internamente irresolvido",
+450-                "continua faltando conclusão depois de várias voltas",
+451-                "o tempo anda mas isso não assenta"
+452-            ],
+453-            "cognitive_effect": [
+454-                "a mente continua tentando completar o que falta",
+455-                "o pensamento roda atrás de fechamento",
+456-                "internamente continua uma tentativa de concluir",
+457-                "o raciocínio não aceita abandonar esse aberto",
+458-                "a cabeça segue procurando a peça de encerramento",
+459-                "isso continua pedindo conclusão psíquica"
+460-            ],
+461-            "probe": [
+462-                "quando parece que passou isso retorna?",
+463-                "você sente que isso nunca fecha completamente?",
+464-                "mesmo tentando largar isso volta pedindo encerramento?"
+465-            ],
+466-        },
+467-
+468-        "fatigue": {
+469-            "anchor": [
+470-                "teu sistema parece operar sem conseguir repor o que gasta.",
+471-                "isso já soa como desgaste acumulado de fundo.",
+472-                "há uma drenagem contínua acontecendo aí.",
+473-                "parece que você funciona sem margem real de reposição.",
+474-                "teu organismo dá sinal de consumo maior que recuperação.",
+475-                "isso tem cara de exaustão prolongada."
+476-            ],
+477-            "subjective_effect": [
+478-                "até o básico começa a custar mais",
+479-                "o mínimo já exige consumo alto",
+480-                "vai aparecendo peso em tarefas simples",
+481-                "você fica funcionando perto do limite",
+482-                "qualquer demanda parece pedir esforço extra",
+483-                "as coisas começam a pesar antes do normal"
+484-            ],
+485-            "temporal_effect": [
+486-                "o descanso não devolve o suficiente",
+487-                "a recuperação parece sempre incompleta",
+488-                "isso vai se prolongando sem zerar",
+489-                "não recompõe como deveria entre um dia e outro",
+490-                "a reposição continua curta",
+491-                "não parece um desgaste que passa rápido"
+492-            ],
+493-            "cognitive_effect": [
+494-                "pensar vai ficando metabolicamente caro",
+495-                "até organizar coisas simples exige demais",
+496-                "qualquer elaboração consome muito",
+497-                "a cabeça perde elasticidade para sustentar carga",
+498-                "o mental começa a operar em regime curto",
+499-                "a mente funciona sem folga interna"
+500-            ],
+501-            "probe": [
+502-                "você sente que para mas não recompõe?",
+503-                "tem horas em que parece que a bateria nunca enche?",
+504-                "isso já tá virando um cansaço contínuo?"
+505-            ],
+506-        },
+507-
+508-        "mental_noise": {
+509-            "anchor": [
+510-                "tem congestionamento mental demais em curso.",
+511-                "parece que tua cabeça não encontra faixa limpa.",
+512-                "isso vem com ruído cognitivo contínuo.",
+513-                "a mente soa cheia de interferência simultânea.",
+514-                "há turbulência mental demais acontecendo ao mesmo tempo.",
+515-                "parece difícil achar silêncio psíquico aí."

@@ -1,0 +1,129 @@
+from __future__ import annotations
+
+import random
+from typing import Any
+
+from openjarvis.lena.organic_speech_engine import LenaOrganicSpeechEngine
+from openjarvis.lena.organic_response_composer import OrganicResponseComposer
+from openjarvis.lena.response_humanizer import LenaResponseHumanizer
+from openjarvis.lena.response_naturalizer import LenaResponseNaturalizer
+
+
+class LenaSpeechCortex:
+    def __init__(self) -> None:
+        self.naturalizer = LenaResponseNaturalizer()
+
+    def generate(
+        self,
+        agent: Any,
+        user_text: str,
+        semantic_mode: str = "neutral",
+        tool_payload: str = "",
+        topic: str = "generic",
+        secondary_topic: str | None = None,
+        latent_topic: str | None = None,
+        mode: str = "mirror",
+        stance: str = "observe",
+    ) -> str:
+        memory = agent.memory_engine
+
+        if semantic_mode == "relational":
+            fused = memory.detect_semantic_topic_fusion(user_text)
+            topic, secondary_topic, latent_topic = memory.govern_semantic_fusion(user_text, fused)
+
+        if semantic_mode == "fact_absorb":
+            text = self._fact_absorb(user_text)
+        elif semantic_mode == "greeting":
+            text = self._greeting(memory)
+        elif semantic_mode == "memory_probe":
+            text = memory.answer_memory_question(user_text.lower().strip())
+        elif semantic_mode == "practical":
+            text = self._practical(tool_payload)
+        elif semantic_mode == "factual":
+            text = self._factual(tool_payload)
+        elif semantic_mode == "social":
+            text = OrganicResponseComposer.compose_relational("social_contact", "invite")
+        elif semantic_mode == "relational":
+            text = LenaOrganicSpeechEngine.synthesize(
+                memory,
+                user_text,
+                topic,
+                mode,
+                stance,
+                secondary_topic=secondary_topic,
+                latent_topic=latent_topic,
+            )
+        elif semantic_mode == "neutral":
+            text = self._neutral_smalltalk(user_text)
+        else:
+            text = OrganicResponseComposer.compose_utilitarian("generic")
+
+        if semantic_mode == "neutral":
+            return self._anti_robotic(text).strip()
+
+        text = self._anti_robotic(text)
+        text = self._soft_socialize(text, memory)
+        text = self._naturalize(user_text, text)
+        return text.strip()
+
+    def _pick(self, pool: list[str]) -> str:
+        return random.choice(pool)
+
+    def _fact_absorb(self, user_text: str) -> str:
+        lowered = user_text.lower().strip()
+
+        if lowered.startswith("meu nome é "):
+            name = user_text[10:].strip().split()[0]
+            return LenaResponseHumanizer.acknowledge_memory_store("intimate").replace("isso", name.lower())
+
+        if lowered.startswith("eu moro em "):
+            return LenaResponseHumanizer.acknowledge_memory_store("neutral")
+
+        if lowered.startswith("estou construindo "):
+            return "entendi, vou manter isso em contexto."
+
+        return LenaResponseHumanizer.acknowledge_memory_store("casual")
+
+    def _greeting(self, memory) -> str:
+        if memory.social_state.intimacy_level >= 3:
+            return LenaResponseHumanizer.social_invite("intimate")
+        return self._pick(["oi.", "tô aqui.", "oi, pode falar."])
+
+
+    def _neutral_smalltalk(self, user_text: str) -> str:
+        lowered = user_text.lower().strip()
+
+        if lowered in {"oi", "olá", "ola", "oi lena"}:
+            return self._pick(["oi.", "oi, tô aqui.", "opa, fala comigo."])
+
+        if lowered in {"ok", "certo", "entendi", "hm"}:
+            return self._pick(["certo.", "tô te ouvindo.", "sim."])
+
+        if len(lowered.split()) <= 4:
+            return self._pick([
+                "pode falar.",
+                "tô te ouvindo.",
+                "segue.",
+            ])
+
+        return OrganicResponseComposer.compose_utilitarian("generic")
+
+    def _practical(self, payload: str) -> str:
+        return f"na prática: {payload}" if payload.strip() else OrganicResponseComposer.compose_utilitarian("practical_generic")
+
+    def _factual(self, payload: str) -> str:
+        return f"o ponto objetivo é: {payload}" if payload.strip() else "deixa eu te passar o dado central."
+
+    def _anti_robotic(self, text: str) -> str:
+        robotic = {
+            "registrado.": "beleza, guardei.",
+            "anotado.": "anotei isso.",
+            "ok.": "ok.",
+        }
+        return robotic.get(text.lower(), text)
+
+    def _soft_socialize(self, text: str, memory) -> str:
+        return text
+
+    def _naturalize(self, user_text: str, text: str) -> str:
+        return self.naturalizer.naturalize(user_text, text)

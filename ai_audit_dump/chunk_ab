@@ -1,0 +1,142 @@
+516-            ],
+517-            "subjective_effect": [
+518-                "os pensamentos ficam se atropelando",
+519-                "nada permanece limpo por muito tempo",
+520-                "fica difícil sustentar uma linha estável",
+521-                "a mente parece sem espaço de respiro",
+522-                "tudo fica concorrendo ao mesmo tempo",
+523-                "surge sensação de embolamento mental"
+524-            ],
+525-            "temporal_effect": [
+526-                "essa turbulência não abaixa por completo",
+527-                "o ruído continua ativo grande parte do dia",
+528-                "não aparece janela longa de quietude",
+529-                "a cabeça segue sem desacelerar direito",
+530-                "isso ocupa espaço mental continuamente",
+531-                "não entra calmaria consistente"
+532-            ],
+533-            "cognitive_effect": [
+534-                "a atenção se fragmenta fácil",
+535-                "o pensamento não consegue ficar numa linha só",
+536-                "a mente abre frentes demais simultaneamente",
+537-                "nada permanece claro por tempo suficiente",
+538-                "o foco não consegue estabilizar",
+539-                "a cabeça não sustenta trilho limpo"
+540-            ],
+541-            "probe": [
+542-                "isso te atravessa quase sem pausa?",
+543-                "tem algum trecho do dia em que tua cabeça aquieta?",
+544-                "existe silêncio mental em algum momento ou é contínuo?"
+545-            ],
+546-        },
+547-    }
+548-
+549-
+550-    _GREETING = {
+551-        "fatigue": ["oi.", "tô aqui.", "fala."],
+552-        "distress": ["oi.", "te ouvindo.", "pode falar."],
+553-        "neutral": ["oi.", "tô aqui.", "fala comigo."],
+554-    }
+555-
+556-    @staticmethod
+557-    def observation_fragments(topic: str, mode: str) -> list[str]:
+558-        bank = LenaSemanticResponseBank._OBSERVATION.get(topic, LenaSemanticResponseBank._OBSERVATION["neutral"])
+559-        return bank.get(mode, bank["mirror"])
+560-
+561-    @staticmethod
+562-    def continuity_fragments(topic: str) -> list[str]:
+563-        return LenaSemanticResponseBank._CONTINUITY.get(topic, LenaSemanticResponseBank._CONTINUITY["neutral"])
+564-
+565-    @staticmethod
+566-    def relational_fragments(topic: str, mode: str) -> list[str]:
+567-        return LenaSemanticResponseBank._RELATIONAL.get(topic, LenaSemanticResponseBank._RELATIONAL["neutral"])
+568-
+569-    @staticmethod
+570-    def bridge_fragments(topic: str) -> list[str]:
+571-        return LenaSemanticResponseBank._BRIDGE.get(topic, LenaSemanticResponseBank._BRIDGE["neutral"])
+572-
+573-    @staticmethod
+574-    def greeting_fragments(topic: str) -> list[str]:
+575-        return LenaSemanticResponseBank._GREETING.get(topic, LenaSemanticResponseBank._GREETING["neutral"])
+576-
+577-
+578-
+579-    @staticmethod
+580-    def role_anchor(topic: str) -> list[str]:
+581-        return LenaSemanticResponseBank._ROLE_BANK.get(topic, LenaSemanticResponseBank._ROLE_BANK["uncertainty"])["anchor"]
+582-
+583-    @staticmethod
+584-    def role_subjective(topic: str) -> list[str]:
+585-        return LenaSemanticResponseBank._ROLE_BANK.get(topic, LenaSemanticResponseBank._ROLE_BANK["uncertainty"])["subjective_effect"]
+586-
+587-    @staticmethod
+588-    def role_temporal(topic: str) -> list[str]:
+589-        return LenaSemanticResponseBank._ROLE_BANK.get(topic, LenaSemanticResponseBank._ROLE_BANK["uncertainty"])["temporal_effect"]
+590-
+591-    @staticmethod
+592-    def role_cognitive(topic: str) -> list[str]:
+593-        return LenaSemanticResponseBank._ROLE_BANK.get(topic, LenaSemanticResponseBank._ROLE_BANK["uncertainty"])["cognitive_effect"]
+594-
+595-    @staticmethod
+596-    def role_probe(topic: str) -> list[str]:
+597-        return LenaSemanticResponseBank._ROLE_BANK.get(topic, LenaSemanticResponseBank._ROLE_BANK["uncertainty"])["probe"]
+598-
+599-
+600-    @staticmethod
+601-    def soften(memory, text: str) -> str:
+602-        return " ".join(text.strip().split())
+
+
+
+====================================================================================================
+FILE: lena_agent_semantic_dump.txt
+====================================================================================================
+
+
+
+
+====================================================================================================
+FILE: continuity_engine_dump.txt
+====================================================================================================
+
+14:class LenaContinuityEngine:
+15-    @staticmethod
+16-    def resolve(memory, topic: str | None) -> ContinuityPayload:
+17-        social = memory.social_state
+18-
+19-        if not topic:
+20-            return {
+21-                "topic": None,
+22-                "recurrence": 0,
+23-                "stage": 0,
+24-                "arc": social.current_conversation_arc,
+25-                "response_pressure": social.presence_momentum,
+26-            }
+27-
+28-        recurrence = int(memory.recent_topic_windows.get(topic, 0))
+29-        unresolved = int(social.unresolved_loops)
+30-        depth = int(social.conversation_depth)
+31-
+32-        confidence = recurrence + unresolved + depth
+33-
+34-        if confidence < 3:
+35-            stage = 0
+36-            topic = None
+37-        else:
+38-            stage = min(4, max(1, recurrence // 2 + unresolved // 2 + depth // 3))
+39-
+40-        pressure = min(
+41-            10,
+42-            recurrence
+43-            + unresolved
+44-            + social.emotional_gravity
+45-            + social.presence_momentum,
+46-        )
+47-
+48-        return {
+49-            "topic": topic,
+50-            "recurrence": recurrence,
+51-            "stage": stage,
+52-            "arc": social.current_conversation_arc,
+53-            "response_pressure": pressure,
+54-        }

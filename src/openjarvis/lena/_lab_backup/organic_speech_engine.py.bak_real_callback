@@ -1,0 +1,354 @@
+import random
+import re
+
+from openjarvis.lena.semantic_response_bank import LenaSemanticResponseBank
+from openjarvis.lena.semantic_packet import LenaSemanticPacket
+from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+
+
+class LenaOrganicSpeechEngine:
+    @staticmethod
+    def _role_compatible(pool: list[str], role: str) -> list[str]:
+        if role == "opening":
+            return [x for x in pool if len(x.split()) >= 4] or pool
+        if role == "closure":
+            return [x for x in pool if len(x.split()) >= 3] or pool
+        return pool
+
+    @classmethod
+    def _weighted_pick(cls, memory, pool: list[str], role: str = "middle") -> str:
+        pool = cls._role_compatible(pool, role)
+
+        weighted = []
+        for frag in pool:
+            usage = memory.fragment_usage_counter.get(frag, 0)
+            recent_penalty = 0.04 if frag in memory.recent_surface_fragments[-12:] else 1.0
+            lifetime_penalty = 1 / (1 + usage * 0.55)
+            weight = max(0.01, recent_penalty * lifetime_penalty)
+            weighted.append((frag, weight))
+
+        total = sum(w for _, w in weighted)
+        r = random.uniform(0, total)
+        upto = 0.0
+
+        for frag, w in weighted:
+            upto += w
+            if upto >= r:
+                memory.fragment_usage_counter[frag] = memory.fragment_usage_counter.get(frag, 0) + 1
+                memory.recent_surface_fragments.append(frag)
+                memory.recent_surface_fragments = memory.recent_surface_fragments[-28:]
+                return frag
+
+        chosen = weighted[-1][0]
+        memory.fragment_usage_counter[chosen] = memory.fragment_usage_counter.get(chosen, 0) + 1
+        memory.recent_surface_fragments.append(chosen)
+        memory.recent_surface_fragments = memory.recent_surface_fragments[-28:]
+        return chosen
+
+    @staticmethod
+    def _clean(text: str | None) -> str:
+        return " ".join((text or "").strip().split())
+
+    @classmethod
+    def _intent_of(cls, text: str | None) -> str:
+        tx = (text or "").lower()
+
+        groups = {
+            "clarity_search": ["organiz", "estrutur", "entend", "compreens", "clare", "linha interna"],
+            "clarity_no_close": ["sem linha", "sem resposta", "não clareia", "nao clareia", "sem fechamento"],
+
+            "stagnation_static": ["mesmo ponto", "parada", "travado", "travamento", "não vira", "nao vira"],
+            "stagnation_no_shift": ["não mexe", "nao mexe", "não ganha deslocamento", "nao ganha deslocamento", "não saiu do lugar"],
+            "stagnation_loop": ["ciclo repetido", "rodar sem sair", "continua voltando", "circuito de repetição"],
+            "stagnation_imprison": ["aprisionamento", "começa a prender", "retenção"],
+
+            "uncertainty_open": ["aberto", "pendurado", "pendência", "pendencia", "não encerra", "nao encerra"],
+            "uncertainty_missing_piece": ["faltando uma peça", "faltando uma peca", "sem conclusão", "sem conclusao", "sem assentamento"],
+
+            "fatigue_depletion": ["cansa", "desgast", "dren", "consumo", "sem margem"],
+            "fatigue_no_recovery": ["não recompõe", "nao recompõe", "não recompoe", "nao recompoe", "não zera", "nao zera"],
+            "fatigue_basic_weight": ["mínimo pesa", "minimo pesa", "básico pesa", "basico pesa"],
+
+            "noise_turbulence": ["turbul", "ruído", "ruido", "agitação", "agitacao"],
+            "noise_fragmentation": ["embaralh", "foco quebra", "faixa limpa", "pensamentos se atropelam"],
+            "noise_no_quiet": ["não aquieta", "nao aquieta", "não abaixa", "nao abaixa", "sem calmaria"],
+
+            "continuity_recurring": ["mesma faixa", "recorrência", "recorrencia", "não começou agora", "nao começou agora"],
+            "continuity_internal_body": ["ganhou corpo", "continuidade psíquica", "continuidade psiquica"],
+        }
+
+        for tag, roots in groups.items():
+            if any(root in tx for root in roots):
+                return tag
+
+        return tx[:30]
+
+    
+
+    @classmethod
+    def _append_unique(cls, fragments: list[str], used: set[str], fragment: str | None, family: str | None = None, used_families: set[str] | None = None) -> None:
+        if not fragment:
+            return
+
+        normalized = cls._clean(fragment).rstrip(".")
+        if not normalized:
+            return
+
+        intent = cls._intent_of(normalized)
+        if intent in used:
+            return
+
+        if family and used_families is not None and family in used_families:
+            return
+
+        used.add(intent)
+
+        if family and used_families is not None:
+            used_families.add(family)
+
+        fragments.append(normalized)
+
+    @classmethod
+    def _surface_clean(cls, text: str) -> str:
+        tx = text
+        tx = re.sub(r"\s+,", ",", tx)
+        tx = re.sub(r"\s+\.", ".", tx)
+        tx = re.sub(r"\s+", " ", tx)
+        tx = tx.replace("..", ".")
+        tx = tx.replace(",.", ".")
+        return tx.strip()
+
+
+    @classmethod
+    def _memory_callback_fragment(cls, memory, packet: LenaSemanticPacket) -> str | None:
+        if packet.familiarity_density < 4:
+            return None
+
+        topic_map = {
+            "stagnation": [
+                "nada aí deu sinal de afrouxar",
+                "isso continua vindo no mesmo ponto",
+                "segue aparecendo com a mesma retenção",
+            ],
+            "fatigue": [
+                "isso ainda vem na mesma faixa de desgaste",
+                "o cansaço não mudou de regime",
+                "continua sem dar recomposição real",
+            ],
+            "mental_noise": [
+                "a cabeça ainda não saiu da mesma agitação",
+                "isso continua vindo com o mesmo ruído",
+                "não houve redução dessa faixa mental",
+            ],
+            "clarity_seek": [
+                "isso continua sem ganhar linha",
+                "a pergunta ainda não fechou dentro",
+                "segue sem formar compreensão limpa",
+            ],
+            "uncertainty": [
+                "isso ainda não encontrou assentamento",
+                "continua sem ponto de repouso",
+                "nada aí fechou de verdade",
+            ],
+        }
+
+        return cls._weighted_pick(
+            memory,
+            topic_map.get(packet.primary_topic, ["isso continua ocupando a mesma faixa interna"]),
+            "opening",
+        )
+
+    
+    @classmethod
+    def _choose_discourse_regime(cls, memory, packet: LenaSemanticPacket) -> str:
+        recent = getattr(memory, "_recent_discourse_regimes", [])
+
+        candidates = ["anchor_first", "subjective_first"]
+
+        if packet.continuity_stage >= 2:
+            candidates.append("temporal_first")
+
+        if packet.session_hits >= 3:
+            candidates.append("callback_first")
+
+        if packet.response_pressure >= 6:
+            candidates.append("compressed_first")
+
+        for regime in recent[-2:]:
+            if regime in candidates and len(candidates) > 2:
+                candidates.remove(regime)
+
+        chosen = random.choice(candidates)
+
+        if not hasattr(memory, "_recent_discourse_regimes"):
+            memory._recent_discourse_regimes = []
+
+        memory._recent_discourse_regimes.append(chosen)
+        memory._recent_discourse_regimes = memory._recent_discourse_regimes[-6:]
+
+        return chosen
+
+    @classmethod
+    def _compressed_inference_fragment(cls, packet: LenaSemanticPacket) -> str:
+        shade_map = {
+            ("stagnation", "immobility"): [
+                "isso toma forma de paralisação sustentada",
+                "já não parece espera, parece imobilidade",
+            ],
+            ("stagnation", "recurrence_loop"): [
+                "isso já funciona como repetição fechada",
+                "isso virou circuito de retorno interno",
+            ],
+            ("stagnation", "adhesive_hold"): [
+                "isso já opera como retenção aderida",
+                "isso assume forma de aprisionamento fixo",
+            ],
+            ("stagnation", "exhaustion"): [
+                "isso já virou desgaste por duração",
+                "isso toma forma de exaustão contínua",
+            ],
+            ("fatigue", "no_recovery"): [
+                "isso parece falha persistente de recomposição",
+                "teu sistema não tá conseguindo restaurar",
+            ],
+            ("mental_noise", "no_quiet"): [
+                "a mente parece sem mecanismo de desaceleração",
+                "isso já é ausência contínua de quietude",
+            ],
+        }
+
+        fallback = {
+            "clarity_seek": [
+                "isso continua exigindo fechamento psíquico",
+                "a mente ainda não aceitou deixar isso aberto",
+            ],
+            "uncertainty": [
+                "isso continua sem acomodação interna",
+                "o assunto não encontrou repouso psíquico",
+            ],
+        }
+
+        bank = shade_map.get(
+            (packet.primary_topic, packet.primary_shade),
+            fallback.get(packet.primary_topic, ["isso continua ocupando espaço interno"]),
+        )
+        return random.choice(bank)
+
+    @classmethod
+    def _stateful_line(
+        cls,
+        memory,
+        packet: LenaSemanticPacket,
+        anchor: str,
+        subjective: str | None,
+        temporal: str | None,
+        cognitive: str | None,
+    ) -> str:
+        recalled = memory.semantic_context_recall(packet.primary_topic, packet.primary_shade, limit=2)
+        recall_alive = bool(recalled)
+
+        callback = cls._memory_callback_fragment(memory, packet) if recall_alive and packet.session_hits >= 3 else None
+        compressed = cls._compressed_inference_fragment(packet) if (packet.session_hits >= 4 or packet.response_pressure >= 7) else None
+
+        anchor = cls._clean(anchor).rstrip(".") if anchor else None
+        subjective = cls._clean(subjective).rstrip(".") if subjective else None
+        temporal = cls._clean(temporal).rstrip(".") if temporal else None
+        cognitive = cls._clean(cognitive).rstrip(".") if cognitive else None
+        callback = cls._clean(callback).rstrip(".") if callback else None
+        compressed = cls._clean(compressed).rstrip(".") if compressed else None
+
+        fragments = []
+        used_intents = set()
+        used_families = set()
+
+        cls._append_unique(fragments, used_intents, callback, "callback", used_families)
+        cls._append_unique(fragments, used_intents, anchor, "anchor", used_families)
+        cls._append_unique(fragments, used_intents, subjective, "subjective", used_families)
+        cls._append_unique(fragments, used_intents, cognitive, "cognitive", used_families)
+        cls._append_unique(fragments, used_intents, temporal, "temporal", used_families)
+        cls._append_unique(fragments, used_intents, compressed, "compressed", used_families)
+
+        while len(fragments) < 4:
+            cls._append_unique(
+                fragments,
+                used_intents,
+                cls._compressed_inference_fragment(packet),
+                "compressed",
+                used_families,
+            )
+            if len(fragments) >= 3:
+                break
+
+        while len(fragments) < 4:
+            cls._append_unique(
+                fragments,
+                used_intents,
+                random.choice([anchor, subjective, cognitive, temporal, compressed]),
+                None,
+                used_families,
+            )
+            if len(fragments) >= 4:
+                break
+
+        a = fragments[0]
+        b = fragments[1] if len(fragments) > 1 else None
+        c = fragments[2] if len(fragments) > 2 else None
+        d = fragments[3] if len(fragments) > 3 else None
+
+        if callback:
+            wave_pool = [
+                f"{a}. {b}, e {c}. {d}.",
+                f"{a}. {b}. {c}, enquanto {d}.",
+                f"{a}, {b}. {c}. {d}.",
+            ]
+        elif compressed:
+            wave_pool = [
+                f"{a}. {b}, e {c}. {d}.",
+                f"{a}. {b}. {c}. {d}.",
+                f"{a}, {b}, enquanto {c}. {d}.",
+            ]
+        else:
+            wave_pool = [
+                f"{a}. {b}, e {c}. {d}.",
+                f"{a}. {b}. {c}, então {d}.",
+                f"{a}, {b}. {c}. {d}.",
+            ]
+
+        text = random.choice(wave_pool)
+        return cls._surface_clean(text)
+
+    @classmethod
+    def synthesize(
+        cls,
+        memory,
+        user_text: str,
+        topic: str,
+        mode: str,
+        stance: str = "observe",
+        secondary_topic: str | None = None,
+        latent_topic: str | None = None,
+        semantic_packet: LenaSemanticPacket | None = None,
+    ) -> str:
+        packet = semantic_packet or memory.build_semantic_packet(user_text)
+
+        anchor = cls._weighted_pick(memory, LenaSemanticResponseBank.role_anchor(packet.primary_topic, packet.primary_shade), "opening")
+        subjective = cls._weighted_pick(memory, LenaSemanticResponseBank.role_subjective(packet.primary_topic, packet.primary_shade), "middle")
+        temporal = cls._weighted_pick(memory, LenaSemanticResponseBank.role_temporal(packet.primary_topic, packet.primary_shade), "closure")
+        cognitive = cls._weighted_pick(memory, LenaSemanticResponseBank.role_cognitive(packet.primary_topic, packet.primary_shade), "middle")
+
+        text = cls._stateful_line(memory, packet, anchor, subjective, temporal, cognitive)
+
+        memory.remember_semantic_response(packet.primary_topic, packet.primary_shade, text)
+
+        if packet.mode == "invite":
+            LenaIntentionMemoryEngine.capture(memory, "exploration", packet.primary_topic, text)
+        elif packet.mode == "contain":
+            LenaIntentionMemoryEngine.capture(memory, "contain", packet.primary_topic, text)
+        elif packet.mode == "continuity":
+            LenaIntentionMemoryEngine.capture(memory, "continuity_hold", packet.primary_topic, text)
+
+        return LenaSemanticResponseBank.soften(memory, text)
+
+    @classmethod
+    def synthesize_greeting(cls, memory, topic: str) -> str:
+        return cls._weighted_pick(memory, LenaSemanticResponseBank.greeting_fragments(topic), "opening")

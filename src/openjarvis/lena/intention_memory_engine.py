@@ -37,6 +37,30 @@ class LenaIntentionMemoryEngine:
             "open_intentions": list(state.open_intentions)[-LenaIntentionMemoryEngine.MAX_ITEMS:]
         }
 
+
+
+    @staticmethod
+    def current_intention_weight(memory) -> float:
+        total = 0.0
+
+        for item in memory.intention_state.open_intentions:
+            if not isinstance(item, dict):
+                continue
+
+            kind = str(item.get("kind", "")).strip()
+            weight = 1.0
+
+            if kind == "continuity_hold":
+                weight = 1.8
+            elif kind == "contain":
+                weight = 1.3
+            elif kind == "closure_pull":
+                weight = 1.6
+
+            total += weight
+
+        return round(total, 3)
+
     @staticmethod
     def capture(memory, kind: str, topic: str, prompt: str) -> None:
         packet = {

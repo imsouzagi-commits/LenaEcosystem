@@ -16,6 +16,7 @@ class LenaNarrativeTensionEngine:
         return {
             "raw": str(item.get("raw", "")).strip(),
             "topic": str(item.get("topic", "")).strip(),
+            "shade": str(item.get("shade", "")).strip(),
             "markers": list(item.get("markers", [])) if isinstance(item.get("markers", []), list) else [],
             "ts": float(item.get("ts", 0.0)),
         }
@@ -63,8 +64,8 @@ class LenaNarrativeTensionEngine:
         }
 
     @staticmethod
-    def ingest_user(memory, user_text: str, topic: str | None) -> None:
-        if not topic:
+    def ingest_user(memory, user_text: str, semantic_packet=None) -> None:
+        if not semantic_packet or not semantic_packet.primary_topic:
             return
 
         cleaned = user_text.strip()
@@ -78,41 +79,85 @@ class LenaNarrativeTensionEngine:
             if token in lowered:
                 markers.append(token)
 
+        if semantic_packet.response_pressure >= 7:
+            markers.append("high_pressure")
+        if semantic_packet.continuity_stage >= 3:
+            markers.append("continuity")
+
         packet = {
             "raw": cleaned,
-            "topic": topic,
+            "topic": semantic_packet.primary_topic,
+            "shade": semantic_packet.primary_shade,
             "markers": markers,
             "ts": time.time(),
         }
 
         memory.narrative_state.unresolved_user_threads.append(packet)
         memory.narrative_state.unresolved_user_threads = memory.narrative_state.unresolved_user_threads[-LenaNarrativeTensionEngine.MAX_ITEMS:]
-        memory.narrative_state.suspended_topics.append(topic)
+
+        memory.narrative_state.suspended_topics.append(semantic_packet.primary_topic)
         memory.narrative_state.suspended_topics = memory.narrative_state.suspended_topics[-LenaNarrativeTensionEngine.MAX_ITEMS:]
+
         memory.narrative_state.last_unresolved_ts = time.time()
 
     @staticmethod
     def ingest_assistant(memory, assistant_text: str) -> None:
         lowered = assistant_text.lower()
 
-        if "?" not in lowered and not any(x in lowered for x in (
-            "continua",
-            "pode falar",
-            "vai me dizendo",
-            "me mostra",
-            "me diz",
-        )):
+        if "?" not in lowered and not any(x in lowered for x in ("continua", "pode falar", "vai me dizendo", "me mostra", "me diz")):
             return
 
         packet = {
             "raw": assistant_text.strip(),
             "topic": memory.social_state.current_topic,
+            "shade": "",
             "markers": [],
             "ts": time.time(),
         }
 
         memory.narrative_state.assistant_open_loops.append(packet)
         memory.narrative_state.assistant_open_loops = memory.narrative_state.assistant_open_loops[-LenaNarrativeTensionEngine.MAX_ITEMS:]
+
+
+
+    @staticmethod
+    def _thread_weight(item: dict) -> float:
+        if not isinstance(item, dict):
+            return 0.0
+
+        weight = 1.0
+
+        markers = item.get("markers", [])
+        if "high_pressure" in markers:
+            weight += 1.4
+        if "continuity" in markers:
+            weight += 1.1
+
+        shade = str(item.get("shade", "")).strip()
+        if shade:
+            weight += 0.35
+
+        return weight
+
+    @staticmethod
+    def current_unresolved_weight(memory) -> float:
+        total = sum(LenaNarrativeTensionEngine._thread_weight(x) for x in memory.narrative_state.unresolved_user_threads)
+        return round(total, 3)
+
+    @staticmethod
+    def current_assistant_loop_weight(memory) -> float:
+        total = 0.0
+        for x in memory.narrative_state.assistant_open_loops:
+            if not isinstance(x, dict):
+                continue
+            raw = str(x.get("raw", "")).lower()
+            w = 0.8
+            if "continua" in raw or "ainda" in raw:
+                w += 0.7
+            if "?" in raw:
+                w += 0.4
+            total += w
+        return round(total, 3)
 
     @staticmethod
     def has_live_tension(memory) -> bool:

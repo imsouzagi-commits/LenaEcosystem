@@ -1,0 +1,913 @@
+from __future__ import annotations
+
+from dataclasses import fields
+import time
+import threading
+from typing import Any, Dict, List, Tuple
+
+from openjarvis.lena.boot_logger import LenaBootLogger
+from openjarvis.lena.learned_patterns import LenaLearnedPatterns
+from openjarvis.lena.learned_responses import LenaLearnedResponses
+from openjarvis.lena.relational_impression import LenaRelationalImpression
+from openjarvis.lena.human_memory_reflector import LenaHumanMemoryReflector
+from openjarvis.lena.memory_persistence import LenaMemoryPersistence
+from openjarvis.lena.social_state import LenaSocialState
+from openjarvis.lena.continuity_engine import LenaContinuityEngine
+from openjarvis.lena.response_selector import LenaResponseSelector
+from openjarvis.lena.narrative_tension_engine import LenaNarrativeTensionEngine
+from openjarvis.lena.intention_memory_engine import LenaIntentionMemoryEngine
+from openjarvis.lena.closure_cognition_engine import LenaClosureCognitionEngine
+from openjarvis.lena.learning_runtime import LenaLearningRuntime
+from openjarvis.lena.semantic_packet import LenaSemanticPacket
+
+
+class LenaMemoryFacade:
+    MAX_HISTORY_HEAVY = 120
+    MAX_HISTORY_LIGHT = 40
+    MAX_SEMANTIC_SNIPPETS = 12
+    MAX_EPISODIC_EVENTS = 40
+
+    OPERATIONAL_ROUTES = {
+        "DESKTOP",
+        "FILE_OP",
+        "WEB_OPEN",
+        "WEB_SEARCH",
+        "LENA_STATUS",
+        "LENA_PAGE",
+        "TASK_CHAIN_HYBRID",
+    }
+
+    NON_EVOLVING_ROUTES = {
+        "MEMORY",
+    }
+
+    def __init__(self) -> None:
+        payload = LenaMemoryPersistence.load()
+        LenaBootLogger.write("Lena persistent memory loaded")
+        self._lock = threading.RLock()
+
+        self.schema_version = int(payload.get("schema_version", LenaMemoryPersistence.SCHEMA_VERSION))
+        self.state: Dict[str, Any] = dict(payload.get("state", {}))
+        self.history: List[Tuple[str, str]] = self._restore_history(payload.get("history"))
+        self.facts: Dict[str, str] = dict(payload.get("facts", {}))
+        self.emotional_history: List[str] = list(payload.get("emotional_history", []))
+        self.topic_counters: Dict[str, int] = dict(payload.get("topic_counters", {}))
+        self.semantic_emotional_snippets: List[dict] = list(payload.get("semantic_emotional_snippets", []))
+        self.psychological_signature: str = str(payload.get("psychological_signature", "stable"))
+        self.psychological_profile: List[str] = list(payload.get("psychological_profile", []))
+        self.episodic_events: List[Dict[str, Any]] = self._restore_episodic_events(payload.get("episodic_events"))
+        self.recent_topic_windows: Dict[str, int] = dict(payload.get("recent_topic_windows", {}))
+        self.semantic_response_history: Dict[str, List[str]] = dict(payload.get("semantic_response_history", {}))
+        self.exchange_significance: int = 0
+        self.social_state: LenaSocialState = LenaSocialState(session_boot_id=int(time.time()))
+        self.narrative_state = LenaNarrativeTensionEngine.restore({})
+        self.intention_state = LenaIntentionMemoryEngine.restore({})
+
+
+        self.fragment_usage_counter: Dict[str, int] = {}
+        self.recent_surface_fragments: List[str] = []
+        self._recent_discourse_regimes: List[str] = []
+        self.session_semantic_hits: Dict[str, int] = {}
+        self._live_turn_packet = None
+
+
+        LenaLearningRuntime.reload_semantic_banks(self)
+
+    def _restore_history(self, value: Any) -> List[Tuple[str, str]]:
+        if not isinstance(value, list):
+            return []
+        out: List[Tuple[str, str]] = []
+        for item in value:
+            if isinstance(item, (list, tuple)) and len(item) >= 2:
+                out.append((str(item[0]), str(item[1])))
+        return out[-self.MAX_HISTORY_HEAVY:]
+
+    def _restore_episodic_events(self, value: Any) -> List[Dict[str, Any]]:
+        if not isinstance(value, list):
+            return []
+        out: List[Dict[str, Any]] = []
+        for item in value:
+            if isinstance(item, dict):
+                out.append(
+                    {
+                        "text": str(item.get("text", "")),
+                        "semantic_topic": str(item.get("semantic_topic", "")),
+                        "route": str(item.get("route", "")),
+                        "ts": float(item.get("ts", time.time())),
+                    }
+                )
+        return out[-self.MAX_EPISODIC_EVENTS:]
+
+    def _restore_social_state(self, value: Any) -> LenaSocialState:
+        if not isinstance(value, dict):
+            return LenaSocialState(session_boot_id=int(time.time()))
+
+        valid_fields = {field.name for field in fields(LenaSocialState)}
+        filtered = {k: v for k, v in value.items() if k in valid_fields}
+        filtered.setdefault("session_boot_id", int(time.time()))
+
+        try:
+            return LenaSocialState(**filtered)
+        except Exception:
+            return LenaSocialState(session_boot_id=int(time.time()))
+
+    def recent_dialogue_context(self, limit: int = 6) -> str:
+        if not self.history:
+            return "sem histórico"
+
+        parts: List[str] = []
+        for user_text, assistant_text in self.history[-limit:]:
+            parts.append(f"U:{user_text}")
+            parts.append(f"L:{assistant_text}")
+        return " | ".join(parts)
+
+    def push_exchange(self, user_text: str, assistant_text: str, light: bool = False, route_used: str = "") -> None:
+        with self._lock:
+            self.history.append((user_text, assistant_text))
+            self.history = self.history[-(self.MAX_HISTORY_LIGHT if light else self.MAX_HISTORY_HEAVY):]
+            LenaLearningRuntime.reload_semantic_banks(self)
+            LenaNarrativeTensionEngine.ingest_assistant(self, assistant_text)
+            self._persist()
+
+    def commit_assistant_turn(self, user_text: str, assistant_text: str, social_signal: dict | None = None) -> None:
+        with self._lock:
+            social = self.social_state
+            social_signal = social_signal or {}
+
+            if social_signal.get("open_user"):
+                social.intimacy_level = min(10, social.intimacy_level + 1)
+
+            if social_signal.get("emotional"):
+                social.warmth_level = min(10, social.warmth_level + 1)
+
+            LenaNarrativeTensionEngine.ingest_assistant(self, assistant_text)
+            self.history.append((user_text, assistant_text))
+            self.history = self.history[-self.MAX_HISTORY_HEAVY:]
+            LenaLearningRuntime.reload_semantic_banks(self)
+            self._persist()
+
+    def ingest_user_turn(self, user_text: str, route_used: str = "") -> None:
+        with self._lock:
+            self._extract_facts(user_text)
+
+            if route_used not in self.OPERATIONAL_ROUTES and route_used not in self.NON_EVOLVING_ROUTES:
+                lowered = user_text.lower().strip()
+                personal_only = lowered.startswith(("meu nome é ", "eu moro em ", "curso ", "estou construindo "))
+
+                if not personal_only:
+                    self._evolve_social_state(user_text)
+                    LenaClosureCognitionEngine.ingest(self, user_text)
+                    LenaNarrativeTensionEngine.ingest_user(self, user_text, self._contextual_semantic_topic(user_text.lower()))
+                    self._capture_episodic_event(user_text, route_used)
+
+    def _persist(self) -> None:
+        try:
+            LenaMemoryPersistence.save(
+                {
+                    "schema_version": LenaMemoryPersistence.SCHEMA_VERSION,
+                    "state": self.state,
+                    "history": self.history,
+                    "facts": self.facts,
+                    "emotional_history": self.emotional_history,
+                    "topic_counters": self.topic_counters,
+                                        "psychological_signature": self.psychological_signature,
+                    "psychological_profile": self.psychological_profile,
+                    "episodic_events": self.episodic_events,
+                                        "semantic_response_history": self.semantic_response_history,
+                                                                                                }
+            )
+        except Exception as exc:
+            LenaBootLogger.write(f"memory facade persistence failed: {exc}")
+
+    def _extract_facts(self, user_text: str) -> None:
+        lowered = user_text.lower().strip()
+
+        if lowered.startswith("meu nome é "):
+            self.facts["user_name"] = user_text[10:].strip()
+
+        if lowered.startswith("eu moro em "):
+            self.facts["location"] = user_text[10:].strip()
+
+        if lowered.startswith("curso "):
+            self.facts["study"] = user_text[6:].strip()
+
+
+    def needs_learning(self, lowered: str) -> bool:
+        emotional_hints = (
+            "acho que",
+            "me sinto",
+            "sinto que",
+            "minha cabeça",
+            "não tô",
+            "nao to",
+            "tô meio",
+            "to meio",
+            "ultimamente",
+            "não sei se",
+            "nao sei se",
+        )
+        if not any(hint in lowered for hint in emotional_hints):
+            return False
+        return self._semantic_emotion_topic(lowered) is None
+
+    def _detect_user_intent(self, lowered: str) -> str:
+        if any(x in lowered for x in (
+            "qual meu nome",
+            "faz um resumo",
+            "tudo que você sabe",
+            "o que você acha de mim",
+            "me lembra como eu estou me sentindo",
+            "quem sou eu até agora",
+        )):
+            return "memory_probe"
+
+        return "neutral"
+
+    def _memory_probe_type(self, lowered: str) -> str:
+        if "qual meu nome" in lowered:
+            return "factual_name"
+        if "onde eu moro" in lowered or "eu moro onde" in lowered:
+            return "factual_location"
+        if "qual meu curso" in lowered or "o que eu curso" in lowered:
+            return "factual_study"
+        if "como eu estou me sentindo" in lowered or "me lembra como eu estou me sentindo" in lowered:
+            return "emotional_recall"
+        if "o que você acha de mim" in lowered or "o que voce acha de mim" in lowered or "como você me vê" in lowered:
+            return "relational_reflection"
+        if "quem sou eu até agora" in lowered or "faz um resumo" in lowered or "tudo que você sabe de mim" in lowered:
+            return "self_summary"
+        return "generic"
+
+    def answer_memory_question(self, lowered: str) -> str:
+        probe = self._memory_probe_type(lowered)
+
+        if probe == "factual_name":
+            return f"teu nome ficou comigo, {self.facts['user_name']}." if "user_name" in self.facts else "ainda não."
+
+        if probe == "factual_location":
+            return f"você mora em {self.facts['location']}." if "location" in self.facts else "ainda não."
+
+        if probe == "factual_study":
+            return f"você cursa {self.facts['study']}." if "study" in self.facts else "ainda não."
+
+        if probe == "emotional_recall":
+            return LenaHumanMemoryReflector.emotional_recall(self)
+
+        if probe == "relational_reflection":
+            impression = LenaRelationalImpression.infer(self)
+            return impression if impression else LenaHumanMemoryReflector.relational_reflection(self)
+
+        if probe == "self_summary":
+            return LenaHumanMemoryReflector.self_summary(self)
+
+        return "fragmentos ainda."
+
+    def live_emotional_read(self, lowered: str) -> str:
+        topic = self._contextual_semantic_topic(lowered)
+        continuity = LenaContinuityEngine.resolve(self, topic)
+
+        if continuity["topic"]:
+            return LenaResponseSelector.choose(self, continuity["topic"], continuity["stage"], "mirror")
+
+        return "eu percebo alguma coisa desalinhada nisso."
+
+    def last_semantic_emotional_snippets(self, limit: int = 2) -> List[str]:
+        return self.semantic_emotional_snippets[-limit:]
+
+    def emotional_topic_recurrence(self, topic: str) -> int:
+        return int(self.topic_counters.get(topic, 0))
+
+    def remember_semantic_response(self, topic: str, shade: str | None, text: str) -> None:
+        key = f"{topic}::{shade}" if shade else topic
+        bucket = list(self.semantic_response_history.get(key, []))
+        bucket.append(text)
+        self.semantic_response_history[key] = bucket[-4:]
+
+        fallback = list(self.semantic_response_history.get(topic, []))
+        fallback.append(text)
+        self.semantic_response_history[topic] = fallback[-4:]
+
+    def semantic_context_recall(self, topic: str, shade: str | None = None, limit: int = 3) -> List[str]:
+        key = f"{topic}::{shade}" if shade else topic
+        history = self.semantic_response_history.get(key, []) or self.semantic_response_history.get(topic, [])
+        if not history:
+            return []
+
+        cleaned: List[str] = []
+        seen = set()
+
+        for item in reversed(history):
+            norm = item.strip().lower()
+            if not norm or norm in seen:
+                continue
+
+            seen.add(norm)
+            cleaned.append(item.strip())
+
+            if len(cleaned) >= limit:
+                break
+
+        return cleaned
+
+    def recent_semantic_responses(self, topic: str) -> List[str]:
+        return list(self.semantic_response_history.get(topic, []))
+
+
+    def remember_semantic_fragment(self, fragment: str) -> None:
+        if not fragment:
+            return
+        bucket = list(self.semantic_response_history.get("__fragments__", []))
+        bucket.append(fragment.strip().lower())
+        self.semantic_response_history["__fragments__"] = bucket[-12:]
+
+    def recent_semantic_fragments(self) -> List[str]:
+        return list(self.semantic_response_history.get("__fragments__", []))
+
+    def remember_syntax_family(self, family: str) -> None:
+        if not family:
+            return
+        bucket = list(self.semantic_response_history.get("__syntax__", []))
+        bucket.append(family)
+        self.semantic_response_history["__syntax__"] = bucket[-8:]
+
+    def recent_syntax_families(self) -> List[str]:
+        return list(self.semantic_response_history.get("__syntax__", []))
+
+    def infer_psychological_signature(self) -> str:
+        fatigue = self.emotional_topic_recurrence("fatigue")
+        uncertainty = self.emotional_topic_recurrence("uncertainty")
+        distress = self.emotional_topic_recurrence("distress")
+
+        profile: List[str] = []
+        if fatigue >= 2:
+            profile.append("fatigue_loop")
+        if uncertainty >= 2:
+            profile.append("uncertainty_loop")
+        if distress >= 2:
+            profile.append("distress_cycle")
+        if fatigue >= 2 and uncertainty >= 2:
+            profile.append("burnout_cognitive")
+
+        if not profile:
+            profile = ["stable"]
+
+        self.psychological_profile = profile
+        self.psychological_signature = "burnout_cognitive" if "burnout_cognitive" in profile else profile[0]
+        return self.psychological_signature
+
+    
+    def _estimate_exchange_significance(self, user_text: str) -> int:
+        lowered = user_text.lower()
+
+        score = 0
+
+        semantic_topic = self._contextual_semantic_topic(lowered)
+        if semantic_topic:
+            score += 2
+
+        if any(x in lowered for x in (
+            "continua", "ainda", "mesmo", "de novo", "segue", "de novo nisso",
+            "qual meu nome", "você lembra", "voce lembra", "o que eu falei",
+        )):
+            score += 2
+
+        if len(user_text.split()) >= 8:
+            score += 1
+
+        if self.narrative_state.unresolved_user_threads or self.narrative_state.assistant_open_loops:
+            score += 1
+
+        if self.intention_state.open_intentions:
+            score += 1
+
+        return min(score, 6)
+
+
+    def _capture_episodic_event(self, user_text: str, route_used: str) -> None:
+        significance = self._estimate_exchange_significance(user_text)
+        self.exchange_significance += significance
+
+        if significance <= 0:
+            return
+
+        self.episodic_events.append(
+            {
+                "text": user_text.strip(),
+                "semantic_topic": self._contextual_semantic_topic(user_text.lower()) or "",
+                "route": route_used,
+                "ts": time.time(),
+            }
+        )
+        self.episodic_events = self.episodic_events[-self.MAX_EPISODIC_EVENTS:]
+
+    
+    def _evolve_social_state(self, user_text: str) -> None:
+        lowered = user_text.lower().strip()
+        detected_topic = self._contextual_semantic_topic(lowered)
+        lexical_topic = self._semantic_emotion_topic(lowered)
+        social = self.social_state
+
+        social.turns_count += 1
+        word_count = len(user_text.split())
+
+        continuity_markers = (
+            "continua", "ainda", "de novo", "mesmo", "igual", "segue",
+            "não acabou", "nao acabou", "permanece", "ainda tá", "ainda ta",
+            "você lembra", "voce lembra", "qual meu nome", "o que eu falei",
+        )
+        explicit_continuity = any(marker in lowered for marker in continuity_markers)
+
+        live_narrative = bool(self.narrative_state.unresolved_user_threads or self.narrative_state.assistant_open_loops)
+        live_intentions = bool(self.intention_state.open_intentions)
+        reflective_question = lowered.endswith("?") and word_count >= 4
+
+        meaningful_turn = bool(
+            detected_topic
+            or lexical_topic
+            or explicit_continuity
+            or reflective_question
+        )
+
+        def rise(value: int, amount: int = 1, cap: int = 10) -> int:
+            return min(cap, value + amount)
+
+        def decay(value: int, amount: int = 1) -> int:
+            return max(0, value - amount)
+
+        previous_window = 0
+
+        if detected_topic:
+            previous_window = self.recent_topic_windows.get(detected_topic, 0)
+            self.topic_counters[detected_topic] = self.topic_counters.get(detected_topic, 0) + 1
+
+            bump = 2 if social.current_topic == detected_topic else 1
+            self.recent_topic_windows[detected_topic] = min(10, previous_window + bump)
+
+            packet = self.build_semantic_packet(user_text)
+            self.commit_semantic_packet(packet)
+            self._live_turn_packet = packet
+            self.semantic_emotional_snippets.append(
+                {
+                    "text": user_text.strip(),
+                    "topic": packet.primary_topic,
+                    "shade": packet.primary_shade,
+                    "ts": time.time(),
+                }
+            )
+            self.semantic_emotional_snippets = self.semantic_emotional_snippets[-self.MAX_SEMANTIC_SNIPPETS:]
+
+            social.current_topic = detected_topic
+            social.last_emotion_topic = detected_topic
+            self.session_semantic_hits[detected_topic] = self.session_semantic_hits.get(detected_topic, 0) + 1
+        else:
+            dominant_window = self.recent_topic_windows.get(social.current_topic, 0)
+            if dominant_window <= 1:
+                social.current_topic = "neutral"
+
+        for key in list(self.recent_topic_windows.keys()):
+            if key != social.current_topic:
+                self.recent_topic_windows[key] = max(0, self.recent_topic_windows.get(key, 0) - 1)
+
+        if meaningful_turn:
+            social.familiarity = rise(social.familiarity, 1)
+            social.presence_momentum = rise(social.presence_momentum, 2)
+
+        if meaningful_turn and (word_count >= 4 or lowered.endswith("?")):
+            social.trust_level = rise(social.trust_level, 1)
+            social.conversation_depth = rise(social.conversation_depth, 1)
+
+        if explicit_continuity or previous_window >= 3 or live_narrative or live_intentions:
+            social.unresolved_loops = rise(social.unresolved_loops, 1)
+            social.emotional_tension = rise(social.emotional_tension, 1)
+
+        if detected_topic and (previous_window >= 2 or explicit_continuity):
+            social.emotional_gravity = rise(social.emotional_gravity, 1)
+
+        if social.trust_level >= 3 and social.unresolved_loops >= 2:
+            social.reflection_depth = rise(social.reflection_depth, 1)
+
+        if social.reflection_depth >= 2:
+            social.intimacy_level = rise(social.intimacy_level, 1)
+
+        if social.intimacy_level >= 2:
+            social.warmth_level = rise(social.warmth_level, 1)
+
+        if not meaningful_turn:
+            social.presence_momentum = decay(social.presence_momentum, 1)
+
+        if not explicit_continuity and not live_narrative and not live_intentions and not detected_topic:
+            social.unresolved_loops = decay(social.unresolved_loops, 1)
+            social.emotional_tension = decay(social.emotional_tension, 1)
+
+        if social.unresolved_loops >= 5:
+            social.current_conversation_arc = "deepening"
+        elif social.unresolved_loops >= 2:
+            social.current_conversation_arc = "holding"
+        else:
+            social.current_conversation_arc = "surface"
+
+        social.arc_stage = min(
+            10,
+            int(
+                social.conversation_depth * 0.30 +
+                social.trust_level * 0.15 +
+                social.reflection_depth * 0.15 +
+                social.presence_momentum * 0.20 +
+                social.unresolved_loops * 0.20
+            )
+        )
+
+        active_topics = [v for v in self.recent_topic_windows.values() if v > 0]
+        social.continuity_score = min(10, social.unresolved_loops + max(active_topics) // 2 if active_topics else social.unresolved_loops)
+
+        self.infer_psychological_signature()
+
+    def _semantic_root_hit(self, normalized: str, root: str) -> bool:
+        if root in normalized:
+            return True
+
+        root_tokens = [t for t in root.split() if len(t) >= 4]
+
+        if len(root_tokens) >= 2:
+            hits = sum(1 for token in root_tokens if token in normalized)
+            return hits / len(root_tokens) >= 0.70
+
+        if len(root_tokens) == 1:
+            token = root_tokens[0]
+            if len(token) >= 5 and token[:5] in normalized:
+                return True
+
+        return False
+
+    def _semantic_clusters(self) -> dict:
+        return {
+            "disconnection": [
+                (5, ["fora do lugar", "fora do eixo", "fora de mim", "desencaixado"]),
+                (5, ["não me encaixo", "nao me encaixo", "não me encontro", "nao me encontro", "não me sinto no lugar"]),
+                (4, ["desalinh", "estranho em mim", "sem encaixe", "sem centro"]),
+            ],
+            "stagnation": [
+                {"shade": "immobility", "weight": 6, "roots": ["continua igual", "ainda no mesmo", "continua no mesmo", "nada anda", "não saiu do lugar", "nao saiu do lugar"]},
+                {"shade": "recurrence_loop", "weight": 6, "roots": ["fica rodando", "continua voltando", "rodando nisso", "circuito", "repetindo", "repete"]},
+                {"shade": "adhesive_hold", "weight": 5, "roots": ["não consigo soltar", "nao consigo soltar", "preso nisso", "isso prende", "aderido"]},
+                {"shade": "exhaustion", "weight": 5, "roots": ["sem margem", "vai cansando disso", "gastando por dentro"]},
+                {"shade": "immobility", "weight": 4, "roots": ["travado", "mesmo ponto", "mesma coisa", "não muda", "nao muda", "não vira", "nao vira", "parado nisso"]},
+            ],
+            "clarity_seek": [
+                (6, ["não consigo entender", "nao consigo entender", "não entendo isso", "nao entendo isso"]),
+                (6, ["não consigo organizar", "nao consigo organizar", "preciso organizar", "organizar minha cabeça"]),
+                (5, ["não clareia", "nao clareia", "não faz sentido", "nao faz sentido", "não consigo estruturar"]),
+            ],
+            "uncertainty": [
+                (6, ["nada fecha", "não fecha", "nao fecha", "nada conclui", "não conclui", "nao conclui"]),
+                (6, ["não encerra", "nao encerra", "segue aberto", "inacabado", "não termina", "nao termina"]),
+                (5, ["não acaba", "nao acaba", "sem fim", "nunca termina", "não termina nunca"]),
+            ],
+            "fatigue": [
+                {"shade": "depletion", "weight": 6, "roots": ["exausto", "drenado", "esgotado", "me drenando"]},
+                {"shade": "no_recovery", "weight": 5, "roots": ["já acordei cansado", "não recomponho", "nao recomponho", "sem reposição"]},
+                {"shade": "depletion", "weight": 5, "roots": ["cansado", "vai cansando", "só vai cansando"]},
+                {"shade": "basic_weight", "weight": 4, "roots": ["sem energia", "sem força", "consumindo por dentro", "até o básico pesa"]},
+            ],
+            "mental_noise": [
+                {"shade": "turbulence", "weight": 6, "roots": ["cabeça não para", "cabeca nao para", "mente não para", "mente nao para", "pensamento demais", "penso demais"]},
+                {"shade": "no_quiet", "weight": 6, "roots": ["cabeça não aquieta", "cabeca nao aquieta", "não aquieta", "nao aquieta", "não sossega", "não silencia", "nao silencia"]},
+                {"shade": "fragmentation", "weight": 5, "roots": ["embaralhado", "sem foco", "cabeça corre", "cabeca corre", "mente corre", "pensamento correndo"]},
+                {"shade": "turbulence", "weight": 4, "roots": ["não desligo", "nao desligo", "não desliga", "nao desliga", "um minuto de paz"]},
+            ],
+        }
+
+    def _semantic_topic_scores(self, lowered: str) -> tuple[dict[str, float], list[tuple[str, str]]]:
+        normalized = lowered.lower().strip()
+        weighted_clusters = self._semantic_clusters()
+
+        scores: dict[str, float] = {}
+        matched_roots: list[tuple[str, str]] = []
+
+        for topic, clusters in weighted_clusters.items():
+            topic_score = 0.0
+
+            for cluster in clusters:
+                if isinstance(cluster, tuple):
+                    weight, cluster_roots = cluster
+                    shade = None
+                else:
+                    weight = cluster["weight"]
+                    cluster_roots = cluster["roots"]
+                    shade = cluster.get("shade")
+
+                hit = None
+                for root in cluster_roots:
+                    if self._semantic_root_hit(normalized, root):
+                        hit = root
+                        break
+
+                if hit:
+                    topic_score += weight
+                    matched_roots.append((topic, shade, hit, weight))
+
+            if self._matches_learned_topic(normalized, topic):
+                topic_score += 2.0
+
+            topic_score += min(0.35, self.recent_topic_windows.get(topic, 0) * 0.05)
+
+            if self.social_state.current_topic == topic and self._is_contextual_continuation(normalized) and topic_score < 2.4:
+                topic_score += 0.06
+
+            if topic_score > 0:
+                scores[topic] = topic_score
+
+        return scores, matched_roots
+
+    def _semantic_emotion_topic(self, lowered: str) -> str | None:
+        scores, _ = self._semantic_topic_scores(lowered)
+        if not scores:
+            return None
+
+        priority = {
+            "mental_noise": 6,
+            "uncertainty": 5,
+            "fatigue": 4,
+            "clarity_seek": 3,
+            "stagnation": 2,
+            "disconnection": 1,
+        }
+
+        ranked = sorted(scores.items(), key=lambda x: (x[1], priority.get(x[0], 0)), reverse=True)
+        return ranked[0][0]
+
+    def govern_semantic_fusion(self, user_text: str, fused: list[str]) -> tuple[str, str | None, str | None]:
+        lowered = user_text.lower().strip()
+
+        semantic_topics = {"fatigue", "mental_noise", "disconnection", "stagnation", "clarity_seek", "uncertainty"}
+
+        if self._is_contextual_continuation(lowered):
+            current = self.social_state.current_topic
+            lexical_strength = 0.0
+            if fused:
+                scores, _ = self._semantic_topic_scores(lowered)
+                lexical_strength = max(scores.values()) if scores else 0.0
+
+            if current in semantic_topics and lexical_strength < 2.2:
+                if current not in fused:
+                    fused = fused + [current]
+                fused = fused[:3]
+
+            elif not fused:
+                fused = ["uncertainty", "stagnation"]
+
+        if not fused:
+            fused = ["uncertainty"]
+
+        primary = fused[0] if len(fused) >= 1 else None
+        secondary = fused[1] if len(fused) >= 2 else None
+        latent = fused[2] if len(fused) >= 3 else None
+
+        return primary or "uncertainty", secondary, latent
+
+    def detect_semantic_topic(self, user_text: str) -> str | None:
+        fused = self.detect_semantic_topic_fusion(user_text)
+        primary, _, _ = self.govern_semantic_fusion(user_text, fused)
+        return primary
+
+    def detect_semantic_topic_fusion(self, user_text: str) -> list[str]:
+        lowered = user_text.lower().strip()
+
+        contextual = self._contextual_semantic_topic(lowered)
+        scores, matched_roots = self._semantic_topic_scores(user_text)
+
+        if contextual and scores.get(contextual, 0) < 2.5:
+            scores[contextual] = scores.get(contextual, 0) + 0.55
+
+        if not scores:
+            return ["uncertainty"]
+
+        ranked = sorted(scores.items(), key=lambda x: x[1], reverse=True)
+        top_score = ranked[0][1]
+
+        cluster = [topic for topic, score in ranked if top_score - score <= 4.2][:3]
+
+        if contextual and contextual not in cluster:
+            cluster = [contextual] + cluster
+            cluster = cluster[:3]
+
+        return cluster
+
+
+    def retrieve_semantic_echoes(self, primary: str, secondary: str | None = None, latent: str | None = None) -> dict:
+        topics = {x for x in (primary, secondary, latent) if x}
+
+        echo_snippets = []
+        for snippet in reversed(self.semantic_emotional_snippets):
+            if not isinstance(snippet, dict):
+                continue
+
+            if snippet.get("topic") in topics:
+                echo_snippets.append(str(snippet.get("text", "")).strip())
+            if len(echo_snippets) >= 3:
+                break
+
+        echo_responses = []
+        for topic in topics:
+            for resp in reversed(self.semantic_response_history.get(topic, [])):
+                echo_responses.append(resp.strip())
+                if len(echo_responses) >= 3:
+                    break
+            if len(echo_responses) >= 3:
+                break
+
+        familiarity_density = min(10, len(echo_snippets) * 2 + len(echo_responses))
+
+        return {
+            "echo_snippets": echo_snippets,
+            "echo_responses": echo_responses,
+            "familiarity_density": familiarity_density,
+        }
+
+
+    def _infer_primary_shade(self, primary: str, lowered: str, matched_roots: list[tuple[str, str]]) -> str | None:
+        roots = " ".join(root for topic, root in matched_roots if topic == primary)
+
+        if primary == "stagnation":
+            blob = lowered + " " + roots
+            if any(x in blob for x in ["rodando", "voltando", "circuito", "repet"]):
+                return "recurrence_loop"
+            if any(x in blob for x in ["soltar", "preso", "prende", "aderido"]):
+                return "adhesive_hold"
+            if any(x in blob for x in ["sem margem", "cansando", "gastando"]):
+                return "exhaustion"
+            return "immobility"
+
+        if primary == "fatigue":
+            blob = lowered + " " + roots
+            if any(x in blob for x in ["acordei", "não recomp", "nao recomp", "não zera", "nao zera"]):
+                return "no_recovery"
+            if any(x in blob for x in ["básico", "basico", "simples", "mínimo", "minimo"]):
+                return "basic_weight"
+            return "depletion"
+
+        if primary == "uncertainty":
+            blob = lowered + " " + roots
+            if any(x in blob for x in ["faltando", "peça", "peca"]):
+                return "missing_piece"
+            return "open_unresolved"
+
+        if primary == "mental_noise":
+            blob = lowered + " " + roots
+            if any(x in blob for x in ["embaralh", "atropel", "foco"]):
+                return "fragmentation"
+            if any(x in blob for x in ["aquiet", "abaixa", "sossega"]):
+                return "no_quiet"
+            return "turbulence"
+
+        if primary == "clarity_seek":
+            if any(x in lowered for x in ["organizar", "estruturar", "linha"]):
+                return "structuring"
+            return "closure_search"
+
+        return None
+
+    def build_semantic_packet(self, user_text: str) -> LenaSemanticPacket:
+        lowered = user_text.lower().strip()
+        contextual = self._contextual_semantic_topic(lowered)
+        scores, matched_roots = self._semantic_topic_scores(user_text)
+
+        if contextual and scores.get(contextual, 0) < 2.5:
+            scores[contextual] = scores.get(contextual, 0) + 0.55
+
+        ranked = sorted(scores.items(), key=lambda x: x[1], reverse=True) if scores else [("uncertainty", 1.0)]
+        top_score = ranked[0][1]
+
+        fused = []
+        for topic, score in ranked:
+            if score >= (top_score * 0.62) or score >= 4.2:
+                fused.append(topic)
+
+        root_topic_diversity = list(dict.fromkeys(item[0] for item in matched_roots))
+        for topic in root_topic_diversity:
+            if topic not in fused:
+                fused.append(topic)
+
+        if contextual and contextual not in fused and top_score < 4.5:
+            fused = [contextual] + fused
+
+        fused = fused[:3]
+
+        if not fused:
+            fused = ["uncertainty"]
+
+        primary = fused[0]
+        session_hits = self.session_semantic_hits.get(primary, 0) + 1
+        secondary = fused[1] if len(fused) >= 2 else None
+        latent = fused[2] if len(fused) >= 3 else None
+
+        primary_candidates = [x for x in matched_roots if x[0] == primary and x[1]]
+        primary_candidates.sort(key=lambda x: x[3], reverse=True)
+        primary_shade = primary_candidates[0][1] if primary_candidates else None
+
+        recurrence = int(self.recent_topic_windows.get(primary, 0))
+        unresolved = int(self.social_state.unresolved_loops)
+        depth = int(self.social_state.conversation_depth)
+
+        confidence = (recurrence * 0.8) + (unresolved * 1.2) + (depth * 0.45)
+
+        if confidence <= 1.8:
+            continuity_stage = 0
+        elif confidence <= 3.8:
+            continuity_stage = 1
+        elif confidence <= 6.2:
+            continuity_stage = 2
+        elif confidence <= 8.8:
+            continuity_stage = 3
+        else:
+            continuity_stage = 4
+
+        pressure_raw = (
+            recurrence * 0.25 +
+            unresolved * 0.90 +
+            self.social_state.emotional_gravity * 0.75 +
+            self.social_state.presence_momentum * 0.30
+        )
+        response_pressure = int(round(min(10, pressure_raw)))
+
+        if primary == "fatigue" or (response_pressure >= 7 and continuity_stage >= 2):
+            mode = "contain"
+        elif primary in {"clarity_seek", "uncertainty"} and continuity_stage <= 1:
+            mode = "invite"
+        elif continuity_stage >= 2:
+            mode = "continuity"
+        else:
+            mode = "mirror"
+
+        stance = "compress" if response_pressure >= 4 else "observe"
+
+        echoes = self.retrieve_semantic_echoes(primary, secondary, latent)
+
+        packet = LenaSemanticPacket(
+            primary_topic=primary,
+            primary_shade=primary_shade,
+            secondary_topic=secondary,
+            latent_topic=latent,
+            raw_scores=scores,
+            matched_roots=matched_roots,
+            continuation_flag=self._is_contextual_continuation(lowered),
+            recurrence=recurrence,
+            continuity_stage=continuity_stage,
+            response_pressure=response_pressure,
+            mode=mode,
+            stance=stance,
+            echo_snippets=echoes["echo_snippets"],
+            echo_responses=echoes["echo_responses"],
+            familiarity_density=min(10, int(session_hits + recurrence)),
+            session_hits=session_hits,
+        )
+        return packet
+
+
+    def commit_semantic_packet(self, packet: LenaSemanticPacket) -> None:
+        if not packet or not packet.primary_topic:
+            return
+        self.session_semantic_hits[packet.primary_topic] = self.session_semantic_hits.get(packet.primary_topic, 0) + 1
+
+
+    def _is_contextual_continuation(self, lowered: str) -> bool:
+        continuation_markers = (
+            "ainda", "continua", "continuo", "continua igual", "no mesmo", "mesma coisa",
+            "suspenso", "nao acabou", "não acabou", "isso continua", "isso ainda", "segue isso", "de novo nisso",
+        )
+
+        if len(lowered.split()) == 1 and lowered not in {"continua", "de novo"}:
+            return False
+
+        return any(marker in lowered for marker in continuation_markers)
+
+
+    def _contextual_semantic_topic(self, lowered: str) -> str | None:
+        lexical = self._semantic_emotion_topic(lowered)
+        if lexical:
+            return lexical
+
+        if not self._is_contextual_continuation(lowered):
+            return None
+
+        social = self.social_state
+
+        if social.unresolved_loops < 3:
+            return None
+
+        if social.current_topic in {
+            "fatigue",
+            "mental_noise",
+            "disconnection",
+            "stagnation",
+            "clarity_seek",
+            "uncertainty",
+        }:
+            return social.current_topic
+
+        return None
+
+    def _matches_learned_topic(self, lowered: str, topic: str) -> bool:
+        patterns = self.learned_patterns.get(topic, [])
+        return any(p.lower() in lowered for p in patterns)
+

@@ -1,0 +1,14 @@
+from __future__ import annotations
+
+from openjarvis.lena.social_engine import LenaSocialEngine
+
+
+class LenaTurnManager:
+    def __init__(self, memory_engine) -> None:
+        self.memory_engine = memory_engine
+        self.social_engine = LenaSocialEngine()
+
+    def finalize_turn(self, user_text: str, raw_response: str) -> str:
+        social_signal = self.social_engine.analyze(user_text)
+        self.memory_engine.commit_assistant_turn(user_text, raw_response, social_signal)
+        return raw_response
